@@ -1,0 +1,11 @@
+server:
+  port: 8082
+
+  ## Dubbo 服务提供者配置
+spring:
+  dubbo:
+    application:
+      name: dubbo-demo-web
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  scan: com.jinhaoxun.dubbodemoweb.controller

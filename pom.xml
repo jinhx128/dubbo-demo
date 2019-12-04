@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.1.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.jinhaoxun</groupId>
+    <artifactId>dubbo-demo</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>dubbo-demo</name>
+    <description>Demo project for Spring Boot</description>
+    <!-- 注意：修改jar为pom -->
+    <packaging>pom</packaging>
+
+    <!-- 注意：加入子模块 -->
+    <modules>
+        <module>dubbo-demo-base</module>
+        <module>dubbo-demo-api</module>
+        <module>dubbo-demo-thirdparty</module>
+        <module>dubbo-demo-service</module>
+        <module>dubbo-demo-web</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- 注意: 因为我们不需要demo-parent是一个可运行的项目，所以修改原来的打包方式为maven打包方式 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
