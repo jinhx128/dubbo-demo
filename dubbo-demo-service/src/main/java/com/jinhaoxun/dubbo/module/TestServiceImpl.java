@@ -1,7 +1,7 @@
-package com.jinhaoxun.dubbodemoservice.service;
+package com.jinhaoxun.dubbo.module;
 
-import com.alibaba.dubbo.config.annotation.Service;
-import com.jinhaoxun.dubbodemoapi.service.TestService1;
+import com.jinhaoxun.dubbo.module.testservice.service.TestService;
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @Service(version = "1.0.0")
 @Component
-public class TestServiceImpl1 implements TestService1 {
+public class TestServiceImpl implements TestService {
 
     /**
      * @Author jinhaoxun

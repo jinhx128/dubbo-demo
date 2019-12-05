@@ -28,17 +28,36 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
+        <!-- Dubbo Spring Boot Starter -->
         <dependency>
-            <groupId>io.dubbo.springboot</groupId>
-            <artifactId>spring-boot-starter-dubbo</artifactId>
-            <version>1.0.0</version>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>2.7.3</version>
         </dependency>
 
-        <!-- zookeeper -->
+        <!-- https://mvnrepository.com/artifact/com.github.sgroschupf/zkclient -->
+        <dependency>
+            <groupId>com.github.sgroschupf</groupId>
+            <artifactId>zkclient</artifactId>
+            <version>0.1</version>
+        </dependency>
+
+        <!-- 引入zookeeper -->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>2.12.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>2.12.0</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>
-            <version>3.4.6</version>
+            <version>3.4.14</version>
+            <!--排除这个slf4j-log4j12-->
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
