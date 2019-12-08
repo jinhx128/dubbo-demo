@@ -16,6 +16,14 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <org.apache.rocketmq.version>4.3.2</org.apache.rocketmq.version>
+        <org.webjars.sockjs-client.version>1.0.2</org.webjars.sockjs-client.version>
+        <org.webjars.stomp-websocket.version>2.3.3</org.webjars.stomp-websocket.version>
+        <spring-boot-starter-amqp.version>1.5.2.RELEASE</spring-boot-starter-amqp.version>
+        <io.netty.version>4.1.6.Final</io.netty.version>
+        <io.projectreactor.netty.version>0.8.3.RELEASE</io.projectreactor.netty.version>
+        <io.projectreactor.version>2.0.8.RELEASE</io.projectreactor.version>
+        <org.springframework.version>5.1.6.RELEASE</org.springframework.version>
     </properties>
 
     <dependencies>
@@ -26,7 +34,80 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-
+        <!-- WebSocket -->
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>sockjs-client</artifactId>
+            <version>${org.webjars.sockjs-client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>stomp-websocket</artifactId>
+            <version>${org.webjars.stomp-websocket.version}</version>
+        </dependency>-->
+        <!-- Quartz -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
+        <!-- RocketMQ -->
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+            <version>${org.apache.rocketmq.version}</version>
+        </dependency>
+        <!--RabbitMQ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+            <version>${spring-boot-starter-amqp.version}</version>
+        </dependency>
+        <!--使用websocket作为数据推送-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>${io.netty.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.projectreactor.netty/reactor-netty -->
+        <dependency>
+            <groupId>io.projectreactor.netty</groupId>
+            <artifactId>reactor-netty</artifactId>
+            <version>${io.projectreactor.netty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-net</artifactId>
+            <version>${io.projectreactor.version}</version>
+        </dependency>
+        <!--创建Excel文件转换-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${org.springframework.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -36,6 +117,15 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java/com/jinhaoxun/dubbo</directory>
+                <!-- src/main/resources下的指定资源放行 -->
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 </project>
