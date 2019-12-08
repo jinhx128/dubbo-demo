@@ -21,7 +21,7 @@
         <org.webjars.stomp-websocket.version>2.3.3</org.webjars.stomp-websocket.version>
         <spring-boot-starter-amqp.version>1.5.2.RELEASE</spring-boot-starter-amqp.version>
         <io.netty.version>4.1.6.Final</io.netty.version>
-        <io.projectreactor.netty.version>0.8.3.RELEASE</io.projectreactor.netty.version>
+        <io.projectreactor.netty.version>0.8.12.RELEASE</io.projectreactor.netty.version>
         <io.projectreactor.version>2.0.8.RELEASE</io.projectreactor.version>
         <org.springframework.version>5.1.6.RELEASE</org.springframework.version>
     </properties>
