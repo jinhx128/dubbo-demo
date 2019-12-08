@@ -17,7 +17,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<io.springfox.version>2.9.2</io.springfox.version>
-		<io.undertow.version>2.0.20.Final</io.undertow.version>
+		<io.undertow.version>2.0.28.Final</io.undertow.version>
 	</properties>
 
 	<dependencies>
