@@ -17,6 +17,7 @@ import com.jinhaoxun.dubbo.util.idutil.IdUtil;
 import com.jinhaoxun.dubbo.mapper.apply.ArticleMapper;
 import com.jinhaoxun.dubbo.module.apply.service.ArticleLabelService;
 import com.jinhaoxun.dubbo.module.apply.service.ArticleService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.stereotype.Component;
 import org.apache.dubbo.config.annotation.Service;
 
@@ -47,6 +48,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @param getArticleListReq 筛选条件参数
      * @return ResponseResult 获取到的文章列表
      */
+    @HystrixCommand
     @Override
     public ResponseResult getArticleList(GetArticleListReq getArticleListReq) {
         QueryWrapper<Article> qw = new QueryWrapper<>();
@@ -79,6 +81,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @return ResponseResult 成功提示信息
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult addArticle(AddArticleReq addArticleReq) throws Exception {
         String title = addArticleReq.getTitle();
@@ -127,6 +130,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @return ResponseResult 成功提示信息
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult deleteArticle(DeleteArticleReq deleteArticleReq) throws Exception {
         Long articleId = deleteArticleReq.getArticleId();
@@ -148,6 +152,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @return ResponseResult 成功提示信息
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult updateArticle(UpdateArticleReq updateArticleReq) throws Exception {
         UpdateWrapper<Article> uw = new UpdateWrapper<>();
@@ -173,6 +178,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @return ResponseResult 是否获取成功
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult getArticle(GetArticleReq getArticleReq) throws Exception {
         Article article = articleMapper.selectById(getArticleReq.getArticleId());

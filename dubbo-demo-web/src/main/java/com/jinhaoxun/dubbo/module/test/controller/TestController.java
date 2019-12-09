@@ -1,4 +1,4 @@
-package com.jinhaoxun.dubbo.module.test;
+package com.jinhaoxun.dubbo.module.test.controller;
 
 import com.jinhaoxun.dubbo.module.test.service.TestService;
 import io.swagger.annotations.Api;

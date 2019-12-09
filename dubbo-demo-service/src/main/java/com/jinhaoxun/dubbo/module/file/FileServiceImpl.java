@@ -11,6 +11,7 @@ import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.jinhaoxun.dubbo.util.datautil.ExcelUtil;
 import com.jinhaoxun.dubbo.util.idutil.IdUtil;
 import com.jinhaoxun.dubbo.module.file.service.FileService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,6 +54,7 @@ public class FileServiceImpl implements FileService {
      * @return ResponseResult 上传结果
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult uploadFile(UploadFileReq uploadFileReq) throws Exception {
         if (uploadFileReq.getMultipartFile() == null ) {
@@ -83,6 +85,7 @@ public class FileServiceImpl implements FileService {
      * @return ResponseResult 下载结果
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult downloadFile(DownloadFileReq downloadFileReq, HttpServletResponse httpServletResponse) throws Exception {
         File file = new File(fileDownloadPath + downloadFileReq.getFileName());
@@ -139,6 +142,7 @@ public class FileServiceImpl implements FileService {
      * @return ResponseResult 解析后的数据
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult resolveExcel(MultipartFile multipartFile) throws Exception {
         List<String[]> valueList = ExcelUtil.readExcel(multipartFile.getInputStream(), exceptionFactory, multipartFile.getOriginalFilename());
@@ -165,6 +169,7 @@ public class FileServiceImpl implements FileService {
      * @return ResponseResult 创建结果
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult createExcel() throws Exception {
         log.info("开始创建Excel...");

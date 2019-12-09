@@ -1,4 +1,4 @@
-package com.jinhaoxun.dubbo.module.apply;
+package com.jinhaoxun.dubbo.module.shiro.controller;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  * @author jinhaoxun
  * @date 2018-05-09
- * @description 一级标签前端控制器
+ * @description 用户角色前端控制器
  */
 @RestController
-@RequestMapping("/primarylabel")
-@Api("一级标签接口")
-public class PrimaryLabelController {
+@RequestMapping("/userrole")
+@Api("用户角色接口")
+public class UserRoleController {
 
 }
 

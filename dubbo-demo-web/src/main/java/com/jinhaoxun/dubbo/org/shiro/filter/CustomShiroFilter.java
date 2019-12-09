@@ -5,8 +5,14 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.jinhaoxun.dubbo.constant.AbstractConstant;
 import com.jinhaoxun.dubbo.constant.ResponseMsg;
 import com.jinhaoxun.dubbo.exception.CustomException;
+import com.jinhaoxun.dubbo.module.shiro.model.LoginUser;
+import com.jinhaoxun.dubbo.module.shiro.model.UserContext;
 import com.jinhaoxun.dubbo.module.shiro.service.SyncCacheService;
+import com.jinhaoxun.dubbo.module.shiro.service.UserService;
+import com.jinhaoxun.dubbo.org.shiro.jwt.Jwt;
+import com.jinhaoxun.dubbo.redis.redisutil.RedisUtil;
 import com.jinhaoxun.dubbo.response.ResponseFactory;
+import com.jinhaoxun.dubbo.util.requestutil.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.apache.dubbo.config.annotation.Reference;
@@ -37,8 +43,8 @@ public class CustomShiroFilter extends BasicHttpAuthenticationFilter implements 
 
     @Reference
     private SyncCacheService syncCacheService;
-    @Resource
-    private UserMapper userMapper;
+    @Reference
+    private UserService userService;
     @Autowired
     private RedisUtil redisUtil;
 
@@ -146,7 +152,7 @@ public class CustomShiroFilter extends BasicHttpAuthenticationFilter implements 
         //提交给 customRealm 进行登入，如果错误他会抛出异常并被捕获，如果没有抛出异常则代表登入成功，返回 true
         this.getSubject(request, response).login(jwt);
         String userId = JwtUtil.getClaim(token, AbstractConstant.TOKEN_USER_ID);
-        String name = userMapper.selectName(Long.valueOf(userId));
+        String name = userService.selectName(Long.valueOf(userId));
         // 绑定上下文
         UserContext userContext= new UserContext(new LoginUser(Long.valueOf(userId), name));
         // 检查是否需要更换 Token，需要则重新颁发
@@ -184,7 +190,7 @@ public class CustomShiroFilter extends BasicHttpAuthenticationFilter implements 
                 }
                 log.info(String.format("为账号：%s 颁发新的令牌", String.valueOf(userId)));
                 //时间戳一致，则颁发新的令牌
-                String password = userMapper.selectPassword(Long.valueOf(userId));
+                String password = userService.selectPassword(Long.valueOf(userId));
                 String newToken = JwtUtil.createToken(userId, password, String.valueOf(currentTimeMillis));
 
                 redisUtil.getSet(refreshToken, String.valueOf(currentTimeMillis), AbstractConstant.REFRESH_TOKEN_CHECK_EXPIRATION_TIME, TimeUnit.MILLISECONDS);

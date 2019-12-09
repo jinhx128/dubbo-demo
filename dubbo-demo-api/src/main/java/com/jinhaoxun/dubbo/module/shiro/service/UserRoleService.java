@@ -3,6 +3,8 @@ package com.jinhaoxun.dubbo.module.shiro.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jinhaoxun.dubbo.po.shiro.UserRole;
 
+import java.util.Set;
+
 /**
  * @version 1.0
  * @author jinhaoxun
@@ -10,5 +12,7 @@ import com.jinhaoxun.dubbo.po.shiro.UserRole;
  * @description 用户角色服务接口
  */
 public interface UserRoleService extends IService<UserRole> {
+
+    Set<String> selectRoleSet(Long userId);
 
 }

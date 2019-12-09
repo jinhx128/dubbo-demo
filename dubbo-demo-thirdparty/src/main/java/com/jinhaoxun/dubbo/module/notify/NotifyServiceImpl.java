@@ -4,6 +4,7 @@ import com.jinhaoxun.dubbo.org.util.EmailUtil;
 import com.jinhaoxun.dubbo.org.util.SmsUtil;
 import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.jinhaoxun.dubbo.thirdparty.notify.service.NotifyService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,7 @@ public class NotifyServiceImpl implements NotifyService {
      * @return ResponseResult 获取的验证码
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult getPhoneCode(String phone) throws Exception {
         return smsUtil.getSms(phone);
@@ -45,6 +47,7 @@ public class NotifyServiceImpl implements NotifyService {
      * @return ResponseResult 获取的验证码
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult getEmailCode(String email) throws Exception {
         return emailUtil.getEmail(email);

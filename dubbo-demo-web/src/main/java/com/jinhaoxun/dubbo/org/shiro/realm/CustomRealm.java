@@ -1,15 +1,17 @@
 package com.jinhaoxun.dubbo.org.shiro.realm;
 
-import com.jinhaoxun.accommon.constant.AbstractConstant;
-import com.jinhaoxun.accommon.exception.CustomRuntimeException;
-import com.jinhaoxun.accommon.exception.ExceptionFactory;
-import com.jinhaoxun.accommon.response.ResponseMsg;
-import com.jinhaoxun.accommon.util.otherutil.JwtUtil;
-import com.jinhaoxun.acdao.shiromapper.UserMapper;
-import com.jinhaoxun.acdao.shiromapper.UserPermissionMapper;
-import com.jinhaoxun.acdao.shiromapper.UserRoleMapper;
-import com.jinhaoxun.acweb.shiro.jwt.Jwt;
+import com.jinhaoxun.dubbo.constant.AbstractConstant;
+import com.jinhaoxun.dubbo.constant.ResponseMsg;
+import com.jinhaoxun.dubbo.exception.CustomRuntimeException;
+import com.jinhaoxun.dubbo.exception.ExceptionFactory;
+import com.jinhaoxun.dubbo.module.shiro.service.UserPermissionService;
+import com.jinhaoxun.dubbo.module.shiro.service.UserRoleService;
+import com.jinhaoxun.dubbo.module.shiro.service.UserService;
+import com.jinhaoxun.dubbo.org.shiro.jwt.Jwt;
+import com.jinhaoxun.dubbo.util.requestutil.JwtUtil;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
@@ -33,12 +35,12 @@ import java.util.Set;
 @Slf4j
 public class CustomRealm extends AuthorizingRealm {
 
-    @Resource
-    private UserMapper userMapper;
-    @Resource
-    private UserRoleMapper userRoleMapper;
-    @Resource
-    private UserPermissionMapper userPermissionMapper;
+    @Reference
+    private UserService userService;
+    @Reference
+    private UserRoleService userRoleService;
+    @Reference
+    private UserPermissionService userPermissionService;
     @Resource
     private ExceptionFactory exceptionFactory;
 
@@ -61,13 +63,14 @@ public class CustomRealm extends AuthorizingRealm {
      * @return AuthenticationInfo
      * @throws CustomRuntimeException
      */
+    @SneakyThrows
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws RuntimeException {
         log.info("————  开始身份认证  ————");
         String token = (String) authenticationToken.getCredentials();
         // 解密获得 userId，用于和数据库进行对比
         String userId = JwtUtil.getClaim(token, AbstractConstant.TOKEN_USER_ID);
-        String password = userMapper.selectPassword(Long.valueOf(userId));
+        String password = userService.selectPassword(Long.valueOf(userId));
         if (password == null) {
             throw new CustomRuntimeException(ResponseMsg.USER_NOT_EXIST.getCode(), "用户不存在", "用户不存在");
         }
@@ -100,10 +103,10 @@ public class CustomRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //获取该用户角色
         Set<String> roleSet = new HashSet<>();
-        roleSet = userRoleMapper.selectRoleSet(Long.valueOf(userId));
+        roleSet = userRoleService.selectRoleSet(Long.valueOf(userId));
         //获取该用户所有的权限
         Set<String> permissionSet = new HashSet<>();
-        permissionSet = userPermissionMapper.selectPermissionSet(Long.valueOf(userId));
+        permissionSet = userPermissionService.selectPermissionSet(Long.valueOf(userId));
         /*
          * 需要将 role, permission 封装到 Set 作为 info.setRoles(), info.setStringPermissions() 的参数
          * 设置该用户拥有的角色和权限

@@ -17,6 +17,7 @@ import com.jinhaoxun.dubbo.redis.jedisutil.JedisUtil;
 import com.jinhaoxun.dubbo.redis.redisutil.RedisUtil;
 import com.jinhaoxun.dubbo.thirdparty.notify.service.NotifyService;
 import com.jinhaoxun.dubbo.module.shiro.service.UserService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.apache.dubbo.config.annotation.Reference;
@@ -58,6 +59,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return ResponseResult 登录操作结果
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult addSession(UserLoginReq userLoginReq, HttpServletResponse response) throws Exception {
         Long userId;
@@ -135,6 +137,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @param userId 用户id
      * @return Boolean 是否退出成功
      */
+    @HystrixCommand
     @Override
     public void deleteSession(Long userId) {
         // 清除可能存在的Shiro权限信息缓存
@@ -152,6 +155,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return ResponseResult 是否注册成功
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult addUser(UserRegisterReq userRegisterReq) throws Exception {
         User user = new User();
@@ -188,6 +192,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return ResponseResult 是否注销成功
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult deleteUser(UserIdReq userIdReq) throws Exception {
         int count = userMapper.updateStatus(userIdReq.getUserId());
@@ -204,6 +209,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return ResponseResult 获取到的验证码
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult getCode(GetCodeReq getCodeReq) throws Exception {
         if(getCodeReq.getType().equals(AbstractConstant.USER_REGISTER_TYPE_PHONE)){
@@ -235,6 +241,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return ResponseResult 登录操作结果
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult addCodeSession(GetCodeReq getCodeReq, HttpServletResponse response) throws Exception {
         String userLogInCodeKey = AbstractConstant.USER_LOG_IN_CODE + getCodeReq.getEmail();
@@ -280,6 +287,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return ResponseResult 修改密码操作结果
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult updatePassword(UpdatePasswordReq updatePasswordReq) throws Exception {
         String password = BcryptUtil.encoderByBcrypt(updatePasswordReq.getPassword());
@@ -297,6 +305,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return ResponseResult 是否封禁成功
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult addBan(UserIdReq userIdReq) throws Exception {
         int count = userMapper.updateBan(userIdReq.getUserId(),true);
@@ -313,6 +322,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return ResponseResult 是否解封成功
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult deleteBan(UserIdReq userIdReq) throws Exception {
         int count = userMapper.updateBan(userIdReq.getUserId(),false);
@@ -329,6 +339,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return ResponseResult 获取到的用户信息
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult getUser(UserIdReq userIdReq) throws Exception {
         User user = userMapper.selectById(userIdReq.getUserId());
@@ -345,6 +356,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return ResponseResult 是否更新成功
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult updateUser(User user) throws Exception {
         int count = userMapper.updateById(user);
@@ -359,6 +371,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @description 获取所有账号列表
      * @return ResponseResult 获取到的账号列表
      */
+    @HystrixCommand
     @Override
     public ResponseResult getUserList() {
         QueryWrapper<User> qw = new QueryWrapper<>();
@@ -366,17 +379,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         List<User> userList = userMapper.selectList(qw);
         return ResponseFactory.buildSuccessResponse(userList);
     }
+
     /**
      * @author jinhaoxun
      * @description 获取所有账号列表
      * @return ResponseResult 获取到的账号列表
      */
+    @HystrixCommand
     @Override
-    public ResponseResult selectName() {
-        QueryWrapper<User> qw = new QueryWrapper<>();
-        qw.orderByDesc(AbstractConstant.USER_CREATE_TIME);
-        List<User> userList = userMapper.selectList(qw);
-        return ResponseFactory.buildSuccessResponse(userList);
+    public String selectName(Long userId) {
+        return userMapper.selectName(userId);
+    }
+
+    /**
+     * @author jinhaoxun
+     * @description 获取所有账号列表
+     * @return ResponseResult 获取到的账号列表
+     */
+    @HystrixCommand
+    @Override
+    public String selectPassword(Long userId) {
+        return userMapper.selectPassword(userId);
     }
 
 }

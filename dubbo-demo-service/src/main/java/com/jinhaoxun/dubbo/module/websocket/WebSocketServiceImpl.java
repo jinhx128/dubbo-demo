@@ -3,6 +3,7 @@ package com.jinhaoxun.dubbo.module.websocket;
 import com.jinhaoxun.dubbo.module.websocket.model.request.*;
 import com.jinhaoxun.dubbo.module.websocket.model.response.*;
 import com.jinhaoxun.dubbo.module.websocket.service.WebSocketService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
@@ -57,6 +58,7 @@ public class WebSocketServiceImpl implements WebSocketService {
      * @param requestMessage 发送消息参数
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public void messageHandling(ChatRequestMessage requestMessage) throws Exception {
         String destination = stompUrlQueue + HtmlUtils.htmlEscape(requestMessage.getRecipientId());
@@ -79,6 +81,7 @@ public class WebSocketServiceImpl implements WebSocketService {
      * @param allRequestMessage 发送消息参数
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public void messageHandlingAll(AllRequestMessage allRequestMessage) throws Exception {
         ResponseMessage response = new ResponseMessage();

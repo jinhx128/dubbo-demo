@@ -6,6 +6,7 @@ import com.jinhaoxun.dubbo.response.ResponseFactory;
 import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.jinhaoxun.dubbo.mapper.quartz.TaskMapper;
 import com.jinhaoxun.dubbo.module.quartz.service.TaskService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.stereotype.Component;
 import org.apache.dubbo.config.annotation.Service;
 
@@ -30,6 +31,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
      * @return ResponseResult Simple任务列表
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult getTaskList(){
         return ResponseFactory.buildSuccessResponse(taskMapper.getTaskList());
@@ -42,6 +44,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
      * @return ResponseResult 修改数据条数
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult updateExecutionStatus(Long taskId){
         return ResponseFactory.buildSuccessResponse(taskMapper.updateExecutionStatus(taskId));

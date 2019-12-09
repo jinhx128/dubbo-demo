@@ -1,4 +1,4 @@
-package com.jinhaoxun.dubbo.module.shiro;
+package com.jinhaoxun.dubbo.module.shiro.controller;
 
 import com.jinhaoxun.dubbo.module.shiro.model.request.*;
 import com.jinhaoxun.dubbo.module.shiro.service.UserService;

@@ -1,4 +1,4 @@
-package com.jinhaoxun.dubbo.module.websocket;
+package com.jinhaoxun.dubbo.module.websocket.controller;
 
 import com.jinhaoxun.dubbo.module.websocket.model.request.*;
 import com.jinhaoxun.dubbo.module.websocket.service.WebSocketService;

@@ -1,4 +1,4 @@
-package com.jinhaoxun.dubbo.module.file;
+package com.jinhaoxun.dubbo.module.file.controller;
 
 import com.jinhaoxun.dubbo.module.file.model.request.*;
 import com.jinhaoxun.dubbo.module.file.service.FileService;

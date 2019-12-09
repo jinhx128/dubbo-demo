@@ -1,4 +1,4 @@
-package com.jinhaoxun.dubbo.module.rocketmq;
+package com.jinhaoxun.dubbo.module.rocketmq.controller;
 
 import com.jinhaoxun.dubbo.module.rocketmq.model.request.*;
 import com.jinhaoxun.dubbo.module.rocketmq.service.RocketmqService;

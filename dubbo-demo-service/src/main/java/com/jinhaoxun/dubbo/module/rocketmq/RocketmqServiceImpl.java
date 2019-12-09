@@ -5,6 +5,7 @@ import com.jinhaoxun.dubbo.response.ResponseFactory;
 import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.jinhaoxun.dubbo.org.rocketmq.*;
 import com.jinhaoxun.dubbo.module.rocketmq.service.RocketmqService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
@@ -42,6 +43,7 @@ public class RocketmqServiceImpl implements RocketmqService {
      * @return ResponseResult 成功提示信息
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult addConsumer(AddConsumerReq addConsumerReq) throws Exception {
         getRocketmqConsumer = rocketmqConsumerFactory.startRocketmqConsumer(addConsumerReq);
@@ -53,6 +55,7 @@ public class RocketmqServiceImpl implements RocketmqService {
      * @description 关闭消费者
      * @return ResponseResult 成功提示信息
      */
+    @HystrixCommand
     @Override
     public ResponseResult deleteConsumer(){
         rocketmqConsumerFactory.destroyRocketmqConsumer();
@@ -66,6 +69,7 @@ public class RocketmqServiceImpl implements RocketmqService {
      * @return ResponseResult 成功提示信息
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult addProducer() throws Exception {
         getRocketmqProducer = rocketmqProducerFactory.getRocketmqProducer();
@@ -79,6 +83,7 @@ public class RocketmqServiceImpl implements RocketmqService {
      * @return ResponseResult 成功提示信息
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult addMessage(AddMessageReq addMessageReq) throws Exception {
         //创建一条消息对象，指定其主题、标签和消息内容
@@ -98,6 +103,7 @@ public class RocketmqServiceImpl implements RocketmqService {
      * @description 关闭生产者
      * @return ResponseResult 成功提示信息
      */
+    @HystrixCommand
     @Override
     public ResponseResult deleteProducer(){
         rocketmqProducerFactory.destroyRocketmqProducer();

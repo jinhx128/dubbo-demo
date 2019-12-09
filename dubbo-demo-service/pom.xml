@@ -27,13 +27,11 @@
     </properties>
 
     <dependencies>
-        <!--导入自己接口的依赖-->
         <dependency>
             <groupId>com.jinhaoxun</groupId>
             <artifactId>dubbo-demo-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
         <!-- WebSocket -->
         <!--<dependency>
             <groupId>org.springframework.boot</groupId>
@@ -99,13 +97,13 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -1,4 +1,4 @@
-package com.jinhaoxun.dubbo.module.quartz;
+package com.jinhaoxun.dubbo.module.quartz.controller;
 
 import com.jinhaoxun.dubbo.module.quartz.model.request.*;
 import com.jinhaoxun.dubbo.module.quartz.service.QuartzService;

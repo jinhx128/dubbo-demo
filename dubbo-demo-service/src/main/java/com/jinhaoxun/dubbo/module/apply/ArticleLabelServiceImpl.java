@@ -11,6 +11,7 @@ import com.jinhaoxun.dubbo.constant.ResponseMsg;
 import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.jinhaoxun.dubbo.mapper.apply.ArticleLabelMapper;
 import com.jinhaoxun.dubbo.module.apply.service.ArticleLabelService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.stereotype.Component;
 import org.apache.dubbo.config.annotation.Service;
 
@@ -39,6 +40,7 @@ public class ArticleLabelServiceImpl extends ServiceImpl<ArticleLabelMapper, Art
      * @return ResponseResult 成功提示信息
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult addArticleLabel(ArticleLabel articleLabel) throws Exception {
         int count = articleLabelMapper.insert(articleLabel);
@@ -55,6 +57,7 @@ public class ArticleLabelServiceImpl extends ServiceImpl<ArticleLabelMapper, Art
      * @return ResponseResult 成功提示信息
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult deleteArticleLabelByArticleId(Long articleId) throws Exception {
         int count = articleLabelMapper.deleteLabelByArticleId(articleId);
@@ -71,6 +74,7 @@ public class ArticleLabelServiceImpl extends ServiceImpl<ArticleLabelMapper, Art
      * @return ResponseResult 成功提示信息
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult updateArticleLabel(UpdateArticleReq updateArticleReq) throws Exception {
         UpdateWrapper<ArticleLabel> uw = new UpdateWrapper<>();
@@ -95,6 +99,7 @@ public class ArticleLabelServiceImpl extends ServiceImpl<ArticleLabelMapper, Art
      * @return ResponseResult 获取的文章标签
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult getArticleLabelByArticleId(Long articleId) throws Exception {
         ArticleLabel articleLabel = articleLabelMapper.getLabelByArticleId(articleId);

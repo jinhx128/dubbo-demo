@@ -1,4 +1,4 @@
-package com.jinhaoxun.dubbo.module.rabbitmq;
+package com.jinhaoxun.dubbo.module.rabbitmq.controller;
 
 import com.jinhaoxun.dubbo.module.rabbitmq.service.RabbitmqService;
 import io.swagger.annotations.Api;

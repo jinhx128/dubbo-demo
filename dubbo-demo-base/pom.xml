@@ -35,6 +35,10 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
         <!-- Thymeleaf-模板引擎 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -78,7 +82,7 @@
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
         </dependency>
-        <!-- 打印日志 @Slf4j 注解依赖 -->
+        <!-- lombok插件依赖 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -102,16 +106,11 @@
             <version>${net.sf.json-lib.version}</version>
             <classifier>jdk15</classifier>
         </dependency>
-        <!-- MybatisPlus -->
+        <!-- MybatisPlus依赖 -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${com.baomidou.mybatis-plus.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
         </dependency>
         <!-- Jedis -->
         <dependency>
@@ -124,7 +123,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-
         <!-- Json Web Token -->
         <dependency>
             <groupId>com.auth0</groupId>

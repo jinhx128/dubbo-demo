@@ -1,4 +1,4 @@
-package com.jinhaoxun.dubbo.module.apply;
+package com.jinhaoxun.dubbo.module.shiro.controller;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  * @author jinhaoxun
  * @date 2018-05-09
- * @description 文章评论前端控制器
+ * @description 角色前端控制器
  */
 @RestController
-@RequestMapping("/articlecomment")
-@Api("文章评论接口")
-public class ArticleCommentController {
+@RequestMapping("/role")
+@Api("角色接口")
+public class RoleController {
 
 }
 

@@ -1,6 +1,7 @@
 package com.jinhaoxun.dubbo.module.test;
 
 import com.jinhaoxun.dubbo.module.test.service.TestService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import org.apache.dubbo.config.annotation.Service;
 @Component
 public class TestServiceImpl implements TestService {
 
+    @HystrixCommand
     @Override
     @Async("taskExecutor")
     public void sendMessage1() throws InterruptedException {
@@ -27,7 +29,7 @@ public class TestServiceImpl implements TestService {
         log.info("发送短信方法---- 1   执行结束");
     }
 
-
+    @HystrixCommand
     @Override
     @Async("taskExecutor")
     public void sendMessage2() throws InterruptedException {

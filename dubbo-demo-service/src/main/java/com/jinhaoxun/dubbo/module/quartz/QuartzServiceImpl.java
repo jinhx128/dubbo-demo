@@ -8,6 +8,7 @@ import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.jinhaoxun.dubbo.util.idutil.IdUtil;
 import com.jinhaoxun.dubbo.module.quartz.service.QuartzService;
 import com.jinhaoxun.dubbo.module.quartz.service.TaskService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -47,6 +48,7 @@ public class QuartzServiceImpl implements QuartzService {
      * @return ResponseResult 是否新增成功
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult addSimpleJob(AddSimpleJobReq addSimpleJobReq) throws Exception {
 /*        SimpleTrigger cronTrigger = timingTasks.setTrigger(date);
@@ -77,6 +79,7 @@ public class QuartzServiceImpl implements QuartzService {
      * @return ResponseResult 成功提示信息
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult addSimpleJobList() throws Exception {
         List<Task> taskList = (List<Task>)iTaskService.getTaskList().getData();
@@ -99,6 +102,7 @@ public class QuartzServiceImpl implements QuartzService {
      * @return ResponseResult 成功提示信息
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult addCronJob(AddCronJobReq addCronJobReq) throws Exception {
         quartzManager.addCronJob(addCronJobReq);
@@ -112,6 +116,7 @@ public class QuartzServiceImpl implements QuartzService {
      * @return ResponseResult 成功提示信息
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult deleteJob(DeleteJobReq deleteJobReq) throws Exception {
         quartzManager.removeJob(deleteJobReq.getJobName(),deleteJobReq.getJobGroupName(),deleteJobReq.getTriggerName(),deleteJobReq.getTriggerGroupName());
@@ -124,6 +129,7 @@ public class QuartzServiceImpl implements QuartzService {
      * @return ResponseResult 成功提示信息
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult deleteScheduler() throws Exception {
         quartzManager.shutdown();

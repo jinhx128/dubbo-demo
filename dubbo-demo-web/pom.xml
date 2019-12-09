@@ -21,7 +21,6 @@
 	</properties>
 
 	<dependencies>
-		<!--导入自己接口的依赖-->
 		<dependency>
 			<groupId>com.jinhaoxun</groupId>
 			<artifactId>dubbo-demo-api</artifactId>
@@ -94,6 +93,10 @@
 		</dependency>
         <dependency>
             <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
         </dependency>
@@ -107,11 +110,7 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-messaging</artifactId>
-        </dependency>
-    </dependencies>
+	</dependencies>
 
 	<build>
 		<plugins>

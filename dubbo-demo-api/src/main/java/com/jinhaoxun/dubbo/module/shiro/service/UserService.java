@@ -121,4 +121,18 @@ public interface UserService extends IService<User> {
      * @return ResponseResult 获取到的账号列表
      */
     ResponseResult getUserList() throws Exception;
+
+    /**
+     * @author jinhaoxun
+     * @description 获取所有账号列表
+     * @return ResponseResult 获取到的账号列表
+     */
+    String selectName(Long userId) throws Exception;
+
+    /**
+     * @author jinhaoxun
+     * @description 获取所有账号列表
+     * @return ResponseResult 获取到的账号列表
+     */
+    String selectPassword(Long userId) throws Exception;
 }
