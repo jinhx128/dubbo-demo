@@ -1,14 +1,15 @@
 package com.jinhaoxun.dubbo.module.rocketmq.controller;
 
-import com.jinhaoxun.dubbo.module.rocketmq.model.request.*;
-import com.jinhaoxun.dubbo.module.rocketmq.service.RocketmqService;
+import com.jinhaoxun.dubbo.module.rocketmq.business.RocketmqBusiness;
+import com.jinhaoxun.dubbo.module.rocketmq.model.request.AddConsumerReq;
+import com.jinhaoxun.dubbo.module.rocketmq.model.request.AddMessageReq;
 import com.jinhaoxun.dubbo.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * @version 1.0
@@ -21,8 +22,8 @@ import org.springframework.web.bind.annotation.*;
 @Api("RocketMQ接口")
 public class RocketmqController {
 
-    @Reference
-    private RocketmqService iRocketmqService;
+    @Resource
+    private RocketmqBusiness rocketmqBusiness;
 
     /**
      * @author jinhaoxun
@@ -34,7 +35,7 @@ public class RocketmqController {
     @PostMapping(value="/consumer", produces = "application/json; charset=UTF-8")
     @ApiOperation("开启消费者")
     public ResponseResult addConsumer(@Validated @RequestBody AddConsumerReq addConsumerReq) throws Exception {
-        return iRocketmqService.addConsumer(addConsumerReq);
+        return rocketmqBusiness.addConsumer(addConsumerReq);
     }
 
     /**
@@ -45,7 +46,7 @@ public class RocketmqController {
     @DeleteMapping(value="/consumer", produces = "application/json; charset=UTF-8")
     @ApiOperation("关闭消费者")
     public ResponseResult deleteConsumer(){
-        return iRocketmqService.deleteConsumer();
+        return rocketmqBusiness.deleteConsumer();
     }
 
     /**
@@ -57,7 +58,7 @@ public class RocketmqController {
     @PostMapping(value="/producer", produces = "application/json; charset=UTF-8")
     @ApiOperation("开启生产者")
     public ResponseResult addProducer() throws Exception {
-        return iRocketmqService.addProducer();
+        return rocketmqBusiness.addProducer();
     }
 
     /**
@@ -70,7 +71,7 @@ public class RocketmqController {
     @PostMapping(value="/message", produces = "application/json; charset=UTF-8")
     @ApiOperation("发送消息")
     public ResponseResult addMessage(@Validated @RequestBody AddMessageReq addMessageReq) throws Exception {
-        return iRocketmqService.addMessage(addMessageReq);
+        return rocketmqBusiness.addMessage(addMessageReq);
     }
 
     /**
@@ -81,7 +82,7 @@ public class RocketmqController {
     @DeleteMapping(value="/producer", produces = "application/json; charset=UTF-8")
     @ApiOperation("关闭生产者")
     public ResponseResult deleteProducer(){
-        return iRocketmqService.deleteProducer();
+        return rocketmqBusiness.deleteProducer();
     }
 }
 

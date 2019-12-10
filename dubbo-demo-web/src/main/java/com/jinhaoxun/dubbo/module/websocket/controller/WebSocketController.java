@@ -1,5 +1,6 @@
 package com.jinhaoxun.dubbo.module.websocket.controller;
 
+import com.jinhaoxun.dubbo.module.websocket.business.WebSocketBusiness;
 import com.jinhaoxun.dubbo.module.websocket.model.request.*;
 import com.jinhaoxun.dubbo.module.websocket.service.WebSocketService;
 import io.swagger.annotations.Api;
@@ -24,8 +25,8 @@ import javax.annotation.Resource;
 @Api("WebSocket接口")
 public class WebSocketController {
 
-    @Reference
-    private WebSocketService iWebSocketService;
+    @Resource
+    private WebSocketBusiness webSocketBusiness;
 
     /**
      * @author jinhaoxun
@@ -41,7 +42,7 @@ public class WebSocketController {
     @MessageMapping("/chat")
     @ApiOperation("单发消息")
     public void messageHandling(@Validated @RequestBody ChatRequestMessage chatRequestMessage) throws Exception {
-        iWebSocketService.messageHandling(chatRequestMessage);
+        webSocketBusiness.messageHandling(chatRequestMessage);
     }
 
     /**
@@ -58,6 +59,6 @@ public class WebSocketController {
     @MessageMapping("/all")
     @ApiOperation("群发消息")
     public void messageHandlingAll(@Validated @RequestBody AllRequestMessage allRequestMessage) throws Exception {
-        iWebSocketService.messageHandlingAll(allRequestMessage);
+        webSocketBusiness.messageHandlingAll(allRequestMessage);
     }
 }

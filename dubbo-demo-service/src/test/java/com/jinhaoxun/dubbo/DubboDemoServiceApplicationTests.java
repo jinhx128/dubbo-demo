@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.SimpleDateFormat;
@@ -22,6 +23,7 @@ public class DubboDemoServiceApplicationTests {
     }
 
     @Test
+    @Async("taskExecutor")
     public void contextLoads() {
         log.info("测试中!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!{}");
         Date date = new Date();
@@ -31,6 +33,7 @@ public class DubboDemoServiceApplicationTests {
     }
 
     @Test
+    @Async("taskExecutor")
     public void test1() {
         // 10位的秒级别的时间戳
         long time1 = 1527767665;

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.jinhaoxun</groupId>
 	<artifactId>dubbo-demo-web</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>dubbo-demo-web</name>
 	<description>Demo project for Spring Boot</description>
 
@@ -24,7 +24,7 @@
 		<dependency>
 			<groupId>com.jinhaoxun</groupId>
 			<artifactId>dubbo-demo-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<!-- Swagger2 -->
 		<dependency>

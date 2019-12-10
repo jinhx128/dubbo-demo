@@ -5,7 +5,7 @@ debug: true
 custom:
   server:
     http:
-      port: 6062
+      port: 6060
 
 # 开启https支持
 server:
@@ -91,13 +91,6 @@ threadPoolTaskExecutor:
   queueCapacity: 200
   threadNamePrefix: Async-Executor- # 线程名统一前缀
 
-# 文件上传，下载地址
-file:
-  upload:
-    path: /usr/local/file/
-  download:
-    path: /usr/local/file/
-
 # 打印日志统一根路径
 log:
-  file: log
+  file: D:/service/dubbo/log

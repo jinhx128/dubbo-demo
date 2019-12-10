@@ -11,7 +11,7 @@
     <groupId>com.jinhaoxun</groupId>
     <artifactId>dubbo-demo-api</artifactId>
     <packaging>jar</packaging>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>dubbo-demo-api</name>
     <description>Demo project for Spring Boot</description>
 
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.jinhaoxun</groupId>
             <artifactId>dubbo-demo-base</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
         <!-- Dubbo Spring Boot Starter -->
         <dependency>

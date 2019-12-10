@@ -3,7 +3,7 @@ debug: true
 
 # http服务端口
 server:
-  port: 6061
+  port: 6050
 
 # dubbo相关
 dubbo:
@@ -25,7 +25,7 @@ dubbo:
 # 配置mybatis-plus
 mybatis-plus:
   # xml映射文件位置，衔接pom文件里面的resources配置扫描
-  mapper-locations: classpath*:/mapper/apply/xml/*.xml,classpath*:/mapper/quartz/xml/*.xml,classpath*:/mapper/shiro/xml/*.xml
+  mapper-locations: classpath*:com/jinhaoxun/dubbo/mapper/**/xml/*.xml
   # type-aliases-package: com.jinhaoxun.accommon.pojo # 别名包扫描路径，通过该属性可以给包中的类注册别名
   # configuration:
   #  cache-enabled: true # 开启MybatisPlus 二级缓存，主要用来跟redis注解缓存使用
@@ -112,10 +112,10 @@ stomprabbitmq:
 # 文件上传，下载地址
 file:
   upload:
-    path: /usr/local/file/
+    path: D:/service/dubbo/file/
   download:
-    path: /usr/local/file/
+    path: D:/service/dubbo/file/
 
 # 打印日志统一根路径
 log:
-  file: log
+  file: D:/service/dubbo/log

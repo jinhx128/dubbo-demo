@@ -1,12 +1,8 @@
 package com.jinhaoxun.dubbo.org.listener;
 
 import com.jinhaoxun.dubbo.exception.CustomRuntimeException;
-import com.jinhaoxun.dubbo.constant.ResponseMsg;
-import com.jinhaoxun.dubbo.module.quartz.service.QuartzService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
 
-import javax.annotation.Resource;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -19,10 +15,7 @@ import javax.servlet.annotation.WebListener;
  */
 @Slf4j
 @WebListener
-public class StartInitListener implements ServletContextListener {
-
-    @Reference
-    private QuartzService iQuartzService;
+public class InitWebListener implements ServletContextListener {
 
     /**
      * @author jinhaoxun
@@ -32,14 +25,8 @@ public class StartInitListener implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        log.info("开始初始化任务列表...");
-        try {
-            iQuartzService.addSimpleJobList();
-        } catch (Exception e) {
-            throw new CustomRuntimeException(ResponseMsg.QUARTZ_INIT_JOB_LIST_FAIL.getCode(),
-                    ResponseMsg.QUARTZ_INIT_JOB_LIST_FAIL.getMsg() + e.getMessage());
-        }
-        log.info("初始化任务列表成功！");
+        log.info("开始初始化Web上下文...");
+        log.info("初始化Web上下文成功！");
     }
 
     /**

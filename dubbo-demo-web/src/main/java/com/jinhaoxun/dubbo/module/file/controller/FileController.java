@@ -1,11 +1,11 @@
 package com.jinhaoxun.dubbo.module.file.controller;
 
-import com.jinhaoxun.dubbo.module.file.model.request.*;
-import com.jinhaoxun.dubbo.module.file.service.FileService;
+import com.jinhaoxun.dubbo.module.file.business.FileBusiness;
+import com.jinhaoxun.dubbo.module.file.model.request.DownloadFileReq;
+import com.jinhaoxun.dubbo.module.file.model.request.UploadFileReq;
 import com.jinhaoxun.dubbo.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,8 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 @Api("上传下载文件接口")
 public class FileController {
 
-    @Reference
-    private FileService iFileService;
+    @Resource
+    private FileBusiness fileBusiness;
 
     /**
      * @author jinhaoxun
@@ -40,7 +40,7 @@ public class FileController {
     @PostMapping(value = "/uploadfile", produces = "application/json; charset=UTF-8")
     @ApiOperation("上传文件")
     public ResponseResult uploadFile(@Validated UploadFileReq uploadFileReq) throws Exception {
-        return iFileService.uploadFile(uploadFileReq);
+        return fileBusiness.uploadFile(uploadFileReq);
     }
 
     /**
@@ -53,7 +53,7 @@ public class FileController {
     @GetMapping(value = "/downloadfile", produces = "application/json; charset=UTF-8")
     @ApiOperation("下载文件")
     public ResponseResult downloadFile(@Validated DownloadFileReq downloadFileReq, HttpServletResponse httpServletResponse) throws Exception {
-        return iFileService.downloadFile(downloadFileReq,httpServletResponse);
+        return fileBusiness.downloadFile(downloadFileReq,httpServletResponse);
     }
 
     /**
@@ -65,7 +65,7 @@ public class FileController {
     @GetMapping(value = "/createexcel", produces = "application/json; charset=UTF-8")
     @ApiOperation("创建Excel")
     public ResponseResult createExcel() throws Exception {
-        return iFileService.createExcel();
+        return fileBusiness.createExcel();
     }
 
     /**
@@ -78,6 +78,6 @@ public class FileController {
     @PostMapping(value = "/resolveexcel", produces = "application/json; charset=UTF-8")
     @ApiOperation("解析Excel")
     public ResponseResult resolveExcel(MultipartFile multipartFile) throws Exception {
-        return iFileService.resolveExcel(multipartFile);
+        return fileBusiness.resolveExcel(multipartFile);
     }
 }

@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.jinhaoxun</groupId>
     <artifactId>dubbo-demo-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>dubbo-demo-service</name>
     <description>Demo project for Spring Boot</description>
 
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>com.jinhaoxun</groupId>
             <artifactId>dubbo-demo-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
         <!-- WebSocket -->
         <!--<dependency>
@@ -115,15 +115,15 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-        <resources>
+<!--        <resources>
             <resource>
-                <directory>src/main/java/com/jinhaoxun/dubbo</directory>
-                <!-- src/main/resources下的指定资源放行 -->
+                <directory>src/main/java/</directory>
+                &lt;!&ndash; src/main/resources下的指定资源放行 &ndash;&gt;
                 <includes>
                     <include>**/*.xml</include>
                 </includes>
             </resource>
-        </resources>
+        </resources>-->
     </build>
 
 </project>

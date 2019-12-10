@@ -1,12 +1,11 @@
 package com.jinhaoxun.dubbo.module.shiro.controller;
 
+import com.jinhaoxun.dubbo.module.shiro.business.UserBusiness;
 import com.jinhaoxun.dubbo.module.shiro.model.request.*;
-import com.jinhaoxun.dubbo.module.shiro.service.UserService;
 import com.jinhaoxun.dubbo.po.shiro.User;
 import com.jinhaoxun.dubbo.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 @Api("用户接口")
 public class UserController {
 
-    @Reference
-    private UserService userService;
+    @Resource
+    private UserBusiness userBusiness;
 
     /**
      * @author jinhaoxun
@@ -38,7 +37,7 @@ public class UserController {
     @PostMapping(value="/session", produces = "application/json; charset=UTF-8")
     @ApiOperation("进行登录")
     public ResponseResult addSession(@Validated @RequestBody UserLoginReq userLoginReq, HttpServletResponse response) throws Exception {
-        return userService.addSession(userLoginReq,response);
+        return userBusiness.addSession(userLoginReq,response);
     }
 
     /**
@@ -51,7 +50,7 @@ public class UserController {
     @PostMapping(value="/user", produces = "application/json; charset=UTF-8")
     @ApiOperation("用户注册")
     public ResponseResult addUser(@Validated @RequestBody UserRegisterReq userRegisterReq) throws Exception {
-        return userService.addUser(userRegisterReq);
+        return userBusiness.addUser(userRegisterReq);
     }
 
     /**
@@ -64,7 +63,7 @@ public class UserController {
     @PatchMapping(value="/user", produces = "application/json; charset=UTF-8")
     @ApiOperation("用户注销")
     public ResponseResult deleteUser(@Validated @RequestBody UserIdReq userIdReq) throws Exception {
-        return userService.deleteUser(userIdReq);
+        return userBusiness.deleteUser(userIdReq);
     }
 
     /**
@@ -77,7 +76,7 @@ public class UserController {
     @GetMapping(value="/code", produces = "application/json; charset=UTF-8")
     @ApiOperation("获取验证码")
     public ResponseResult getCode(@Validated GetCodeReq getCodeReq) throws Exception {
-        return userService.getCode(getCodeReq);
+        return userBusiness.getCode(getCodeReq);
     }
 
     /**
@@ -91,7 +90,7 @@ public class UserController {
     @PostMapping(value="/codesession", produces = "application/json; charset=UTF-8")
     @ApiOperation("验证码登录")
     public ResponseResult addCodeSession(@Validated @RequestBody GetCodeReq getCodeReq, HttpServletResponse response) throws Exception {
-        return userService.addCodeSession(getCodeReq,response);
+        return userBusiness.addCodeSession(getCodeReq,response);
     }
 
     /**
@@ -104,7 +103,7 @@ public class UserController {
     @PatchMapping(value="/password", produces = "application/json; charset=UTF-8")
     @ApiOperation("更新密码")
     public ResponseResult updatePassword(@Validated @RequestBody UpdatePasswordReq updatePasswordReq) throws Exception {
-        return userService.updatePassword(updatePasswordReq);
+        return userBusiness.updatePassword(updatePasswordReq);
     }
 
     /**
@@ -117,7 +116,7 @@ public class UserController {
     @PostMapping(value="/ban", produces = "application/json; charset=UTF-8")
     @ApiOperation("账号封禁")
     public ResponseResult addBan(@Validated @RequestBody UserIdReq userIdReq) throws Exception {
-        return userService.addBan(userIdReq);
+        return userBusiness.addBan(userIdReq);
     }
 
     /**
@@ -130,7 +129,7 @@ public class UserController {
     @DeleteMapping(value="/ban", produces = "application/json; charset=UTF-8")
     @ApiOperation("账号解封")
     public ResponseResult deleteBan(@Validated @RequestBody UserIdReq userIdReq) throws Exception {
-        return userService.deleteBan(userIdReq);
+        return userBusiness.deleteBan(userIdReq);
     }
 
     /**
@@ -143,7 +142,7 @@ public class UserController {
     @GetMapping(value="/user", produces = "application/json; charset=UTF-8")
     @ApiOperation("获取用户信息")
     public ResponseResult getUser(@Validated UserIdReq userIdReq) throws Exception {
-        return userService.getUser(userIdReq);
+        return userBusiness.getUser(userIdReq);
     }
 
     /**
@@ -156,7 +155,7 @@ public class UserController {
     @PutMapping(value="/user", produces = "application/json; charset=UTF-8")
     @ApiOperation("更新用户信息")
     public ResponseResult updateUser(@Validated @RequestBody User user) throws Exception {
-        return userService.updateUser(user);
+        return userBusiness.updateUser(user);
     }
 
     /**
@@ -167,7 +166,7 @@ public class UserController {
     @GetMapping(value="/userlist", produces = "application/json; charset=UTF-8")
     @ApiOperation("获取所有账号列表")
     public ResponseResult getUserList() throws Exception {
-        return userService.getUserList();
+        return userBusiness.getUserList();
     }
 }
 
