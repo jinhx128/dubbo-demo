@@ -39,10 +39,10 @@ public class MessageServiceImpl implements MessageService {
         IAcsClient client = new DefaultAcsClient(profile);
 
         CommonRequest request = new CommonRequest();
-        request.setSysMethod(MethodType.POST);
-        request.setSysDomain("dysmsapi.aliyuncs.com");
-        request.setSysVersion("2017-05-25");
-        request.setSysAction("SendSms");
+        request.setMethod(MethodType.POST);
+        request.setDomain("dysmsapi.aliyuncs.com");
+        request.setVersion("2017-05-25");
+        request.setAction("SendSms");
         request.putQueryParameter("RegionId", "cn-hangzhou");
         try {
             CommonResponse response = client.getCommonResponse(request);

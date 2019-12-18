@@ -10,7 +10,7 @@ dubbo:
   application:
     name: dubbo-demo-thirdparty
   registry:
-    address: zookeeper://47.101.135.160:2181 # 注册中心地址
+    address: zookeeper://47.101.135.160:2180?backup=47.101.135.160:2181,47.101.135.160:2182 # 注册中心地址
   # scan:
   #  base-packages: com.jinhaoxun.dubbod.service # 扫描提供服务的路径，启动类加上@EnableDubbo时，可以不需要这个
   protocol:

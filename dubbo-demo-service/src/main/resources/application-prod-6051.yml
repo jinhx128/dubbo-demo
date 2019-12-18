@@ -10,7 +10,7 @@ dubbo:
   application:
     name: dubbo-demo-service
   registry:
-    address: zookeeper://47.101.135.160:2181 # 注册中心地址
+    address: zookeeper://47.101.135.160:2180?backup=47.101.135.160:2181,47.101.135.160:2182 # 注册中心地址
   # scan:
   #  base-packages: com.jinhaoxun.dubbod.service # 扫描提供服务的路径，启动类加上@EnableDubbo时，可以不需要这个
   protocol:
@@ -112,10 +112,10 @@ stomprabbitmq:
 # 文件上传，下载地址
 file:
   upload:
-    path: /usr/local/service/file/
+    path: /usr/local/docker/dubbo/file/
   download:
-    path: /usr/local/service/file/
+    path: /usr/local/docker/dubbo/file/
 
 # 打印日志统一根路径
 log:
-  file: /usr/local/service/log/dubbo-demo-service/
+  file: /usr/local/docker/dubbo/log/dubbo-service-6051/

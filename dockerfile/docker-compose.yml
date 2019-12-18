@@ -1,12 +1,44 @@
-version: "3.3"
+version: '3.7'
 services:
-  nginx:
-    image: nginx:1.2
+  zoo1:
+    image: zookeeper:3.4.11
+    restart: always
+    hostname: zoo1
+    container_name: zookeeper_1
+    #domainname:
     ports:
-    - "80:80"
-    links:
-      - app
+      - 2180:2181
     volumes:
-    - ""
-  app:
-    image: servier
+      - /usr/local/docker/zookeeper/zoo1/data:/data
+      - /usr/local/docker/zookeeper/zoo1/log:/datalog
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
+
+  zoo2:
+    image: zookeeper:3.4.11
+    restart: always
+    hostname: zoo2
+    container_name: zookeeper_2
+    ports:
+      - 2181:2181
+    volumes:
+      - /usr/local/docker/zookeeper/zoo2/data:/data
+      - /usr/local/docker/zookeeper/zoo2/log:/datalog
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
+
+  zoo3:
+    image: zookeeper:3.4.11
+    restart: always
+    hostname: zoo3
+    container_name: zookeeper_3
+    ports:
+      - 2182:2181
+    volumes:
+      - /usr/local/docker/zookeeper/zoo3/data:/data
+      - /usr/local/docker/zookeeper/zoo3/log:/datalog
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
