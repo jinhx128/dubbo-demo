@@ -56,7 +56,6 @@ public class Swagger2Config {
                         + "com.jinhaoxun.dubbo.module.rabbitmq.controller" + SPLITOR
                         + "com.jinhaoxun.dubbo.module.shiro.controller" + SPLITOR
                         + "com.jinhaoxun.dubbo.module.file.controller" + SPLITOR
-                        + "com.jinhaoxun.dubbo.module.test.controller" + SPLITOR
                         + "com.jinhaoxun.dubbo.module.websocket.controller" + SPLITOR ))
                 .paths(PathSelectors.any())
                 .build();

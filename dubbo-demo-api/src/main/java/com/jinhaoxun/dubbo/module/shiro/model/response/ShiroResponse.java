@@ -1,4 +1,4 @@
-package com.jinhaoxun.dubbo.module.rocketmq.model.response;
+package com.jinhaoxun.dubbo.module.shiro.model.response;
 
 /**
  * @Description:
@@ -6,5 +6,5 @@ package com.jinhaoxun.dubbo.module.rocketmq.model.response;
  * @Date: 2019/12/18 15:48
  * @Version: 1.0
  */
-public class RocketmqResponse {
+public class ShiroResponse {
 }

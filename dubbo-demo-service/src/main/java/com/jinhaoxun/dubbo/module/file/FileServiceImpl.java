@@ -3,7 +3,7 @@ package com.jinhaoxun.dubbo.module.file;
 import com.alibaba.fastjson.JSONObject;
 import com.jinhaoxun.dubbo.constant.AbstractConstant;
 import com.jinhaoxun.dubbo.exception.ExceptionFactory;
-import com.jinhaoxun.dubbo.module.file.model.ExportExcelTest;
+import com.jinhaoxun.dubbo.module.file.model.response.ExportExcelTest;
 import com.jinhaoxun.dubbo.module.file.model.request.*;
 import com.jinhaoxun.dubbo.response.ResponseFactory;
 import com.jinhaoxun.dubbo.constant.ResponseMsg;

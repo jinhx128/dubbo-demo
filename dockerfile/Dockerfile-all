@@ -1,5 +1,5 @@
 FROM tutum/centos:latest
-    MAINTAINER jinhaoxun
+MAINTAINER jinhaoxun
 WORKDIR /usr
 RUN mkdir /usr/local/java
 
@@ -53,7 +53,8 @@ docker exec -it redis-4.0 bash
 docker run -dit --name mysql-5.7 -p 3306:3306 -v /usr/local/docker/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root mysql:5.7
 docker exec -it mysql-5.7 bash
 # nginx
-docker run -dit --name nginx-1.16.1 -p 82:80 -p 8443:8443 -v /usr/local/docker/nginx/conf:/etc/nginx  -v /usr/local/docker/nginx/logs:/var/log/nginx nginx:1.16.1
+docker run -dit --name nginx-1.16.1 -p 82:80 -p 8445:8443 -v /usr/local/docker/nginx/conf/nginx.conf:/etc/nginx/nginx.conf  -v /usr/local/docker/nginx/logs:/var/log/nginx -v /usr/local/docker/nginx/html:/etc/nginx/html -v /usr/local/docker/nginx/conf/2137274_apecome.top.key:/etc/nginx/2137274_apecome.top.key  -v /usr/local/docker/nginx/conf/2137274_apecome.top.pem:/etc/nginx/2137274_apecome.top.pem nginx:1.16.1
+
 
 
 FROM java:8

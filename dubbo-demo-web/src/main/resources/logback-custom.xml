@@ -5,7 +5,7 @@
 <!--    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />-->
     <!-- 开启后可以通过jmx动态控制日志级别(springboot Admin的功能) -->
     <!--<jmxConfigurator/>-->
-
+    <contextName>logback-custom</contextName>
     <!-- 定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
     <springProperty scope="context" name="LOG_HOME" source="log.file"/>
 

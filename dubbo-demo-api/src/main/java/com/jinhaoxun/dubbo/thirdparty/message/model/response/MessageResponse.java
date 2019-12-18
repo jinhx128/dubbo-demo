@@ -1,4 +1,4 @@
-package com.jinhaoxun.dubbo.thirdparty.notify.model.response;
+package com.jinhaoxun.dubbo.thirdparty.message.model.response;
 
 /**
  * @Description:
@@ -6,5 +6,5 @@ package com.jinhaoxun.dubbo.thirdparty.notify.model.response;
  * @Date: 2019/12/9 9:54
  * @Version: 1.0
  */
-public class NotifyResponse {
+public class MessageResponse {
 }

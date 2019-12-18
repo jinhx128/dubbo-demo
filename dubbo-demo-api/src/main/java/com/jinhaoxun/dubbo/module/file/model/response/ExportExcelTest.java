@@ -1,4 +1,4 @@
-package com.jinhaoxun.dubbo.module.file.model;
+package com.jinhaoxun.dubbo.module.file.model.response;
 
 import lombok.Getter;
 import lombok.Setter;

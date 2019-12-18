@@ -3,3 +3,5 @@ spring:
     active: dev
   application:
     name: dubbo-demo-service
+logging:
+  config: classpath:logback-custom.xml

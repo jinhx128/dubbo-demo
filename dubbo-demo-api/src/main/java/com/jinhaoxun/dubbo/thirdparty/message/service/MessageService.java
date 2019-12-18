@@ -1,14 +1,14 @@
-package com.jinhaoxun.dubbo.thirdparty.notify.service;
+package com.jinhaoxun.dubbo.thirdparty.message.service;
 
 import com.jinhaoxun.dubbo.response.ResponseResult;
 
 /**
  * @version 1.0
  * @author jinhaoxun
- * @date 2018-05-09
+ * @date 2019-12-09
  * @description 通知模块服务接口
  */
-public interface NotifyService {
+public interface MessageService {
 
     /**
      * @author jinhaoxun
@@ -17,15 +17,7 @@ public interface NotifyService {
      * @return ResponseResult 获取的验证码
      * @throws Exception
      */
-    ResponseResult getPhoneCode(String phone) throws Exception;
+    ResponseResult SendSmsMessage(String phone) throws Exception;
 
-    /**
-     * @author jinhaoxun
-     * @description 获取邮箱验证码
-     * @param email 邮箱
-     * @return ResponseResult 获取的验证码
-     * @throws Exception
-     */
-    ResponseResult getEmailCode(String email) throws Exception;
 
 }

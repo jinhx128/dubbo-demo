@@ -1,7 +1,7 @@
 package com.jinhaoxun.dubbo.module.rabbitmq;
 
-import com.jinhaoxun.dubbo.org.rabbitmq.RabbitmqProducerFactory;
 import com.jinhaoxun.dubbo.module.rabbitmq.service.RabbitmqService;
+import com.jinhaoxun.dubbo.org.rabbitmq.RabbitmqProducerFactory;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
