@@ -1,4 +1,4 @@
-package com.jinhaoxun.dubbo.thirdparty.test;
+package com.jinhaoxun.dubbo.thirdparty.notify.model.request;
 
 /**
  * @Description:
@@ -6,5 +6,5 @@ package com.jinhaoxun.dubbo.thirdparty.test;
  * @Date: 2019/12/9 9:54
  * @Version: 1.0
  */
-public class Test {
+public class NotifyRequest {
 }
