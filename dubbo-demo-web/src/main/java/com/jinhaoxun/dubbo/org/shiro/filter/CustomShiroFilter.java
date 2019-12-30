@@ -10,7 +10,6 @@ import com.jinhaoxun.dubbo.module.shiro.model.UserContext;
 import com.jinhaoxun.dubbo.module.shiro.service.SyncCacheService;
 import com.jinhaoxun.dubbo.module.shiro.service.UserService;
 import com.jinhaoxun.dubbo.org.shiro.jwt.Jwt;
-import com.jinhaoxun.dubbo.redis.redisutil.RedisUtil;
 import com.jinhaoxun.dubbo.response.ResponseFactory;
 import com.jinhaoxun.dubbo.util.requestutil.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,7 @@ import net.sf.json.JSONObject;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -45,8 +44,8 @@ public class CustomShiroFilter extends BasicHttpAuthenticationFilter implements 
     private SyncCacheService syncCacheService;
     @Reference
     private UserService userService;
-    @Autowired
-    private RedisUtil redisUtil;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     /**
      * @author jinhaoxun
@@ -178,8 +177,8 @@ public class CustomShiroFilter extends BasicHttpAuthenticationFilter implements 
             //获取到锁
             if (b) {
                 String refreshToken= AbstractConstant.REFRESH_TOKEN + userId;
-                if(redisUtil.exists(refreshToken)){
-                    String tokenTimeStamp = redisUtil.get(refreshToken);
+                if(redisTemplate.hasKey(refreshToken)){
+                    String tokenTimeStamp = redisTemplate.opsForValue().get(refreshToken).toString();
                     //检查redis中的时间戳与token的时间戳是否一致
                     String tokenMillis= JwtUtil.getClaim(authorization, AbstractConstant.TOKEN_CURRENT_TIME_MILLIS);
                     if(!tokenTimeStamp.equals(tokenMillis)){
@@ -193,7 +192,8 @@ public class CustomShiroFilter extends BasicHttpAuthenticationFilter implements 
                 String password = userService.selectPassword(Long.valueOf(userId));
                 String newToken = JwtUtil.createToken(userId, password, String.valueOf(currentTimeMillis));
 
-                redisUtil.getSet(refreshToken, String.valueOf(currentTimeMillis), AbstractConstant.REFRESH_TOKEN_CHECK_EXPIRATION_TIME, TimeUnit.MILLISECONDS);
+                redisTemplate.opsForValue().getAndSet(refreshToken, String.valueOf(currentTimeMillis));
+                redisTemplate.expire(refreshToken, AbstractConstant.REFRESH_TOKEN_CHECK_EXPIRATION_TIME, TimeUnit.MILLISECONDS);
 
                 HttpServletResponse httpServletResponse = (HttpServletResponse) response;
                 httpServletResponse.setHeader(AbstractConstant.REQUEST_AUTH_HEADER, newToken);

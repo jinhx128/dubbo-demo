@@ -9,8 +9,10 @@ import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.authz.annotation.RequiresUser;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.Cacheable;
 
 import javax.annotation.Resource;
 
@@ -36,8 +38,9 @@ public class ArticleController {
      */
     @GetMapping(value = "/articlelist", produces = "application/json; charset=UTF-8")
     @ApiOperation("获取文章列表")
-    public ResponseResult getArticleList(@Validated GetArticleListReq getArticleListReq) throws Exception {
-        return articleBusiness.getArticleList(getArticleListReq);
+    @CachePut(value = "userStatistics",key = "haha")
+    public String getArticleList(@Validated GetArticleListReq getArticleListReq) throws Exception {
+        return "rticleBusiness.getArticleList(getArticleListReq)";
     }
 
     /**

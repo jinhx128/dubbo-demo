@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.jinhaoxun.dubbo.constant.AbstractConstant;
 import com.jinhaoxun.dubbo.util.datautil.SerializerUtil;
 import com.jinhaoxun.dubbo.util.requestutil.JwtUtil;
-import com.jinhaoxun.dubbo.redis.jedisutil.JedisUtil;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
+import org.springframework.data.redis.core.RedisTemplate;
 
+import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @version 1.0
@@ -18,6 +20,9 @@ import java.util.*;
  * @description 重写 Shiro 的 Cache 保存读取
  */
 public class CustomCache<K,V> implements Cache<K,V> {
+
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     /**
      * @author jinhaoxun
@@ -38,12 +43,13 @@ public class CustomCache<K,V> implements Cache<K,V> {
      */
     @Override
     public Object get(Object key) throws CacheException {
-        if(!JedisUtil.exists(this.getKey(key))){
-            return null;
-        }
-        JSONObject jsonObject = JSONObject.parseObject(JedisUtil.getObject(this.getKey(key),String.class));
-        AuthorizationInfo authorizationInfo = JSONObject.toJavaObject(jsonObject,AuthorizationInfo.class);
-        return authorizationInfo;
+//        if(!redisTemplate.hasKey(this.getKey(key))){
+//            return null;
+//        }
+//        JSONObject jsonObject = JSONObject.parseObject(JedisUtil.getObject(this.getKey(key),String.class));
+//        AuthorizationInfo authorizationInfo = JSONObject.toJavaObject(jsonObject,AuthorizationInfo.class);
+//        return authorizationInfo;
+        return null;
     }
 
     /**
@@ -57,7 +63,8 @@ public class CustomCache<K,V> implements Cache<K,V> {
     @Override
     public Object put(Object key, Object value) throws CacheException {
         // 设置 Redis 的 Shiro 缓存
-        return JedisUtil.setObject(this.getKey(key), value, AbstractConstant.SHIRO_ROLE_PERMISSION_EXPIRATION_TIME);
+        redisTemplate.opsForValue().set(this.getKey(key), value, AbstractConstant.SHIRO_ROLE_PERMISSION_EXPIRATION_TIME, TimeUnit.SECONDS);
+        return value;
     }
 
     /**
@@ -69,10 +76,10 @@ public class CustomCache<K,V> implements Cache<K,V> {
      */
     @Override
     public Object remove(Object key) throws CacheException {
-        if(!JedisUtil.exists(this.getKey(key))){
+        if(!redisTemplate.hasKey(this.getKey(key))){
             return null;
         }
-        JedisUtil.delKey(this.getKey(key));
+        redisTemplate.delete(this.getKey(key));
         return null;
     }
 
@@ -83,7 +90,8 @@ public class CustomCache<K,V> implements Cache<K,V> {
      */
     @Override
     public void clear() throws CacheException {
-        JedisUtil.getJedis().flushDB();
+        Set<String> keys = redisTemplate.keys("*");
+        redisTemplate.delete(keys);
     }
 
     /**
@@ -93,8 +101,9 @@ public class CustomCache<K,V> implements Cache<K,V> {
      */
     @Override
     public int size() {
-        Long size = JedisUtil.getJedis().dbSize();
-        return size.intValue();
+//        Long size = JedisUtil.getJedis().dbSize();
+//        return size.intValue();
+        return 1;
     }
 
     /**
@@ -104,12 +113,13 @@ public class CustomCache<K,V> implements Cache<K,V> {
      */
     @Override
     public Set keys() {
-        Set<byte[]> keys = JedisUtil.getJedis().keys(("*").getBytes());
-        Set<Object> set = new HashSet<Object>();
-        for (byte[] bs : keys) {
-            set.add(SerializerUtil.deserialize(bs));
-        }
-        return set;
+//        Set<byte[]> keys = redisTemplate.keys("*");
+//        Set<Object> set = new HashSet<Object>();
+//        for (byte[] bs : keys) {
+//            set.add(SerializerUtil.deserialize(bs));
+//        }
+//        return set;
+        return null;
     }
 
     /**
@@ -119,13 +129,14 @@ public class CustomCache<K,V> implements Cache<K,V> {
      */
     @Override
     public Collection values() {
-        Set keys = this.keys();
-        List<Object> values = new ArrayList<Object>();
-        for (Object key : keys) {
-            JSONObject jsonObject = JSONObject.parseObject(JedisUtil.getObject(this.getKey(key),String.class));
-            AuthorizationInfo authorizationInfo = JSONObject.toJavaObject(jsonObject,AuthorizationInfo.class);
-            values.add(authorizationInfo);
-        }
-        return values;
+//        Set keys = this.keys();
+//        List<Object> values = new ArrayList<Object>();
+//        for (Object key : keys) {
+//            JSONObject jsonObject = JSONObject.parseObject(redisTemplate.opsForSet().getOperations(this.getKey(key),String.class));
+//            AuthorizationInfo authorizationInfo = JSONObject.toJavaObject(jsonObject,AuthorizationInfo.class);
+//            values.add(authorizationInfo);
+//        }
+//        return values;
+        return null;
     }
 }

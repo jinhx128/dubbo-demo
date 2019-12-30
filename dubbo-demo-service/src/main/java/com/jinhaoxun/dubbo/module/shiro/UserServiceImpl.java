@@ -13,14 +13,13 @@ import com.jinhaoxun.dubbo.util.encodeutil.BcryptUtil;
 import com.jinhaoxun.dubbo.util.idutil.IdUtil;
 import com.jinhaoxun.dubbo.util.requestutil.JwtUtil;
 import com.jinhaoxun.dubbo.mapper.shiro.UserMapper;
-import com.jinhaoxun.dubbo.redis.jedisutil.JedisUtil;
-import com.jinhaoxun.dubbo.redis.redisutil.RedisUtil;
 import com.jinhaoxun.dubbo.thirdparty.notify.service.NotifyService;
 import com.jinhaoxun.dubbo.module.shiro.service.UserService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.apache.dubbo.config.annotation.Service;
 
@@ -45,11 +44,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private NotifyService notifyService;
 
     @Resource
+    private RedisTemplate<String, Object> redisTemplate;
+    @Resource
     private UserMapper userMapper;
     @Resource
     private ExceptionFactory exceptionFactory;
-    @Resource
-    private RedisUtil redisUtil;
 
     /**
      * @author jinhaoxun
@@ -113,8 +112,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private void loginSuccess(Long userId, String password, HttpServletResponse response) {
         // 清除可能存在的Shiro权限信息缓存
         String tokenKey= AbstractConstant.SHIRO_ROLE_PERMISSION_KEY + userId;
-        if (JedisUtil.exists(tokenKey)) {
-            JedisUtil.delKey(tokenKey);
+        if (redisTemplate.hasKey(tokenKey)) {
+            redisTemplate.delete(tokenKey);
         }
         //获取当前时间戳
         String currentTimeMillis = String.valueOf(System.currentTimeMillis());
@@ -125,7 +124,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         json.put("token",token );
         //更新RefreshToken缓存的时间戳
         String refreshToken = AbstractConstant.REFRESH_TOKEN + userId;
-        redisUtil.getSet(refreshToken, currentTimeMillis, AbstractConstant.REFRESH_TOKEN_CHECK_EXPIRATION_TIME, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().getAndSet(refreshToken, currentTimeMillis);
+        redisTemplate.expire(refreshToken, AbstractConstant.REFRESH_TOKEN_CHECK_EXPIRATION_TIME, TimeUnit.MILLISECONDS);
         //写入header
         response.setHeader(AbstractConstant.REQUEST_AUTH_HEADER, token);
         response.setHeader("Access-Control-Expose-Headers", AbstractConstant.REQUEST_AUTH_HEADER);
@@ -142,8 +142,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public void deleteSession(Long userId) {
         // 清除可能存在的Shiro权限信息缓存
         String tokenKey= AbstractConstant.SHIRO_ROLE_PERMISSION_KEY + userId;
-        if (JedisUtil.exists(tokenKey)) {
-            JedisUtil.delKey(tokenKey);
+        if (redisTemplate.hasKey(tokenKey)) {
+            redisTemplate.delete(tokenKey);
         }
         log.info(String.format("用户 {} 退出成功", userId));
     }
@@ -214,20 +214,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public ResponseResult getCode(GetCodeReq getCodeReq) throws Exception {
         if(getCodeReq.getType().equals(AbstractConstant.USER_REGISTER_TYPE_PHONE)){
             String userLogInCodeKey = AbstractConstant.USER_LOG_IN_CODE + getCodeReq.getPhone();
-            if (JedisUtil.exists(userLogInCodeKey)) {
+            if (redisTemplate.hasKey(userLogInCodeKey)) {
                 exceptionFactory.build(ResponseMsg.REPEAT_GET_USER_LOG_IN_CODE.getCode(),ResponseMsg.REPEAT_GET_USER_LOG_IN_CODE.getMsg());
             }
             ResponseResult responseResult = notifyService.getPhoneCode(getCodeReq.getPhone());
-            redisUtil.put(AbstractConstant.USER_LOG_IN_CODE + responseResult.getData().toString(),responseResult.getData().toString(),
+            redisTemplate.opsForValue().set(AbstractConstant.USER_LOG_IN_CODE + responseResult.getData().toString(),responseResult.getData().toString(),
                     AbstractConstant.USER_LOG_IN_CODE_EXPIRATION_TIME, TimeUnit.SECONDS);
             return ResponseFactory.buildSuccessResponse("获取验证码成功！");
         }else{
             String userLogInCodeKey = AbstractConstant.USER_LOG_IN_CODE + getCodeReq.getEmail();
-            if (JedisUtil.exists(userLogInCodeKey)) {
+            if (redisTemplate.hasKey(userLogInCodeKey)) {
                 exceptionFactory.build(ResponseMsg.REPEAT_GET_USER_LOG_IN_CODE.getCode(),ResponseMsg.REPEAT_GET_USER_LOG_IN_CODE.getMsg());
             }
             ResponseResult responseResult = notifyService.getEmailCode(getCodeReq.getEmail());
-            redisUtil.put(AbstractConstant.USER_LOG_IN_CODE + responseResult.getData().toString(),responseResult.getData().toString(),
+            redisTemplate.opsForValue().set(AbstractConstant.USER_LOG_IN_CODE + responseResult.getData().toString(),responseResult.getData().toString(),
                     AbstractConstant.USER_LOG_IN_CODE_EXPIRATION_TIME, TimeUnit.SECONDS);
             return ResponseFactory.buildSuccessResponse("获取验证码成功！");
         }
@@ -245,10 +245,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public ResponseResult addCodeSession(GetCodeReq getCodeReq, HttpServletResponse response) throws Exception {
         String userLogInCodeKey = AbstractConstant.USER_LOG_IN_CODE + getCodeReq.getEmail();
-        if (!JedisUtil.exists(userLogInCodeKey)) {
+        if (!redisTemplate.hasKey(userLogInCodeKey)) {
             exceptionFactory.build(ResponseMsg.USER_LOG_IN_CODE_EXPIRATIONED.getCode(),ResponseMsg.USER_LOG_IN_CODE_EXPIRATIONED.getMsg());
         }
-        String code = redisUtil.get(userLogInCodeKey);
+        String code = redisTemplate.opsForValue().get(userLogInCodeKey).toString();
         if(!code.equals(getCodeReq.getCode())){
             exceptionFactory.build(ResponseMsg.USER_LOG_IN_CODE_WRONG.getCode(),ResponseMsg.USER_LOG_IN_CODE_WRONG.getMsg());
         }
@@ -271,7 +271,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String password = userMapper.selectPassword(userId);
         //验证成功后处理
         this.loginSuccess(userId, password, response);
-        JedisUtil.delKey(userLogInCodeKey);
+        redisTemplate.delete(userLogInCodeKey);
         //获取用户推送消息
 /*        ResponseResult<List<Message>> responseResult = iMessageService.getSystemMessageByUserId(userId);
         if(responseResult.getData().size() > 0 ){

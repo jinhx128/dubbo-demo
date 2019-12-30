@@ -42,9 +42,9 @@ public abstract class AbstractConstant {
      */
     public static final int SHIRO_ROLE_PERMISSION_EXPIRATION_TIME = 24 * 60 * 60;
     /**
-     * refreshTokenCheckExpirationTime 过期时间(单位：毫秒)
+     * refreshTokenCheckExpirationTime 过期时间(单位：秒)
      */
-    public static final int REFRESH_TOKEN_CHECK_EXPIRATION_TIME = 24 * 60 * 60 * 1000;
+    public static final int REFRESH_TOKEN_CHECK_EXPIRATION_TIME = 24 * 60 * 60;
     /**
      * refreshTokenCheckTime 检查时间(单位：毫秒)
      */

@@ -5,7 +5,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -16,6 +19,9 @@ import java.util.Date;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class DubboDemoServiceApplicationTests {
+
+    @Autowired
+    RedisTemplate redisTemplate;
 
     @Test
     public void testEnumUtil() {
@@ -44,6 +50,13 @@ public class DubboDemoServiceApplicationTests {
         String time2 = "1515730332000d";
         String result2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Double.valueOf(time2));
         System.out.println(result2);
+    }
+
+    @Test
+    @Async("taskExecutor")
+    public void test2() {
+        redisTemplate.opsForValue().set("测试1","哈哈");
+        System.out.println(redisTemplate.opsForValue().get("测试1"));
     }
 
     @Before

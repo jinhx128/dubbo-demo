@@ -3,14 +3,15 @@ package com.jinhaoxun.dubbo.module.shiro;
 import com.jinhaoxun.dubbo.constant.AbstractConstant;
 import com.jinhaoxun.dubbo.exception.ExceptionFactory;
 import com.jinhaoxun.dubbo.constant.ResponseMsg;
-import com.jinhaoxun.dubbo.redis.redisutil.RedisUtil;
 import com.jinhaoxun.dubbo.module.shiro.service.SyncCacheService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.apache.dubbo.config.annotation.Service;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @version 1.0
@@ -24,7 +25,8 @@ import javax.annotation.Resource;
 public class SyncCacheServiceImpl implements SyncCacheService {
 
     @Resource
-    private RedisUtil redisUtil;
+    private RedisTemplate<String, Object> redisTemplate;
+
     @Resource
     private ExceptionFactory exceptionFactory;
 
@@ -41,12 +43,12 @@ public class SyncCacheServiceImpl implements SyncCacheService {
     public boolean getLock(String lockName, int expireTime) throws Exception {
         boolean result = false;
         try {
-            boolean isExist = redisUtil.exists(lockName);
+            boolean isExist = redisTemplate.hasKey(lockName);
             if(!isExist){
-                redisUtil.incr(lockName,0);
-                redisUtil.expire(lockName,expireTime<=0? AbstractConstant.REFRESH_TOKEN_CHECK_EXPIRATION_TIME:expireTime);
+                redisTemplate.opsForValue().increment(lockName,0);
+                redisTemplate.expire(lockName,expireTime<=0? AbstractConstant.REFRESH_TOKEN_CHECK_EXPIRATION_TIME:expireTime, TimeUnit.SECONDS);
             }
-            long reVal =  redisUtil.incr(lockName,1);
+            long reVal =  redisTemplate.opsForValue().increment(lockName,1);
             if(1L ==reVal){
                 //获取锁
                 result = true;
@@ -71,7 +73,7 @@ public class SyncCacheServiceImpl implements SyncCacheService {
     @Override
     public boolean releaseLock(String lockName) throws Exception {
         try {
-            redisUtil.expire(lockName, AbstractConstant.RELEASE_LOCK_TIME);
+            redisTemplate.expire(lockName, AbstractConstant.RELEASE_LOCK_TIME, TimeUnit.SECONDS);
             log.info("释放redis锁:"+lockName+",成功");
         } catch (Exception e) {
             throw exceptionFactory.build(ResponseMsg.REDIS_RELEASE_LOCK_FAIL.getCode(),"释放redis锁失败:"+lockName+e.getMessage());
@@ -91,7 +93,7 @@ public class SyncCacheServiceImpl implements SyncCacheService {
     @Override
     public boolean releaseLock(String lockName, int releaseLockTime) throws Exception {
         try {
-            redisUtil.expire(lockName, releaseLockTime);
+            redisTemplate.expire(lockName, AbstractConstant.RELEASE_LOCK_TIME, TimeUnit.SECONDS);
             log.info("释放redis锁:"+lockName+",成功");
         } catch (Exception e) {
             throw exceptionFactory.build(ResponseMsg.REDIS_RELEASE_LOCK_FAIL.getCode(),"释放redis锁失败:"+lockName+e.getMessage());
