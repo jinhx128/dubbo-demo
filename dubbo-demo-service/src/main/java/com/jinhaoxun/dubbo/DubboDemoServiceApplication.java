@@ -26,7 +26,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 //开启服务容错
 @EnableHystrix
 @EnableCaching
-@MapperScan({"com.jinhaoxun.dubbo.mapper"})
+@MapperScan({"com.jinhaoxun.dubbo.mapper.apply","com.jinhaoxun.dubbo.mapper.quartz","com.jinhaoxun.dubbo.mapper.shiro"})
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class DubboDemoServiceApplication {
     public static void main(String[] args) {
