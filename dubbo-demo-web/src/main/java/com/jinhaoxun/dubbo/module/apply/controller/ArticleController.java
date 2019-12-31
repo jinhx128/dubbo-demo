@@ -9,10 +9,12 @@ import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.authz.annotation.RequiresUser;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.Cacheable;
 
 import javax.annotation.Resource;
 
@@ -25,6 +27,7 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/article")
 @Api("文章接口")
+@CacheConfig(cacheNames = "article")
 public class ArticleController {
 
     @Resource
@@ -38,9 +41,8 @@ public class ArticleController {
      */
     @GetMapping(value = "/articlelist", produces = "application/json; charset=UTF-8")
     @ApiOperation("获取文章列表")
-    @CachePut(value = "userStatistics",key = "haha")
-    public String getArticleList(@Validated GetArticleListReq getArticleListReq) throws Exception {
-        return "rticleBusiness.getArticleList(getArticleListReq)";
+    public ResponseResult getArticleList(@Validated GetArticleListReq getArticleListReq) throws Exception {
+        return articleBusiness.getArticleList(getArticleListReq);
     }
 
     /**
@@ -65,6 +67,7 @@ public class ArticleController {
      */
     @DeleteMapping(value = "/article", produces = "application/json; charset=UTF-8")
     @ApiOperation("删除文章")
+    @CacheEvict(value = "info", key = "#deleteArticleReq.getArticleId()")
     public ResponseResult deleteArticle(@Validated @RequestBody DeleteArticleReq deleteArticleReq) throws Exception {
         return articleBusiness.deleteArticle(deleteArticleReq);
     }
@@ -76,11 +79,12 @@ public class ArticleController {
      * @return ResponseResult 成功提示信息
      * @throws Exception
      */
-    @RequiresRoles(logical = Logical.OR, value = {"user", "admin"})
-    @RequiresPermissions("A1")
-    @RequiresUser
+//    @RequiresRoles(logical = Logical.OR, value = {"user", "admin"})
+//    @RequiresPermissions("A1")
+//    @RequiresUser
     @PatchMapping(value = "/article", produces = "application/json; charset=UTF-8")
     @ApiOperation("更新文章")
+    @CachePut(value = "info", key = "#addArticleReq.getAuthorId()")
     public ResponseResult updateArticle(@Validated @RequestBody UpdateArticleReq updateArticleReq) throws Exception {
         return articleBusiness.updateArticle(updateArticleReq);
     }
@@ -94,6 +98,7 @@ public class ArticleController {
      */
     @GetMapping(value = "/article", produces = "application/json; charset=UTF-8")
     @ApiOperation("获取文章")
+    @Cacheable(value = "info", key = "#getArticleReq.getArticleId()")
     public ResponseResult getArticle(@Validated GetArticleReq getArticleReq) throws Exception {
         return articleBusiness.getArticle(getArticleReq);
     }
