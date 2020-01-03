@@ -92,6 +92,10 @@ public class RocketmqServiceImpl implements RocketmqService {
                 addMessageReq.getTag(),
                 (addMessageReq.getMessage()).getBytes(RemotingHelper.DEFAULT_CHARSET)
         );
+        //设置延迟消息，只能指定规定好的级别
+        //msg.setDelayTimeLevel(3);
+        //设置SQL过滤
+        msg.putUserProperty("i","5");
         //发送消息并返回结果
         SendResult sendResult = getRocketmqProducer.send(msg);
         log.info(sendResult.toString());

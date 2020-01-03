@@ -3,7 +3,9 @@ package com.jinhaoxun.dubbo.org.rocketmq;
 import com.jinhaoxun.dubbo.module.rocketmq.model.request.AddConsumerReq;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.consumer.MessageSelector;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
+import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -61,6 +63,8 @@ public class RocketmqConsumerFactory {
         setRocketmqConsumer();
         //订阅指定 Topic 下的所有消息
         defaultMQPushConsumer.subscribe(addConsumerReq.getTopic(), "*");
+        //设置SQL过滤
+        //defaultMQPushConsumer.subscribe(addConsumerReq.getTopic(), MessageSelector.bySql("i>5"));
         // 消费者对象在使用之前必须要调用 start 初始化
         defaultMQPushConsumer.start();
         log.info("Rocketmq消费者服务启动成功！");
@@ -81,6 +85,8 @@ public class RocketmqConsumerFactory {
         defaultMQPushConsumer.setConsumeThreadMin(consumeThreadMin);
         defaultMQPushConsumer.setConsumeThreadMax(consumeThreadMax);
         defaultMQPushConsumer.setVipChannelEnabled(false);
+        //设置消费模式，广播或负载均衡，默认为负载均衡
+        //defaultMQPushConsumer.setMessageModel(MessageModel.BROADCASTING);
         RocketmqMessageListener rocketmqMessageListener = new RocketmqMessageListener();
         //注册消息监听器
         defaultMQPushConsumer.registerMessageListener(rocketmqMessageListener);

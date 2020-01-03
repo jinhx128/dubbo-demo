@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <org.apache.rocketmq.version>4.3.2</org.apache.rocketmq.version>
+        <org.apache.rocketmq.version>4.6.0</org.apache.rocketmq.version>
         <org.webjars.sockjs-client.version>1.0.2</org.webjars.sockjs-client.version>
         <org.webjars.stomp-websocket.version>2.3.3</org.webjars.stomp-websocket.version>
         <spring-boot-starter-amqp.version>1.5.2.RELEASE</spring-boot-starter-amqp.version>
