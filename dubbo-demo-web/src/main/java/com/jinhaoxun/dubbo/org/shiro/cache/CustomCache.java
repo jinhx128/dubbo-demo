@@ -101,9 +101,8 @@ public class CustomCache<K,V> implements Cache<K,V> {
      */
     @Override
     public int size() {
-//        Long size = JedisUtil.getJedis().dbSize();
-//        return size.intValue();
-        return 1;
+        Long size = redisTemplate.ops;
+        return size.intValue();
     }
 
     /**
@@ -113,13 +112,12 @@ public class CustomCache<K,V> implements Cache<K,V> {
      */
     @Override
     public Set keys() {
-//        Set<byte[]> keys = redisTemplate.keys("*");
-//        Set<Object> set = new HashSet<Object>();
-//        for (byte[] bs : keys) {
-//            set.add(SerializerUtil.deserialize(bs));
-//        }
-//        return set;
-        return null;
+        Set<String> keys = redisTemplate.keys("*");
+        Set<Object> set = new HashSet<Object>();
+        for (String bs : keys) {
+            set.add(bs);
+        }
+        return set;
     }
 
     /**
@@ -129,14 +127,13 @@ public class CustomCache<K,V> implements Cache<K,V> {
      */
     @Override
     public Collection values() {
-//        Set keys = this.keys();
-//        List<Object> values = new ArrayList<Object>();
-//        for (Object key : keys) {
-//            JSONObject jsonObject = JSONObject.parseObject(redisTemplate.opsForSet().getOperations(this.getKey(key),String.class));
-//            AuthorizationInfo authorizationInfo = JSONObject.toJavaObject(jsonObject,AuthorizationInfo.class);
-//            values.add(authorizationInfo);
-//        }
-//        return values;
-        return null;
+        Set keys = this.keys();
+        List<Object> values = new ArrayList<Object>();
+        for (Object key : keys) {
+            JSONObject jsonObject = JSONObject.parseObject(String.valueOf(redisTemplate.opsForSet().members(this.getKey(key))));
+            AuthorizationInfo authorizationInfo = JSONObject.toJavaObject(jsonObject,AuthorizationInfo.class);
+            values.add(authorizationInfo);
+        }
+        return values;
     }
 }

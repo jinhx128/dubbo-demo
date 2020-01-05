@@ -90,17 +90,11 @@ threadPoolTaskExecutor:
 
 # 配置rocketmq
 rocketmq:
+  name-server: 47.101.135.160:9876
   producer:
-    groupname: serviceProducerGroup
-    maxmessagesize: 131072
-    sendmsgtimeout: 10000
-    # instanceName: 实例名
+    group: my-group
   consumer:
-    groupname: serviceConsumerGroup
-    topicname: service
-    consumethreadmin: 20
-    consumethreadmax: 64
-  namesrvaddr: 47.101.135.160:9876
+    grooup: my-group
 
 # 配置rabbitmq
 rabbitmq:
