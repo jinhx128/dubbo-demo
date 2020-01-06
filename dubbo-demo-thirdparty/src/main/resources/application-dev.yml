@@ -24,6 +24,14 @@ dubbo:
   provider:
     version: 1.0.0
 
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000 # 设置hystrix的超时时间为5000ms
+
 # spring相关
 spring:
   aop:

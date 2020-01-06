@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jinhaoxun.dubbo.constant.AbstractConstant;
 import com.jinhaoxun.dubbo.exception.ExceptionFactory;
+import com.jinhaoxun.dubbo.module.shiro.model.response.AddSessionResponse;
 import com.jinhaoxun.dubbo.po.shiro.User;
 import com.jinhaoxun.dubbo.module.shiro.model.request.*;
 import com.jinhaoxun.dubbo.response.ResponseFactory;
@@ -54,13 +55,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @author jinhaoxun
      * @description 进行登录
      * @param userLoginReq 登录信息参数
-     * @param response 请求响应体
      * @return ResponseResult 登录操作结果
      * @throws Exception
      */
     @HystrixCommand
     @Override
-    public ResponseResult addSession(UserLoginReq userLoginReq, HttpServletResponse response) throws Exception {
+    public ResponseResult addSession(UserLoginReq userLoginReq) throws Exception {
         Long userId;
         if(userLoginReq.getType().equals(AbstractConstant.USER_REGISTER_TYPE_PHONE)){
             String phone = userLoginReq.getPhone();
@@ -90,7 +90,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw exceptionFactory.build(ResponseMsg.ACCOUNT_IS_CANCELLED.getCode(),ResponseMsg.ACCOUNT_IS_CANCELLED.getMsg());
         }
         //验证成功后处理
-        this.loginSuccess(userId, realPassword, response);
+        //this.loginSuccess(userId, realPassword, response);
+        AddSessionResponse addSessionResponse = new AddSessionResponse();
+        addSessionResponse.setUserId(userId);
+        addSessionResponse.setRealPassword(realPassword);
         //获取用户推送消息
 /*        ResponseResult<List<Message>> responseResult = iMessageService.getSystemMessageByUserId(userId);
         if(responseResult.getData().size() > 0 ){
@@ -99,36 +102,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 iMessageService.sendSystemMessage((SystemMessage)listIterator.next());
             }
         }*/
-        return ResponseFactory.buildSuccessResponse("登录成功!");
-    }
-
-    /**
-     * @author jinhaoxun
-     * @description 登录后更新缓存，生成token，设置响应头部信息
-     * @param userId 用户id
-     * @param password 用户密码
-     * @param response 请求响应体
-     */
-    private void loginSuccess(Long userId, String password, HttpServletResponse response) {
-        // 清除可能存在的Shiro权限信息缓存
-        String tokenKey= AbstractConstant.SHIRO_ROLE_PERMISSION_KEY + userId;
-        if (redisTemplate.hasKey(tokenKey)) {
-            redisTemplate.delete(tokenKey);
-        }
-        //获取当前时间戳
-        String currentTimeMillis = String.valueOf(System.currentTimeMillis());
-
-        JSONObject json = new JSONObject();
-        //生成token
-        String token = JwtUtil.createToken(Long.toString(userId), password , currentTimeMillis);
-        json.put("token",token );
-        //更新RefreshToken缓存的时间戳
-        String refreshToken = AbstractConstant.REFRESH_TOKEN + userId;
-        redisTemplate.opsForValue().getAndSet(refreshToken, currentTimeMillis);
-        redisTemplate.expire(refreshToken, AbstractConstant.REFRESH_TOKEN_CHECK_EXPIRATION_TIME, TimeUnit.MILLISECONDS);
-        //写入header
-        response.setHeader(AbstractConstant.REQUEST_AUTH_HEADER, token);
-        response.setHeader("Access-Control-Expose-Headers", AbstractConstant.REQUEST_AUTH_HEADER);
+        return ResponseFactory.buildSuccessResponse(addSessionResponse);
     }
 
     /**
@@ -155,6 +129,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return ResponseResult 是否注册成功
      * @throws Exception
      */
+    @HystrixCommand
     @Override
     public ResponseResult addUser(UserRegisterReq userRegisterReq) throws Exception {
         User user = new User();
@@ -269,7 +244,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         String password = userMapper.selectPassword(userId);
         //验证成功后处理
-        this.loginSuccess(userId, password, response);
+        //this.loginSuccess(userId, password, response);
         redisTemplate.delete(userLogInCodeKey);
         //获取用户推送消息
 /*        ResponseResult<List<Message>> responseResult = iMessageService.getSystemMessageByUserId(userId);

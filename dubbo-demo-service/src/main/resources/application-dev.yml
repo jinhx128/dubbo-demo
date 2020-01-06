@@ -25,7 +25,15 @@ dubbo:
     version: 1.0.0 # 统一调用版本服务，实现灰度发布
     loadbalance: roundrobin # 负载均衡。random：权重随机，roundrobin：权重轮询，leastactive：速度最快优先，consistenthash：一致性哈希
   provider:
-    version: 1.0.0
+    version: 1.0.0 # 统一调用版本服务，实现灰度发布
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000 # 设置hystrix的超时时间为5000ms
 
 # 配置mybatis-plus
 mybatis-plus:

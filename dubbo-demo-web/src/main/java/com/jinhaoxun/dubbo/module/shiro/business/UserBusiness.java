@@ -1,14 +1,22 @@
 package com.jinhaoxun.dubbo.module.shiro.business;
 
+import com.jinhaoxun.dubbo.constant.AbstractConstant;
 import com.jinhaoxun.dubbo.module.shiro.model.request.*;
+import com.jinhaoxun.dubbo.module.shiro.model.response.AddSessionResponse;
 import com.jinhaoxun.dubbo.module.shiro.service.UserService;
 import com.jinhaoxun.dubbo.po.shiro.User;
+import com.jinhaoxun.dubbo.response.ResponseFactory;
 import com.jinhaoxun.dubbo.response.ResponseResult;
+import com.jinhaoxun.dubbo.util.requestutil.JwtUtil;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import net.sf.json.JSONObject;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description:
@@ -22,6 +30,9 @@ public class UserBusiness {
     @Reference
     private UserService userService;
 
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
+
     /**
      * @author jinhaoxun
      * @description 进行登录
@@ -32,7 +43,38 @@ public class UserBusiness {
      */
     @HystrixCommand(fallbackMethod = "addSessionFallBack")
     public ResponseResult addSession(UserLoginReq userLoginReq, HttpServletResponse response) throws Exception {
-        return userService.addSession(userLoginReq, response);
+        AddSessionResponse addSessionResponse = (AddSessionResponse) userService.addSession(userLoginReq).getData();
+        this.loginSuccess(addSessionResponse.getUserId(), addSessionResponse.getRealPassword(), response);
+        return ResponseFactory.buildSuccessResponse("登录成功!");
+    }
+
+    /**
+     * @author jinhaoxun
+     * @description 登录后更新缓存，生成token，设置响应头部信息
+     * @param userId 用户id
+     * @param password 用户密码
+     * @param response 请求响应体
+     */
+    private void loginSuccess(Long userId, String password, HttpServletResponse response) {
+        // 清除可能存在的Shiro权限信息缓存
+        String tokenKey= AbstractConstant.SHIRO_ROLE_PERMISSION_KEY + userId;
+        if (redisTemplate.hasKey(tokenKey)) {
+            redisTemplate.delete(tokenKey);
+        }
+        //获取当前时间戳
+        String currentTimeMillis = String.valueOf(System.currentTimeMillis());
+
+        JSONObject json = new JSONObject();
+        //生成token
+        String token = JwtUtil.createToken(Long.toString(userId), password , currentTimeMillis);
+        json.put("token",token );
+        //更新RefreshToken缓存的时间戳
+        String refreshToken = AbstractConstant.REFRESH_TOKEN + userId;
+        redisTemplate.opsForValue().getAndSet(refreshToken, currentTimeMillis);
+        redisTemplate.expire(refreshToken, AbstractConstant.REFRESH_TOKEN_CHECK_EXPIRATION_TIME, TimeUnit.MILLISECONDS);
+        //写入header
+        response.setHeader(AbstractConstant.REQUEST_AUTH_HEADER, token);
+        response.setHeader("Access-Control-Expose-Headers", AbstractConstant.REQUEST_AUTH_HEADER);
     }
 
     /**
@@ -56,8 +98,7 @@ public class UserBusiness {
      */
     @HystrixCommand(fallbackMethod = "addUserFallBack")
     public ResponseResult addUser(UserRegisterReq userRegisterReq) throws Exception {
-        ResponseResult responseResult = userService.addUser(userRegisterReq);
-        return responseResult;
+        return userService.addUser(userRegisterReq);
     }
 
     /**

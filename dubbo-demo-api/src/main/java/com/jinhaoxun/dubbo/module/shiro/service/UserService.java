@@ -19,11 +19,10 @@ public interface UserService extends IService<User> {
      * @author jinhaoxun
      * @description 进行登录
      * @param userLoginReq 登录信息参数
-     * @param response 请求响应体
      * @return ResponseResult 登录操作结果
      * @throws Exception
      */
-    ResponseResult addSession(UserLoginReq userLoginReq, HttpServletResponse response) throws Exception;
+    ResponseResult addSession(UserLoginReq userLoginReq) throws Exception;
 
     /**
      * @author jinhaoxun
