@@ -27,42 +27,6 @@ public class RocketmqController {
 
     /**
      * @author jinhaoxun
-     * @description 开启消费者
-     * @param addConsumerReq 消费者信息参数
-     * @return ResponseResult 成功提示信息
-     * @throws Exception
-     */
-    @PostMapping(value="/consumer", produces = "application/json; charset=UTF-8")
-    @ApiOperation("开启消费者")
-    public ResponseResult addConsumer(@Validated @RequestBody AddConsumerReq addConsumerReq) throws Exception {
-        return rocketmqBusiness.addConsumer(addConsumerReq);
-    }
-
-    /**
-     * @author jinhaoxun
-     * @description 关闭消费者
-     * @return ResponseResult 成功提示信息
-     */
-    @DeleteMapping(value="/consumer", produces = "application/json; charset=UTF-8")
-    @ApiOperation("关闭消费者")
-    public ResponseResult deleteConsumer(){
-        return rocketmqBusiness.deleteConsumer();
-    }
-
-    /**
-     * @author jinhaoxun
-     * @description 开启生产者
-     * @return ResponseResult 成功提示信息
-     * @throws Exception
-     */
-    @PostMapping(value="/producer", produces = "application/json; charset=UTF-8")
-    @ApiOperation("开启生产者")
-    public ResponseResult addProducer() throws Exception {
-        return rocketmqBusiness.addProducer();
-    }
-
-    /**
-     * @author jinhaoxun
      * @description 发送消息
      * @param addMessageReq 发送的消息
      * @return ResponseResult 成功提示信息
@@ -74,15 +38,5 @@ public class RocketmqController {
         return rocketmqBusiness.addMessage(addMessageReq);
     }
 
-    /**
-     * @author jinhaoxun
-     * @description 关闭生产者
-     * @return ResponseResult 成功提示信息
-     */
-    @DeleteMapping(value="/producer", produces = "application/json; charset=UTF-8")
-    @ApiOperation("关闭生产者")
-    public ResponseResult deleteProducer(){
-        return rocketmqBusiness.deleteProducer();
-    }
 }
 

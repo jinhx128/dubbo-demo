@@ -155,7 +155,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return ResponseResult 是否注册成功
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public ResponseResult addUser(UserRegisterReq userRegisterReq) throws Exception {
         User user = new User();

@@ -1,6 +1,7 @@
 package com.jinhaoxun.dubbo.org.sms;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
@@ -96,7 +97,7 @@ class SmsSenderUtil {
     	return calculateSigForTempl(accesskey, random, curTime, phoneNumbers);
     }
     
-    public JSONArray phoneNumbersToJSONArray(String nationCode, ArrayList<String> phoneNumbers) {
+    public JSONArray phoneNumbersToJSONArray(String nationCode, ArrayList<String> phoneNumbers) throws Exception {
         JSONArray tel = new JSONArray();
         int i = 0;
         do {
@@ -117,7 +118,7 @@ class SmsSenderUtil {
         return smsParams;
     }
     
-    public SmsSingleSenderResult jsonToSmsSingleSenderResult(JSONObject json) {
+    public SmsSingleSenderResult jsonToSmsSingleSenderResult(JSONObject json) throws Exception {
     	SmsSingleSenderResult result = new SmsSingleSenderResult();
     	
     	result.result = json.getInt("result");
@@ -130,7 +131,7 @@ class SmsSenderUtil {
     	return result;
     }
 
-    public SmsStatusPullCallbackResult jsonToSmsStatusPullCallbackrResult(JSONObject json) {
+    public SmsStatusPullCallbackResult jsonToSmsStatusPullCallbackrResult(JSONObject json) throws Exception {
     	SmsStatusPullCallbackResult result = new SmsStatusPullCallbackResult();
     	
     	result.result = json.getInt("result");
@@ -155,7 +156,7 @@ class SmsSenderUtil {
     	return result;
     }
     
-    public SmsVoiceVerifyCodeSenderResult jsonToSmsSingleVoiceSenderResult(JSONObject json) {
+    public SmsVoiceVerifyCodeSenderResult jsonToSmsSingleVoiceSenderResult(JSONObject json) throws Exception {
     	SmsVoiceVerifyCodeSenderResult result = new SmsVoiceVerifyCodeSenderResult();
     	result.result = json.getInt("result");
     	if (false == json.isNull("errmsg")) {

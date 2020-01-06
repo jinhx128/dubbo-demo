@@ -26,10 +26,10 @@ dubbo:
 
 # spring相关
 spring:
-  # aop:
-  #  auto: true # 开启spring aop
-  # cache:
-  #  type: redis # 指定spring缓存为redis
+  aop:
+    auto: true # 开启spring aop
+  cache:
+    type: redis # 指定spring缓存为redis
   thymeleaf:
     cache: false # 关闭thymeleaf缓存，开发时使用，否则没有实时画面
     check-template-location: true # 检查模板是否存在，然后再呈现
@@ -42,16 +42,11 @@ spring:
     suffix: .html # 构建URL时附加查看名称的后缀.
   # profiles:
   #  include: common,dao,service,redis,notify # 配置子模块yml文件
-  datasource: # 配置mysql
-    driver-class-name: com.mysql.cj.jdbc.Driver # mysql数据库驱动
-    password: root
-    url: jdbc:mysql://47.101.135.160:3306/apecome?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
-    username: root
   devtools: # spirng热部署
     restart:
       enabled: true # 设置开启热部署
-    freemarker:
-      cache: false # 页面不加载缓存，修改即时生效
+  freemarker:
+    cache: false # 页面不加载缓存，修改即时生效
   redis:
     database: 0 # redis 数据库索引（默认为0）
     host: 47.101.135.160

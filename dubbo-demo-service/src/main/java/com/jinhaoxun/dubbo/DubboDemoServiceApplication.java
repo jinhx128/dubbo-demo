@@ -27,11 +27,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableHystrix
 @EnableCaching
 @MapperScan({"com.jinhaoxun.dubbo.mapper.apply","com.jinhaoxun.dubbo.mapper.quartz","com.jinhaoxun.dubbo.mapper.shiro"})
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication
 public class DubboDemoServiceApplication {
     public static void main(String[] args) {
-        log.info("========================迈叽叽歪歪，担猛猛开始！========================");
+        log.info("======================== 迈叽叽歪歪，担猛猛开始！========================");
         SpringApplication.run(DubboDemoServiceApplication.class, args);
-        log.info("=========================兴死有神秀，无BUG哩！========================");
+        log.info("========================= 兴死有神秀，无BUG哩！========================");
     }
 }

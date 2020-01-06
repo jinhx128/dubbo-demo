@@ -68,8 +68,8 @@ spring:
   devtools: # spirng热部署
     restart:
       enabled: true # 设置开启热部署
-    freemarker:
-      cache: false # 页面不加载缓存，修改即时生效
+  freemarker:
+    cache: false # 页面不加载缓存，修改即时生效
   redis:
     database: 0 # redis 数据库索引（默认为0）
     host: 47.101.135.160

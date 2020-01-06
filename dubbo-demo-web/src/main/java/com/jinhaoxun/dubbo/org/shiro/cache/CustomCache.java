@@ -43,13 +43,12 @@ public class CustomCache<K,V> implements Cache<K,V> {
      */
     @Override
     public Object get(Object key) throws CacheException {
-//        if(!redisTemplate.hasKey(this.getKey(key))){
-//            return null;
-//        }
-//        JSONObject jsonObject = JSONObject.parseObject(JedisUtil.getObject(this.getKey(key),String.class));
-//        AuthorizationInfo authorizationInfo = JSONObject.toJavaObject(jsonObject,AuthorizationInfo.class);
-//        return authorizationInfo;
-        return null;
+        if(!redisTemplate.hasKey(this.getKey(key))){
+            return null;
+        }
+        JSONObject jsonObject = JSONObject.parseObject(redisTemplate.opsForValue().get(this.getKey(key)).toString());
+        AuthorizationInfo authorizationInfo = JSONObject.toJavaObject(jsonObject,AuthorizationInfo.class);
+        return authorizationInfo;
     }
 
     /**
@@ -101,8 +100,8 @@ public class CustomCache<K,V> implements Cache<K,V> {
      */
     @Override
     public int size() {
-        Long size = redisTemplate.ops;
-        return size.intValue();
+        Set<String> keys = redisTemplate.keys("*");
+        return keys.size();
     }
 
     /**

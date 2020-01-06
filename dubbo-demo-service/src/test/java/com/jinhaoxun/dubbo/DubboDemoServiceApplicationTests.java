@@ -7,21 +7,26 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cache.annotation.CachePut;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Slf4j
+// 让 JUnit 运行 Spring 的测试环境， 获得 Spring 环境的上下文的支持
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+// 获取启动类，加载配置，确定装载 Spring 程序的装载方法，它回去寻找 主配置启动类（被 @SpringBootApplication 注解的）
+@SpringBootTest(classes = DubboDemoServiceApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class DubboDemoServiceApplicationTests {
 
     @Autowired
-    RedisTemplate redisTemplate;
+    private TestRestTemplate restTemplate;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Test
     public void testEnumUtil() {
@@ -29,7 +34,6 @@ public class DubboDemoServiceApplicationTests {
     }
 
     @Test
-    @Async("taskExecutor")
     public void contextLoads() {
         log.info("测试中!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!{}");
         Date date = new Date();
@@ -39,7 +43,6 @@ public class DubboDemoServiceApplicationTests {
     }
 
     @Test
-    @Async("taskExecutor")
     public void test1() {
         // 10位的秒级别的时间戳
         long time1 = 1527767665;

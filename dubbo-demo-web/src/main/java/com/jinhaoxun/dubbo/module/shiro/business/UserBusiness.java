@@ -32,7 +32,7 @@ public class UserBusiness {
      */
     @HystrixCommand(fallbackMethod = "addSessionFallBack")
     public ResponseResult addSession(UserLoginReq userLoginReq, HttpServletResponse response) throws Exception {
-        return userService.addSession(userLoginReq,response);
+        return userService.addSession(userLoginReq, response);
     }
 
     /**
@@ -56,7 +56,8 @@ public class UserBusiness {
      */
     @HystrixCommand(fallbackMethod = "addUserFallBack")
     public ResponseResult addUser(UserRegisterReq userRegisterReq) throws Exception {
-        return userService.addUser(userRegisterReq);
+        ResponseResult responseResult = userService.addUser(userRegisterReq);
+        return responseResult;
     }
 
     /**

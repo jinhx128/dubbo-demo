@@ -5,16 +5,28 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Slf4j
+// 让 JUnit 运行 Spring 的测试环境， 获得 Spring 环境的上下文的支持
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+// 获取启动类，加载配置，确定装载 Spring 程序的装载方法，它回去寻找 主配置启动类（被 @SpringBootApplication 注解的）
+@SpringBootTest(classes = DubboDemoWebApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class DubboDemoWebApplicationTests {
+
+    @Autowired
+    private TestRestTemplate restTemplate;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Test
     public void testEnumUtil() {
@@ -41,6 +53,13 @@ public class DubboDemoWebApplicationTests {
         String time2 = "1515730332000d";
         String result2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Double.valueOf(time2));
         System.out.println(result2);
+    }
+
+    @Test
+    @Async("taskExecutor")
+    public void test2() {
+        redisTemplate.opsForValue().set("测试1","哈哈");
+        System.out.println(redisTemplate.opsForValue().get("测试1"));
     }
 
     @Before

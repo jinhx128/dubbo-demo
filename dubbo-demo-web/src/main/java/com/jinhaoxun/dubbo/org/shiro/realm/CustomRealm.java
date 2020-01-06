@@ -74,15 +74,15 @@ public class CustomRealm extends AuthorizingRealm {
         if (password == null) {
             throw new CustomRuntimeException(ResponseMsg.USER_NOT_EXIST.getCode(), "用户不存在", "用户不存在");
         }
-/*        // 开始认证，要 token 认证通过，且 Redis 中存在 refreshToken，且两个 token 时间戳一致
-        if (JwtUtil.verify(token,username,password) && jedisutil.exists(CONSTANT.REFRESH_TOKEN_KEY.getMsg() + username)) {
-            // 获取 refreshToken 的时间戳
-            String currentTimeMillisRedis = jedisutil.getJson(CONSTANT.REFRESH_TOKEN_KEY.getMsg() + username);
-            // 获取 token 时间戳，与 tefreshToken 的时间戳对比
-            if (JwtUtil.getClaim(token, "currentTimeMillis").equals(currentTimeMillisRedis)) {
-                return new SimpleAuthenticationInfo(token, token, "CustomRealm");
-            }
-        }*/
+        // 开始认证，要 token 认证通过，且 Redis 中存在 refreshToken，且两个 token 时间戳一致
+//        if (JwtUtil.verify(token,username,password) && jedisutil.exists(CONSTANT.REFRESH_TOKEN_KEY.getMsg() + username)) {
+//            // 获取 refreshToken 的时间戳
+//            String currentTimeMillisRedis = jedisutil.getJson(CONSTANT.REFRESH_TOKEN_KEY.getMsg() + username);
+//            // 获取 token 时间戳，与 tefreshToken 的时间戳对比
+//            if (JwtUtil.getClaim(token, "currentTimeMillis").equals(currentTimeMillisRedis)) {
+//                return new SimpleAuthenticationInfo(token, token, "CustomRealm");
+//            }
+//        }
         if (JwtUtil.verify(token,userId,password)) {
             return new SimpleAuthenticationInfo(token, token, getName());
         }
@@ -107,10 +107,8 @@ public class CustomRealm extends AuthorizingRealm {
         //获取该用户所有的权限
         Set<String> permissionSet = new HashSet<>();
         permissionSet = userPermissionService.selectPermissionSet(Long.valueOf(userId));
-        /*
-         * 需要将 role, permission 封装到 Set 作为 info.setRoles(), info.setStringPermissions() 的参数
-         * 设置该用户拥有的角色和权限
-         */
+        //需要将 role, permission 封装到 Set 作为 info.setRoles(), info.setStringPermissions() 的参数
+        //设置该用户拥有的角色和权限
         info.setRoles(roleSet);
         info.setStringPermissions(permissionSet);
         return info;

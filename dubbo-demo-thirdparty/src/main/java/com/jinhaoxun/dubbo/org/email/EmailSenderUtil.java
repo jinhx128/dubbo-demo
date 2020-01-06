@@ -1,5 +1,6 @@
 package com.jinhaoxun.dubbo.org.email;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
@@ -56,9 +57,8 @@ public class EmailSenderUtil {
         return conn;
 	}
   
-    public EmailSingleSenderResult jsonToSmsSingleSenderResult(JSONObject json) {
+    public EmailSingleSenderResult jsonToSmsSingleSenderResult(JSONObject json) throws Exception {
     	EmailSingleSenderResult result = new EmailSingleSenderResult();
-    	
     	result.result = json.getInt("result");
     	result.errmsg = json.getString("errmsg");
     	if (0 == result.result) {
