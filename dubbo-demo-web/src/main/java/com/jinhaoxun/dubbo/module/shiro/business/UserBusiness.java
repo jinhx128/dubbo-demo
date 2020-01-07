@@ -70,8 +70,8 @@ public class UserBusiness {
         json.put("token",token );
         //更新RefreshToken缓存的时间戳
         String refreshToken = AbstractConstant.REFRESH_TOKEN + userId;
-        redisTemplate.opsForValue().getAndSet(refreshToken, currentTimeMillis);
-        redisTemplate.expire(refreshToken, AbstractConstant.REFRESH_TOKEN_CHECK_EXPIRATION_TIME, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(refreshToken, currentTimeMillis);
+        redisTemplate.expire(refreshToken, AbstractConstant.REFRESH_TOKEN_CHECK_EXPIRATION_TIME, TimeUnit.SECONDS);
         //写入header
         response.setHeader(AbstractConstant.REQUEST_AUTH_HEADER, token);
         response.setHeader("Access-Control-Expose-Headers", AbstractConstant.REQUEST_AUTH_HEADER);
@@ -168,7 +168,9 @@ public class UserBusiness {
      */
     @HystrixCommand(fallbackMethod = "addCodeSessionFallBack")
     public ResponseResult addCodeSession(GetCodeReq getCodeReq, HttpServletResponse response) throws Exception {
-        return userService.addCodeSession(getCodeReq,response);
+        AddSessionResponse addSessionResponse = (AddSessionResponse) userService.addCodeSession(getCodeReq).getData();
+        this.loginSuccess(addSessionResponse.getUserId(), addSessionResponse.getRealPassword(), response);
+        return ResponseFactory.buildSuccessResponse("登录成功!");
     }
 
     /**

@@ -1,0 +1,4 @@
+# redis
+docker pull redis:4.0
+docker run -dit --name redis-4.0 -p 6379:6379 -v /usr/local/docker/redis/data:/data redis:4.0 redis-server --appendonly yes --requirepass "root"
+docker exec -it redis-4.0 bash

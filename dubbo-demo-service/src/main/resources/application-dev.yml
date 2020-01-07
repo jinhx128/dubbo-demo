@@ -11,6 +11,10 @@ dubbo:
     name: dubbo-demo-service
   registry:
     address: zookeeper://47.101.135.160:2180?backup=47.101.135.160:2181,47.101.135.160:2182 # 注册中心地址
+  config-center:
+    address: zookeeper://47.101.135.160:2180?backup=47.101.135.160:2181,47.101.135.160:2182 # 配置中心地址
+  metadata-report:
+    address: zookeeper://47.101.135.160:2180?backup=47.101.135.160:2181,47.101.135.160:2182 # 元数据中心地址
   # scan:
   #  base-packages: com.jinhaoxun.dubbod.service # 扫描提供服务的路径，启动类加上@EnableDubbo时，可以不需要这个
   protocol:
@@ -33,7 +37,14 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 5000 # 设置hystrix的超时时间为5000ms
+            timeoutInMilliseconds: 5000 # 设置hystrix的超时时间，默认1000ms
+      circuitBreaker:
+        enabled: true # 确定断路器是否用于跟踪运行状况和短路请求（如果跳闸）。默认true
+        sleepWindowInMilliseconds: 5000 # 熔断多少秒后去尝试请求，默认5s
+        errorThresholdPercentage: 50 # 失败率达到多少百分比后熔断，默认50%
+        requestVolumeThreshold: 20 # 熔断触发的最小个数/10s，默认20
+        forceOpen: false # 属性如果为真，强制断路器进入打开（跳闸）状态，其中它将拒绝所有请求。默认false，此属性优先于circuitBreaker.forceClosed
+        forceClosed: false # 该属性如果为真，则迫使断路器进入闭合状态，其中它将允许请求，而不考虑误差百分比。默认false，如果是强依赖，应该设置为true，circuitBreaker.forceOpen属性优先，因此如果forceOpen设置为true，此属性不执行任何操作。
 
 # 配置mybatis-plus
 mybatis-plus:

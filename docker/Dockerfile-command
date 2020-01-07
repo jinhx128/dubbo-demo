@@ -46,16 +46,6 @@ ENV PATH $JAVA_HOME/bin:$PATH
 EXPOSE 80
 EXPOSE 8443
 
-# redis
-docker run -dit --name redis-4.0 -p 6379:6379 -v /usr/local/docker/redis/data:/data redis:4.0 redis-server --appendonly yes --requirepass "root"
-docker exec -it redis-4.0 bash
-# mysql
-docker run -dit --name mysql-5.7 -p 3306:3306 -v /usr/local/docker/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root mysql:5.7
-docker exec -it mysql-5.7 bash
-# nginx
-docker run -dit --name nginx-1.16.1 -p 82:80 -p 8445:8443 -v /usr/local/docker/nginx/conf/nginx.conf:/etc/nginx/nginx.conf  -v /usr/local/docker/nginx/logs:/var/log/nginx -v /usr/local/docker/nginx/html:/etc/nginx/html -v /usr/local/docker/nginx/conf/2137274_apecome.top.key:/etc/nginx/2137274_apecome.top.key  -v /usr/local/docker/nginx/conf/2137274_apecome.top.pem:/etc/nginx/2137274_apecome.top.pem nginx:1.16.1
-
-
 
 FROM java:8
 MAINTAINER eangulee <eangulee@gmail.com>

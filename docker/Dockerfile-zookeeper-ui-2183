@@ -1,0 +1,11 @@
+FROM java:8
+MAINTAINER jinhaoxun
+VOLUME /tmp
+COPY zkui-2.0-SNAPSHOT-jar-with-dependencies.jar app.jar
+COPY config.cfg config.cfg
+RUN bash -c 'touch /app.jar'
+EXPOSE 2183
+ENTRYPOINT ["java", "-jar", "app.jar"]
+# docker build -t zookeeper-ui-2183 .
+# docker run -dit --name zookeeper-ui-2183 -p 2183:2183 zookeeper-ui-2183
+# admin manager

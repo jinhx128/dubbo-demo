@@ -63,11 +63,10 @@ public interface UserService extends IService<User> {
      * @author jinhaoxun
      * @description 验证码登录
      * @param getCodeReq 登录信息参数
-     * @param response 请求响应体
      * @return ResponseResult 登录操作结果
      * @throws Exception
      */
-    ResponseResult addCodeSession(GetCodeReq getCodeReq, HttpServletResponse response) throws Exception;
+    ResponseResult addCodeSession(GetCodeReq getCodeReq) throws Exception;
 
     /**
      * @author jinhaoxun

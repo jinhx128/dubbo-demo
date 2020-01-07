@@ -211,13 +211,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @author jinhaoxun
      * @description 验证码登录
      * @param getCodeReq 登录信息参数
-     * @param response 请求响应体
      * @return ResponseResult 登录操作结果
      * @throws Exception
      */
     @HystrixCommand
     @Override
-    public ResponseResult addCodeSession(GetCodeReq getCodeReq, HttpServletResponse response) throws Exception {
+    public ResponseResult addCodeSession(GetCodeReq getCodeReq) throws Exception {
         String userLogInCodeKey = AbstractConstant.USER_LOG_IN_CODE + getCodeReq.getEmail();
         if (!redisTemplate.hasKey(userLogInCodeKey)) {
             exceptionFactory.build(ResponseMsg.USER_LOG_IN_CODE_EXPIRATIONED.getCode(),ResponseMsg.USER_LOG_IN_CODE_EXPIRATIONED.getMsg());
@@ -245,13 +244,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String password = userMapper.selectPassword(userId);
         //验证成功后处理
         //this.loginSuccess(userId, password, response);
+        AddSessionResponse addSessionResponse = new AddSessionResponse();
+        addSessionResponse.setUserId(userId);
+        addSessionResponse.setRealPassword(password);
         redisTemplate.delete(userLogInCodeKey);
         //获取用户推送消息
 /*        ResponseResult<List<Message>> responseResult = iMessageService.getSystemMessageByUserId(userId);
         if(responseResult.getData().size() > 0 ){
             return ResponseFactory.buildSuccessResponse(responseResult.getData(),"登录成功!");
         }*/
-        return ResponseFactory.buildSuccessResponse("登录成功!");
+        return ResponseFactory.buildSuccessResponse(addSessionResponse);
     }
 
     /**
