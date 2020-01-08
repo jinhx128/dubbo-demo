@@ -1,5 +1,6 @@
 package com.jinhaoxun.dubbo.module.apply.controller;
 
+import com.jinhaoxun.dubbo.constant.AbstractConstant;
 import com.jinhaoxun.dubbo.module.apply.business.ArticleBusiness;
 import com.jinhaoxun.dubbo.module.apply.model.request.*;
 import com.jinhaoxun.dubbo.response.ResponseResult;
@@ -27,7 +28,6 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/article")
 @Api("文章接口")
-@CacheConfig(cacheNames = "hahahaaah")
 public class ArticleController {
 
     @Resource
@@ -67,7 +67,7 @@ public class ArticleController {
      */
     @DeleteMapping(value = "/article", produces = "application/json; charset=UTF-8")
     @ApiOperation("删除文章")
-    @CacheEvict(value = "info", key = "#deleteArticleReq.getArticleId()")
+    @CacheEvict(value = AbstractConstant.ARTICLE_INFO_CACHE_KEY, key = "#deleteArticleReq.getArticleId()")
     public ResponseResult deleteArticle(@Validated @RequestBody DeleteArticleReq deleteArticleReq) throws Exception {
         return articleBusiness.deleteArticle(deleteArticleReq);
     }
@@ -84,7 +84,7 @@ public class ArticleController {
 //    @RequiresUser
     @PatchMapping(value = "/article", produces = "application/json; charset=UTF-8")
     @ApiOperation("更新文章")
-    @CachePut(value = "info", key = "#addArticleReq.getAuthorId()")
+    @CachePut(value = AbstractConstant.ARTICLE_INFO_CACHE_KEY, key = "#updateArticleReq.getArticleId()")
     public ResponseResult updateArticle(@Validated @RequestBody UpdateArticleReq updateArticleReq) throws Exception {
         return articleBusiness.updateArticle(updateArticleReq);
     }
@@ -98,7 +98,7 @@ public class ArticleController {
      */
     @GetMapping(value = "/article", produces = "application/json; charset=UTF-8")
     @ApiOperation("获取文章")
-    @Cacheable(value = "info", key = "#getArticleReq.getArticleId()")
+    @Cacheable(value = AbstractConstant.ARTICLE_INFO_CACHE_KEY, key = "#getArticleReq.getArticleId()")
     public ResponseResult getArticle(@Validated GetArticleReq getArticleReq) throws Exception {
         return articleBusiness.getArticle(getArticleReq);
     }

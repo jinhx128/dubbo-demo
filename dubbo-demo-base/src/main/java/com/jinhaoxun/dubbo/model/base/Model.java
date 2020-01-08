@@ -10,10 +10,7 @@ import java.io.Serializable;
 * @date 2018年12月29日 下午8:39:23
  */
 public class Model implements Serializable {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	@Override

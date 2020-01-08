@@ -125,6 +125,10 @@ public abstract class AbstractConstant {
      * articleLabelId 文章标签ID
      */
     public static final String ARTICLE_LABEL_ID = "LABEL_ID";
+    /**
+     * 文字信息缓存 key 前缀
+     */
+    public static final String ARTICLE_INFO_CACHE_KEY = "article:info:cache";
 
 
     /************************           上传下载文件常量             *******************************/
