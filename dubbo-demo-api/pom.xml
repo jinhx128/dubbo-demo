@@ -3,19 +3,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.1.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.jinhaoxun</groupId>
+        <artifactId>dubbo-demo</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath/> <!-- 父工程的pom文件相对当前pom文件的路径 -->
     </parent>
-    <groupId>com.jinhaoxun</groupId>
+
     <artifactId>dubbo-demo-api</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>dubbo-demo-api</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Dubbo Demo API 工程</description>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
     </properties>
 
@@ -23,7 +25,7 @@
         <dependency>
             <groupId>com.jinhaoxun</groupId>
             <artifactId>dubbo-demo-base</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <!-- Dubbo Spring Boot Starter -->
         <dependency>
@@ -65,12 +67,6 @@
                     <artifactId>slf4j-log4j12</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <!-- 整合hystrix -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-            <version>2.2.0.RELEASE</version>
         </dependency>
     </dependencies>
 

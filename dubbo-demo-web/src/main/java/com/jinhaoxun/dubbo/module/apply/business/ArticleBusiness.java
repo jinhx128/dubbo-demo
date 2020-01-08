@@ -1,19 +1,11 @@
 package com.jinhaoxun.dubbo.module.apply.business;
 
 import com.jinhaoxun.dubbo.module.apply.model.request.*;
-import com.jinhaoxun.dubbo.module.apply.service.ArticleCommentService;
 import com.jinhaoxun.dubbo.module.apply.service.ArticleService;
 import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
 
 /**
  * @Description:
@@ -136,7 +128,7 @@ public class ArticleBusiness {
      * @return ResponseResult 是否获取成功
      * @throws Exception
      */
-    public ResponseResult getArticleFallBack(GetArticleReq getArticleReq) throws Exception {
-        return null;
+    public ResponseResult getArticleFallBack(GetArticleReq getArticleReq, Throwable e) throws Exception {
+        throw (Exception) e;
     }
 }

@@ -42,6 +42,10 @@ public enum ResponseMsg implements CodeEnum {
      * 缺少必要的参数
      */
     MISS_PARAM(100003  ,"缺少必要的参数"),
+    /**
+     * Hystrix 降级开启抛出异常
+     */
+    HYSTRIX_THROW_EXCEPTION(100004  ,"请求超时，请稍后重试"),
 
     /**************************           账号模块             *******************************/
     /**

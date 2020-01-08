@@ -9,10 +9,10 @@
         <relativePath/> <!-- 父工程的pom文件相对当前pom文件的路径 -->
     </parent>
 
-    <artifactId>dubbo-demo-thirdparty</artifactId>
+    <artifactId>dubbo-demo-service-article</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>dubbo-demo-thirdparty</name>
-    <description>Dubbo Demo Thirdparty 工程</description>
+    <name>dubbo-demo-service-article</name>
+    <description>Dubbo Demo Service Article 工程</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,12 +26,6 @@
             <artifactId>dubbo-demo-api</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
-        <!-- Json-数据源 -->
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20180813</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -44,6 +38,15 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <!-- src/main/java下的指定资源放行 -->
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 </project>

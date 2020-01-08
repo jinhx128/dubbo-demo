@@ -1,31 +1,14 @@
-# 打印详细信息日志
+  # 打印详细信息日志
 debug: true
 
 # http服务端口
-custom:
-  server:
-    http:
-      port: 6060
-
-# 开启https支持
 server:
-  http2:
-    enabled: true
-  port: 8443 # https服务端口
-  servlet:
-    context-path: /api # 接口统一前缀
-  ssl: # 指定ssl证书
-    key-store: classpath:javalsj.jks
-    key-store-password: 83e9j2By
-  undertow: # 配置 undertow 服务器
-    buffer-size: 512
-    io-threads: 2
-    worker-threads: 20
+  port: 6070
 
 # dubbo相关
 dubbo:
   application:
-    name: dubbo-demo-web
+    name: dubbo-demo-service-manager
   registry:
     address: zookeeper://47.101.135.160:2180?backup=47.101.135.160:2181,47.101.135.160:2182 # 注册中心地址
   config-center:
@@ -36,7 +19,7 @@ dubbo:
   #  base-packages: com.jinhaoxun.dubbod.service # 扫描提供服务的路径，启动类加上@EnableDubbo时，可以不需要这个
   protocol:
     name: dubbo
-    port: 20980 # 服务在dubbo中端口号
+    port: 20882 # 服务在dubbo中端口号
   monitor:
     protocol: registry # 自动注册dubbo的monitor
   consumer:
@@ -45,6 +28,8 @@ dubbo:
     retries: 1 # 调用失败重试次数，不包含第一次调用
     version: 1.0.0 # 统一调用版本服务，实现灰度发布
     loadbalance: roundrobin # 负载均衡。random：权重随机，roundrobin：权重轮询，leastactive：速度最快优先，consistenthash：一致性哈希
+  provider:
+    version: 1.0.0 # 统一调用版本服务，实现灰度发布
 
 hystrix:
   command:
@@ -60,6 +45,15 @@ hystrix:
         requestVolumeThreshold: 20 # 熔断触发的最小个数/10s，默认20
         forceOpen: false # 属性如果为真，强制断路器进入打开（跳闸）状态，其中它将拒绝所有请求。默认false，此属性优先于circuitBreaker.forceClosed
         forceClosed: false # 该属性如果为真，则迫使断路器进入闭合状态，其中它将允许请求，而不考虑误差百分比。默认false，如果是强依赖，应该设置为true，circuitBreaker.forceOpen属性优先，因此如果forceOpen设置为true，此属性不执行任何操作。
+
+# 配置mybatis-plus
+mybatis-plus:
+  # xml映射文件位置，衔接pom文件里面的resources配置扫描
+  mapper-locations: classpath*:com/jinhaoxun/dubbo/mapper/**/xml/*.xml
+  # type-aliases-package: com.jinhaoxun.accommon.pojo # 别名包扫描路径，通过该属性可以给包中的类注册别名
+  # configuration:
+  cache-enabled: true # 开启MybatisPlus 二级缓存，主要用来跟redis注解缓存使用
+  # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 开启MybatisPlus SQL日志打印
 
 # spring相关
 spring:
@@ -79,6 +73,11 @@ spring:
     suffix: .html # 构建URL时附加查看名称的后缀.
   # profiles:
   #  include: common,dao,service,redis,notify # 配置子模块yml文件
+  datasource: # 配置mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver # mysql数据库驱动
+    password: root
+    url: jdbc:mysql://47.101.135.160:3306/apecome?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+    username: root
   devtools: # spirng热部署
     restart:
       enabled: true # 设置开启热部署
@@ -108,6 +107,37 @@ threadPoolTaskExecutor:
   queueCapacity: 200
   threadNamePrefix: Async-Executor- # 线程名统一前缀
 
+# 配置rocketmq
+rocketmq:
+  # name-server: 47.101.135.160:9876;xxx
+  name-server: 47.101.135.160:9876
+  producer:
+    group: dubbo-demo-service-manager-producer-group
+  consumer:
+    group: dubbo-demo-service-manager-consumer-group
+
+# 配置rabbitmq
+rabbitmq:
+  host: 47.101.135.160
+  port: 15672
+  username: admin
+  password: admin
+  publisher-confirms: true
+  publisher-returns: true
+  virtual-host: /
+
+# 配置stomprabbitmq
+stomprabbitmq:
+  relayhost: 47.101.135.160
+  port: 61613
+
+# 文件上传，下载地址
+file:
+  upload:
+    path: D:/file/
+  download:
+    path: D:/file/
+
 # 打印日志统一根路径
 log:
-  file: D:/log/web
+  file: D:/log/service-manager

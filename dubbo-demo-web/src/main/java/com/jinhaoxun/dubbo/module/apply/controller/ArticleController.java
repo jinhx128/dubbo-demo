@@ -27,7 +27,7 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/article")
 @Api("文章接口")
-@CacheConfig(cacheNames = "article")
+@CacheConfig(cacheNames = "hahahaaah")
 public class ArticleController {
 
     @Resource

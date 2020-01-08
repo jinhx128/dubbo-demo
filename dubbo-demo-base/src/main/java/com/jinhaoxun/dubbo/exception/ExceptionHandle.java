@@ -3,6 +3,7 @@ package com.jinhaoxun.dubbo.exception;
 import com.jinhaoxun.dubbo.response.ResponseFactory;
 import com.jinhaoxun.dubbo.constant.ResponseMsg;
 import com.jinhaoxun.dubbo.response.ResponseResult;
+import com.netflix.hystrix.exception.HystrixRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -40,6 +41,11 @@ public class ExceptionHandle {
 			return ResponseFactory.buildCustomResponse(ResponseMsg.WRONG_PARAM.getCode(),
 					ResponseMsg.WRONG_PARAM.getMsg() + "："
 							+ ex.getBindingResult().getFieldError().getDefaultMessage(), null);
+		}else if(e instanceof HystrixRuntimeException) {
+			HystrixRuntimeException ex = (HystrixRuntimeException)e;
+			log.error("Hystrix降级异常：msg：" + ex.getMessage());
+			return ResponseFactory.buildCustomResponse(ResponseMsg.HYSTRIX_THROW_EXCEPTION.getCode(),
+					ResponseMsg.HYSTRIX_THROW_EXCEPTION.getMsg(), null);
 		}else{
 			log.error("统一系统异常：msg：" + e.getMessage(), e);
 			return ResponseFactory.buildCustomResponse(ResponseMsg.EXCEPTION.getCode(), ResponseMsg.EXCEPTION.getMsg(), null);

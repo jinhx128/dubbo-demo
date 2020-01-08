@@ -92,4 +92,4 @@ threadPoolTaskExecutor:
 
 # 打印日志统一根路径
 log:
-  file: D:/service/dubbo/log
+  file: D:/log/thirdparty
