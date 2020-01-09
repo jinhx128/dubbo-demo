@@ -1,5 +1,7 @@
 package com.jinhaoxun.dubbo.exception;
 
+import com.jinhaoxun.dubbo.model.action.ActionResponse;
+import com.jinhaoxun.dubbo.model.http.HttpResponse;
 import com.jinhaoxun.dubbo.response.ResponseFactory;
 import com.jinhaoxun.dubbo.constant.ResponseMsg;
 import com.jinhaoxun.dubbo.response.ResponseResult;
@@ -26,29 +28,29 @@ public class ExceptionHandle {
 	 * @return ResponseResult 返回给前端的错误信息提示
 	 */
 	@ExceptionHandler(value = Exception.class)
-	public ResponseResult handleException(Exception e){
+	public HttpResponse<ActionResponse> handleException(Exception e){
 		if(e instanceof CustomException) {
 			CustomException ex = (CustomException)e;
 			log.info("自定义业务异常：msg：" + ex.getMessage() + ",log：" + ex.getLog(), e);
-			return ResponseFactory.buildCustomResponse(ex.getCode(),ex.getMessage(), null);
+			return HttpResponse.build(ex.getCode(),ex.getMessage(), null);
 		}else if(e instanceof CustomRuntimeException) {
 			CustomRuntimeException ex = (CustomRuntimeException)e;
 			log.error("自定义运行时异常：msg：" + ex.getMessage() + ",log：" + ex.getLog(), e);
-			return ResponseFactory.buildCustomResponse(ex.getCode(),ex.getMessage(), null);
+			return HttpResponse.build(ex.getCode(),ex.getMessage(), null);
 		}else if(e instanceof BindException) {
 			BindException ex = (BindException)e;
 			log.error("参数校验异常：msg：" + ex.getBindingResult().getFieldError().getDefaultMessage());
-			return ResponseFactory.buildCustomResponse(ResponseMsg.WRONG_PARAM.getCode(),
+			return HttpResponse.build(ResponseMsg.WRONG_PARAM.getCode(),
 					ResponseMsg.WRONG_PARAM.getMsg() + "："
 							+ ex.getBindingResult().getFieldError().getDefaultMessage(), null);
 		}else if(e instanceof HystrixRuntimeException) {
 			HystrixRuntimeException ex = (HystrixRuntimeException)e;
 			log.error("Hystrix降级异常：msg：" + ex.getMessage());
-			return ResponseFactory.buildCustomResponse(ResponseMsg.HYSTRIX_THROW_EXCEPTION.getCode(),
+			return HttpResponse.build(ResponseMsg.HYSTRIX_THROW_EXCEPTION.getCode(),
 					ResponseMsg.HYSTRIX_THROW_EXCEPTION.getMsg(), null);
 		}else{
 			log.error("统一系统异常：msg：" + e.getMessage(), e);
-			return ResponseFactory.buildCustomResponse(ResponseMsg.EXCEPTION.getCode(), ResponseMsg.EXCEPTION.getMsg(), null);
+			return HttpResponse.build(ResponseMsg.EXCEPTION.getCode(), ResponseMsg.EXCEPTION.getMsg(), null);
 		}
 	}
 }

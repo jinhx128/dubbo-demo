@@ -2,7 +2,7 @@ package com.jinhaoxun.dubbo.module.shiro.controller;
 
 import com.jinhaoxun.dubbo.module.shiro.business.UserBusiness;
 import com.jinhaoxun.dubbo.module.shiro.model.request.*;
-import com.jinhaoxun.dubbo.po.shiro.User;
+import com.jinhaoxun.dubbo.pojo.shiro.User;
 import com.jinhaoxun.dubbo.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

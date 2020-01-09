@@ -4,7 +4,7 @@ import com.jinhaoxun.dubbo.constant.AbstractConstant;
 import com.jinhaoxun.dubbo.module.shiro.model.request.*;
 import com.jinhaoxun.dubbo.module.shiro.model.response.AddSessionResponse;
 import com.jinhaoxun.dubbo.module.shiro.service.UserService;
-import com.jinhaoxun.dubbo.po.shiro.User;
+import com.jinhaoxun.dubbo.pojo.shiro.User;
 import com.jinhaoxun.dubbo.response.ResponseFactory;
 import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.jinhaoxun.dubbo.util.requestutil.JwtUtil;

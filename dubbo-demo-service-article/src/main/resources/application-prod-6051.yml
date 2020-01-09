@@ -8,14 +8,18 @@ server:
 # dubbo相关
 dubbo:
   application:
-    name: dubbo-demo-service
+    name: dubbo-demo-service-article
   registry:
     address: zookeeper://47.101.135.160:2180?backup=47.101.135.160:2181,47.101.135.160:2182 # 注册中心地址
+  config-center:
+    address: zookeeper://47.101.135.160:2180?backup=47.101.135.160:2181,47.101.135.160:2182 # 配置中心地址
+  metadata-report:
+    address: zookeeper://47.101.135.160:2180?backup=47.101.135.160:2181,47.101.135.160:2182 # 元数据中心地址
   # scan:
   #  base-packages: com.jinhaoxun.dubbod.service # 扫描提供服务的路径，启动类加上@EnableDubbo时，可以不需要这个
   protocol:
     name: dubbo
-    port: 20811 # 服务在dubbo中端口号
+    port: 20812 # 服务在dubbo中端口号
   monitor:
     protocol: registry # 自动注册dubbo的monitor
   consumer:
@@ -25,7 +29,22 @@ dubbo:
     version: 1.0.0 # 统一调用版本服务，实现灰度发布
     loadbalance: roundrobin # 负载均衡。random：权重随机，roundrobin：权重轮询，leastactive：速度最快优先，consistenthash：一致性哈希
   provider:
-    version: 1.0.0
+    version: 1.0.0 # 统一调用版本服务，实现灰度发布
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000 # 设置hystrix的超时时间，默认1000ms
+      circuitBreaker:
+        enabled: true # 确定断路器是否用于跟踪运行状况和短路请求（如果跳闸）。默认true
+        sleepWindowInMilliseconds: 5000 # 熔断多少秒后去尝试请求，默认5s
+        errorThresholdPercentage: 50 # 失败率达到多少百分比后熔断，默认50%
+        requestVolumeThreshold: 20 # 熔断触发的最小个数/10s，默认20
+        forceOpen: false # 属性如果为真，强制断路器进入打开（跳闸）状态，其中它将拒绝所有请求。默认false，此属性优先于circuitBreaker.forceClosed
+        forceClosed: false # 该属性如果为真，则迫使断路器进入闭合状态，其中它将允许请求，而不考虑误差百分比。默认false，如果是强依赖，应该设置为true，circuitBreaker.forceOpen属性优先，因此如果forceOpen设置为true，此属性不执行任何操作。
 
 # 配置mybatis-plus
 mybatis-plus:
@@ -33,15 +52,15 @@ mybatis-plus:
   mapper-locations: classpath*:com/jinhaoxun/dubbo/mapper/**/xml/*.xml
   # type-aliases-package: com.jinhaoxun.accommon.pojo # 别名包扫描路径，通过该属性可以给包中的类注册别名
   # configuration:
-  #  cache-enabled: true # 开启MybatisPlus 二级缓存，主要用来跟redis注解缓存使用
+  cache-enabled: true # 开启MybatisPlus 二级缓存，主要用来跟redis注解缓存使用
   # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 开启MybatisPlus SQL日志打印
 
 # spring相关
 spring:
-  # aop:
-  #  auto: true # 开启spring aop
-  # cache:
-  #  type: redis # 指定spring缓存为redis
+  aop:
+    auto: true # 开启spring aop
+  cache:
+    type: redis # 指定spring缓存为redis
   thymeleaf:
     cache: false # 关闭thymeleaf缓存，开发时使用，否则没有实时画面
     check-template-location: true # 检查模板是否存在，然后再呈现
@@ -70,8 +89,8 @@ spring:
     password: root # redis 服务器连接密码（默认为空）
     port: 6379
     timeout: 12000  # 连接超时时间（毫秒），默认2000ms
-      # cluster:
-      # nodes: 192.168.211.134:7000,192.168.211.134:7001,192.168.211.134:7002
+    # cluster:
+    # nodes: 192.168.211.134:7000,192.168.211.134:7001,192.168.211.134:7002
     # maxRedirects: 6
     jedis:
       pool:
@@ -90,17 +109,12 @@ threadPoolTaskExecutor:
 
 # 配置rocketmq
 rocketmq:
+  # name-server: 47.101.135.160:9876;xxx
+  name-server: 47.101.135.160:9876
   producer:
-    groupname: serviceProducerGroup
-    maxmessagesize: 131072
-    sendmsgtimeout: 10000
-    # instanceName: 实例名
+    group: dubbo-demo-service-article-producer-group
   consumer:
-    groupname: serviceConsumerGroup
-    topicname: service
-    consumethreadmin: 20
-    consumethreadmax: 64
-  namesrvaddr: 47.101.135.160:9876
+    group: dubbo-demo-service-article-consumer-group
 
 # 配置rabbitmq
 rabbitmq:
@@ -117,13 +131,6 @@ stomprabbitmq:
   relayhost: 47.101.135.160
   port: 61613
 
-# 文件上传，下载地址
-file:
-  upload:
-    path: /usr/local/docker/dubbo/file/
-  download:
-    path: /usr/local/docker/dubbo/file/
-
 # 打印日志统一根路径
 log:
-  file: /usr/local/docker/dubbo/log/dubbo-service-6051/
+  file: /usr/local/service/log/dubbo-demo-service-article/6051/

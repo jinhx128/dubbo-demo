@@ -1,7 +1,7 @@
 package com.jinhaoxun.dubbo.module.shiro;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jinhaoxun.dubbo.po.shiro.Role;
+import com.jinhaoxun.dubbo.pojo.shiro.Role;
 import com.jinhaoxun.dubbo.mapper.shiro.RoleMapper;
 import com.jinhaoxun.dubbo.module.shiro.service.RoleService;
 import org.springframework.stereotype.Component;

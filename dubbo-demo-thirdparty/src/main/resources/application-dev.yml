@@ -19,7 +19,7 @@ dubbo:
   #  base-packages: com.jinhaoxun.dubbod.service # 扫描提供服务的路径，启动类加上@EnableDubbo时，可以不需要这个
   protocol:
     name: dubbo
-    port: 20880 # 服务在dubbo中端口号
+    port: 20800 # 服务在dubbo中端口号
   monitor:
     protocol: registry # 自动注册dubbo的monitor
   consumer:

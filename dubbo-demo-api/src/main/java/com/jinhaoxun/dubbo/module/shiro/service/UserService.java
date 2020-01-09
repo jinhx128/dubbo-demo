@@ -1,11 +1,9 @@
 package com.jinhaoxun.dubbo.module.shiro.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.jinhaoxun.dubbo.po.shiro.User;
+import com.jinhaoxun.dubbo.pojo.shiro.User;
 import com.jinhaoxun.dubbo.module.shiro.model.request.*;
 import com.jinhaoxun.dubbo.response.ResponseResult;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @version 1.0

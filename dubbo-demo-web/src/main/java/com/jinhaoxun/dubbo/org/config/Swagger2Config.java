@@ -50,9 +50,9 @@ public class Swagger2Config {
                 .apiInfo(apiInfo())
                 .select()
                 //此处添加需要扫描接口的包路径
-                .apis(basePackage("com.jinhaoxun.dubbo.module.apply.controller" + SPLITOR
+                .apis(basePackage("com.jinhaoxun.dubbo.module.article.controller" + SPLITOR
                         + "com.jinhaoxun.dubbo.module.quartz.controller" + SPLITOR
-                        + "com.jinhaoxun.dubbo.module.rocketmqr.controller" + SPLITOR
+                        + "com.jinhaoxun.dubbo.module.rocketmq.controller" + SPLITOR
                         + "com.jinhaoxun.dubbo.module.rabbitmq.controller" + SPLITOR
                         + "com.jinhaoxun.dubbo.module.shiro.controller" + SPLITOR
                         + "com.jinhaoxun.dubbo.module.file.controller" + SPLITOR

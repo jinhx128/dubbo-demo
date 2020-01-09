@@ -1,7 +1,7 @@
 package com.jinhaoxun.dubbo.mapper.shiro;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jinhaoxun.dubbo.po.shiro.UserPermission;
+import com.jinhaoxun.dubbo.pojo.shiro.UserPermission;
 
 import java.util.Set;
 

@@ -3,7 +3,7 @@
 <mapper namespace="com.jinhaoxun.dubbo.mapper.shiro.PermissionMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.jinhaoxun.dubbo.po.shiro.Permission">
+    <resultMap id="BaseResultMap" type="com.jinhaoxun.dubbo.pojo.shiro.Permission">
         <id column="PERMISSION_ID" property="permissionId" />
         <result column="NAME" property="name" />
         <result column="TYPE" property="type" />

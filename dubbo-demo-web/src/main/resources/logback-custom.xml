@@ -98,7 +98,7 @@
     </logger>
 
     <!-- 设置包打印日志级别 -->
-    <logger name= "com.jinhaoxun.acdao.applymapper" level="TRACE" />
+    <logger name= "com.jinhaoxun.acdao.articlemapper" level="TRACE" />
     <logger name= "com.jinhaoxun.acdao.shiromapper" level="TRACE" />
     <logger name= "com.jinhaoxun.acdao.quartzmapper" level="TRACE" />
 

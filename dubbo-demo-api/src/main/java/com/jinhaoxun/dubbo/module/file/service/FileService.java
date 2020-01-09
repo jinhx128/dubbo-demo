@@ -1,6 +1,7 @@
 package com.jinhaoxun.dubbo.module.file.service;
 
 import com.jinhaoxun.dubbo.module.file.model.request.*;
+import com.jinhaoxun.dubbo.module.file.model.response.ResolveExcelServiceRes;
 import com.jinhaoxun.dubbo.response.ResponseResult;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,11 +18,11 @@ public interface FileService {
     /**
      * @author jinhaoxun
      * @description 上传文件
-     * @param uploadFileReq 上传文件参数
-     * @return ResponseResult 上传结果
+     * @param uploadFileServiceReq 上传文件参数
+     * @return
      * @throws Exception
      */
-    ResponseResult uploadFile(UploadFileReq uploadFileReq) throws Exception;
+    void uploadFile(UploadFileServiceReq uploadFileServiceReq) throws Exception;
 
     /**
      * @author jinhaoxun
@@ -36,17 +37,17 @@ public interface FileService {
      * @author jinhaoxun
      * @description 解析Excel
      * @param multipartFile 要解析的文件
-     * @return ResponseResult 解析后的数据
+     * @return ResolveExcelServiceRes 解析后的数据
      * @throws Exception
      */
-    ResponseResult resolveExcel(MultipartFile multipartFile) throws Exception;
+    ResolveExcelServiceRes resolveExcel(MultipartFile multipartFile) throws Exception;
 
     /**
      * @author jinhaoxun
      * @description 导出Excel
-     * @return ResponseResult 创建结果
+     * @return
      * @throws Exception
      */
-    ResponseResult createExcel() throws Exception;
+    void createExcel() throws Exception;
 
 }

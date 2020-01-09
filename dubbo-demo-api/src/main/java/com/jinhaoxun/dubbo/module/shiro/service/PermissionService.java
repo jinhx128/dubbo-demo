@@ -1,7 +1,7 @@
 package com.jinhaoxun.dubbo.module.shiro.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.jinhaoxun.dubbo.po.shiro.Permission;
+import com.jinhaoxun.dubbo.pojo.shiro.Permission;
 
 /**
  * @version 1.0

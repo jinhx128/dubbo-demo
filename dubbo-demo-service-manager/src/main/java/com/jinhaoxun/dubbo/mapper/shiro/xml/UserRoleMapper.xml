@@ -3,7 +3,7 @@
 <mapper namespace="com.jinhaoxun.dubbo.mapper.shiro.UserRoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.jinhaoxun.dubbo.po.shiro.UserRole">
+    <resultMap id="BaseResultMap" type="com.jinhaoxun.dubbo.pojo.shiro.UserRole">
         <id column="USER_ROLE_ID" property="userRoleId" />
         <result column="CODE" property="code" />
         <result column="USER_ID" property="userId" />

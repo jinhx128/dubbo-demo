@@ -3,7 +3,7 @@
 <mapper namespace="com.jinhaoxun.dubbo.mapper.quartz.TaskMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.jinhaoxun.dubbo.po.quartz.Task">
+    <resultMap id="BaseResultMap" type="com.jinhaoxun.dubbo.pojo.quartz.Task">
         <id column="TASK_ID" property="taskId" />
         <result column="TYPE" property="type" />
         <result column="PARAMS" property="params" />

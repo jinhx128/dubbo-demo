@@ -1,7 +1,7 @@
 package com.jinhaoxun.dubbo.module.shiro;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jinhaoxun.dubbo.po.shiro.UserPermission;
+import com.jinhaoxun.dubbo.pojo.shiro.UserPermission;
 import com.jinhaoxun.dubbo.mapper.shiro.UserPermissionMapper;
 import com.jinhaoxun.dubbo.module.shiro.service.UserPermissionService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;

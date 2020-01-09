@@ -1,7 +1,7 @@
 package com.jinhaoxun.dubbo.module.quartz;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jinhaoxun.dubbo.po.quartz.Task;
+import com.jinhaoxun.dubbo.pojo.quartz.Task;
 import com.jinhaoxun.dubbo.response.ResponseFactory;
 import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.jinhaoxun.dubbo.mapper.quartz.TaskMapper;

@@ -1,7 +1,7 @@
 package com.jinhaoxun.dubbo.mapper.shiro;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jinhaoxun.dubbo.po.shiro.Role;
+import com.jinhaoxun.dubbo.pojo.shiro.Role;
 
 /**
  * @version 1.0

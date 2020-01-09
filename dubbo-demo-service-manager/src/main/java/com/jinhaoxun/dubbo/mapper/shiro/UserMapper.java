@@ -1,7 +1,7 @@
 package com.jinhaoxun.dubbo.mapper.shiro;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jinhaoxun.dubbo.po.shiro.User;
+import com.jinhaoxun.dubbo.pojo.shiro.User;
 import org.apache.ibatis.annotations.Param;
 
 /**

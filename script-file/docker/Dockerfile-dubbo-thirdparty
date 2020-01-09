@@ -1,7 +1,7 @@
 FROM java:8
 MAINTAINER jinhaoxun
 VOLUME /tmp
-COPY dubbo-demo-thirdparty-1.0.0.jar app.jar
+COPY dubbo-demo-thirdparty-1.0.0-SNAPSHOT.jar app.jar
 RUN bash -c 'touch /app.jar'
 EXPOSE 6040
 EXPOSE 6041
@@ -9,6 +9,6 @@ EXPOSE 6042
 ENV PROFILES="prod-6040"
 ENTRYPOINT ["sh","-c","java -jar app.jar --spring.profiles.active=$PROFILES "]
 # docker build -t dubbo-demo-thirdparty .
-# docker run -dit --name dubbo-demo-thirdparty-6040 -v /usr/local/docker/dubbo/log/dubbo-thirdparty-6040/:/usr/local/service/log/dubbo-demo-thirdparty/ -p 6040:6040 -e PROFILES="prod-6040" dubbo-demo-thirdparty
-# docker run -dit --name dubbo-demo-thirdparty-6041 -v /usr/local/docker/dubbo/log/dubbo-thirdparty-6041/:/usr/local/service/log/dubbo-demo-thirdparty/ -p 6041:6041 -e PROFILES="prod-6041" dubbo-demo-thirdparty
-# docker run -dit --name dubbo-demo-thirdparty-6042 -v /usr/local/docker/dubbo/log/dubbo-thirdparty-6042/:/usr/local/service/log/dubbo-demo-thirdparty/ -p 6042:6042 -e PROFILES="prod-6042" dubbo-demo-thirdparty
+# docker run -dit --name dubbo-demo-thirdparty-6040 -v /usr/local/docker/dubbo/log/dubbo-thirdparty-6040/:/usr/local/service/log/dubbo-demo-thirdparty/6040/ -p 6040:6040 -e PROFILES="prod-6040" dubbo-demo-thirdparty
+# docker run -dit --name dubbo-demo-thirdparty-6041 -v /usr/local/docker/dubbo/log/dubbo-thirdparty-6041/:/usr/local/service/log/dubbo-demo-thirdparty/6041/ -p 6041:6041 -e PROFILES="prod-6041" dubbo-demo-thirdparty
+# docker run -dit --name dubbo-demo-thirdparty-6042 -v /usr/local/docker/dubbo/log/dubbo-thirdparty-6042/:/usr/local/service/log/dubbo-demo-thirdparty/6041/ -p 6042:6042 -e PROFILES="prod-6042" dubbo-demo-thirdparty

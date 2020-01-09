@@ -1,7 +1,7 @@
 package com.jinhaoxun.dubbo.mapper.quartz;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jinhaoxun.dubbo.po.quartz.Task;
+import com.jinhaoxun.dubbo.pojo.quartz.Task;
 
 import java.util.List;
 

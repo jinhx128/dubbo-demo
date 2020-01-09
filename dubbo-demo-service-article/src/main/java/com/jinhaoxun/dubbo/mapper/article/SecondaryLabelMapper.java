@@ -1,0 +1,14 @@
+package com.jinhaoxun.dubbo.mapper.article;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.jinhaoxun.dubbo.pojo.article.SecondaryLabel;
+
+/**
+ * @version 1.0
+ * @author jinhaoxun
+ * @date 2018-05-09
+ * @description 二级标签Mapper接口
+ */
+public interface SecondaryLabelMapper extends BaseMapper<SecondaryLabel> {
+
+}

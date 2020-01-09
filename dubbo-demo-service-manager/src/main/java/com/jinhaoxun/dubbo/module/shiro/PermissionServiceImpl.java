@@ -1,7 +1,7 @@
 package com.jinhaoxun.dubbo.module.shiro;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jinhaoxun.dubbo.po.shiro.Permission;
+import com.jinhaoxun.dubbo.pojo.shiro.Permission;
 import com.jinhaoxun.dubbo.mapper.shiro.PermissionMapper;
 import com.jinhaoxun.dubbo.module.shiro.service.PermissionService;
 import org.springframework.stereotype.Component;

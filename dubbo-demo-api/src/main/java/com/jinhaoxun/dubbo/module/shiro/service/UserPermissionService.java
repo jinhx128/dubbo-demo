@@ -1,7 +1,7 @@
 package com.jinhaoxun.dubbo.module.shiro.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.jinhaoxun.dubbo.po.shiro.UserPermission;
+import com.jinhaoxun.dubbo.pojo.shiro.UserPermission;
 
 import java.util.Set;
 

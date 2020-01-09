@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jinhaoxun.dubbo.constant.AbstractConstant;
 import com.jinhaoxun.dubbo.exception.ExceptionFactory;
 import com.jinhaoxun.dubbo.module.shiro.model.response.AddSessionResponse;
-import com.jinhaoxun.dubbo.po.shiro.User;
+import com.jinhaoxun.dubbo.pojo.shiro.User;
 import com.jinhaoxun.dubbo.module.shiro.model.request.*;
 import com.jinhaoxun.dubbo.response.ResponseFactory;
 import com.jinhaoxun.dubbo.constant.ResponseMsg;

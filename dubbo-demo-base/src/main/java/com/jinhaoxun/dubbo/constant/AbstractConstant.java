@@ -66,7 +66,7 @@ public abstract class AbstractConstant {
      */
     public static final String USER_LOG_IN_CODE = "userLogInCode:";
 
-    /**************************           apply权限常量             *******************************/
+    /**************************           权限常量             *******************************/
 
     /**
      * userRegisterTypePhone 用户注册类型（手机）
@@ -100,7 +100,7 @@ public abstract class AbstractConstant {
     public static final String UPDATER_ID = "UPDATER_ID";
 
 
-    /**************************           apply实体常量             *******************************/
+    /**************************           article实体常量             *******************************/
     /**
      * articlePrimaryCode 文章一级标签码
      */

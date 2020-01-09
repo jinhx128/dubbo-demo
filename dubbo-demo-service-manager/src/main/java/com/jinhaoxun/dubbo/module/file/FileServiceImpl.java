@@ -5,6 +5,7 @@ import com.jinhaoxun.dubbo.constant.AbstractConstant;
 import com.jinhaoxun.dubbo.exception.ExceptionFactory;
 import com.jinhaoxun.dubbo.module.file.model.response.ExportExcelTest;
 import com.jinhaoxun.dubbo.module.file.model.request.*;
+import com.jinhaoxun.dubbo.module.file.model.response.ResolveExcelServiceRes;
 import com.jinhaoxun.dubbo.response.ResponseFactory;
 import com.jinhaoxun.dubbo.constant.ResponseMsg;
 import com.jinhaoxun.dubbo.response.ResponseResult;
@@ -50,20 +51,20 @@ public class FileServiceImpl implements FileService {
     /**
      * @author jinhaoxun
      * @description 上传文件
-     * @param uploadFileReq 上传文件参数
-     * @return ResponseResult 上传结果
+     * @param uploadFileServiceReq 上传文件参数
+     * @return
      * @throws Exception
      */
     @HystrixCommand
     @Override
-    public ResponseResult uploadFile(UploadFileReq uploadFileReq) throws Exception {
-        if (uploadFileReq.getMultipartFile() == null ) {
+    public void uploadFile(UploadFileServiceReq uploadFileServiceReq) throws Exception {
+        if (uploadFileServiceReq.getMultipartFile() == null ) {
             throw exceptionFactory.build(ResponseMsg.UPLOAD_FILE_NULL.getCode(),(ResponseMsg.UPLOAD_FILE_NULL.getMsg()));
         }
-        int size = uploadFileReq.getMultipartFile().length;
+        int size = uploadFileServiceReq.getMultipartFile().length;
         for(int i = 0 ; i<size ;i++){
-            String filename = uploadFileReq.getMultipartFile()[i].getOriginalFilename();
-            long fileSize = uploadFileReq.getMultipartFile()[i].getSize();
+            String filename = uploadFileServiceReq.getMultipartFile()[i].getOriginalFilename();
+            long fileSize = uploadFileServiceReq.getMultipartFile()[i].getSize();
             log.info("开始上传文件，文件名称:{}，文件大小:{}",filename,fileSize);
             String url = fileUploadPath + IdUtil.getId() + filename;
             File dest = new File(url);
@@ -72,10 +73,9 @@ public class FileServiceImpl implements FileService {
                 dest.getParentFile().mkdir();
             }
             //保存文件
-            uploadFileReq.getMultipartFile()[i].transferTo(dest);
+            uploadFileServiceReq.getMultipartFile()[i].transferTo(dest);
             log.info("文件上传成功！");
         }
-        return ResponseFactory.buildSuccessResponse("上传文件成功！");
     }
 
     /**
@@ -139,12 +139,12 @@ public class FileServiceImpl implements FileService {
      * @author jinhaoxun
      * @description 解析Excel
      * @param multipartFile 要解析的文件
-     * @return ResponseResult 解析后的数据
+     * @return ResolveExcelServiceRes 解析后的数据
      * @throws Exception
      */
     @HystrixCommand
     @Override
-    public ResponseResult resolveExcel(MultipartFile multipartFile) throws Exception {
+    public ResolveExcelServiceRes resolveExcel(MultipartFile multipartFile) throws Exception {
         List<String[]> valueList = ExcelUtil.readExcel(multipartFile.getInputStream(), exceptionFactory, multipartFile.getOriginalFilename());
         List<JSONObject> paramList = new ArrayList<>((valueList.size() * 4) / 3);
         log.info("开始解析Excel...");
@@ -160,18 +160,20 @@ public class FileServiceImpl implements FileService {
             paramList.add(rowValueJson);
         }
         log.info("解析Excel成功！");
-        return ResponseFactory.buildSuccessResponse(paramList,"Excel解析成功！");
+        ResolveExcelServiceRes resolveExcelServiceRes = new ResolveExcelServiceRes();
+        resolveExcelServiceRes.setParamList(paramList);
+        return resolveExcelServiceRes;
     }
 
     /**
      * @author jinhaoxun
      * @description 导出Excel
-     * @return ResponseResult 创建结果
+     * @return
      * @throws Exception
      */
     @HystrixCommand
     @Override
-    public ResponseResult createExcel() throws Exception {
+    public void createExcel() throws Exception {
         log.info("开始创建Excel...");
         //数据
         List<ExportExcelTest> exportExcelTestList = createExcelData();
@@ -189,12 +191,11 @@ public class FileServiceImpl implements FileService {
         InputStream is = new ByteArrayInputStream(barray);
         MultipartFile multipartFile = new MockMultipartFile("测试文件.xls","测试文件.xls","",is);
 
-        UploadFileReq uploadFileReq = new UploadFileReq();
+        UploadFileServiceReq uploadFileReq = new UploadFileServiceReq();
         MultipartFile[] multipartFiles = {multipartFile};
         uploadFileReq.setMultipartFile(multipartFiles);
         uploadFile(uploadFileReq);
         log.info("创建Excel成功！");
-        return ResponseFactory.buildSuccessResponse("创建Excel成功！");
     }
 
     /**
