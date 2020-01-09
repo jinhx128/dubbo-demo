@@ -1,8 +1,9 @@
 package com.jinhaoxun.dubbo.module.file.business;
 
+import com.jinhaoxun.dubbo.module.file.action.request.DownloadFileActionReq;
 import com.jinhaoxun.dubbo.module.file.action.request.UploadFileActionReq;
 import com.jinhaoxun.dubbo.module.file.action.response.ResolveExcelActionRes;
-import com.jinhaoxun.dubbo.module.file.model.request.DownloadFileReq;
+import com.jinhaoxun.dubbo.module.file.model.request.DownloadFileServiceReq;
 import com.jinhaoxun.dubbo.module.file.model.request.UploadFileServiceReq;
 import com.jinhaoxun.dubbo.module.file.model.response.ResolveExcelServiceRes;
 import com.jinhaoxun.dubbo.module.file.service.FileService;
@@ -56,24 +57,28 @@ public class FileBusiness {
     /**
      * @author jinhaoxun
      * @description 下载文件
-     * @param downloadFileReq 下载文件参数
-     * @return ResponseResult 下载结果
+     * @param downloadFileActionReq 下载文件参数
+     * @param httpServletResponse
+     * @return
      * @throws Exception
      */
     @HystrixCommand(fallbackMethod = "downloadFileFallBack")
-    public ResponseResult downloadFile(DownloadFileReq downloadFileReq, HttpServletResponse httpServletResponse) throws Exception {
-        return fileService.downloadFile(downloadFileReq,httpServletResponse);
+    public void downloadFile(DownloadFileActionReq downloadFileActionReq, HttpServletResponse httpServletResponse) throws Exception {
+        DownloadFileServiceReq downloadFileServiceReq = new DownloadFileServiceReq();
+        BeanUtils.copyProperties(downloadFileActionReq, downloadFileServiceReq);
+        fileService.downloadFile(downloadFileServiceReq, httpServletResponse);
     }
 
     /**
      * @author jinhaoxun
      * @description 下载文件
-     * @param downloadFileReq 下载文件参数
-     * @return ResponseResult 下载结果
+     * @param downloadFileServiceReq 下载文件参数
+     * @param httpServletResponse
      * @param exception Hystrix抛出的异常
+     * @return
      * @throws Exception
      */
-    public ResponseResult downloadFileFallBack(DownloadFileReq downloadFileReq, HttpServletResponse httpServletResponse, Throwable exception) throws Exception {
+    public void downloadFileFallBack(DownloadFileServiceReq downloadFileServiceReq, HttpServletResponse httpServletResponse, Throwable exception) throws Exception {
         throw (Exception) exception;
     }
 
@@ -92,10 +97,10 @@ public class FileBusiness {
      * @author jinhaoxun
      * @description 创建Excel
      * @param exception Hystrix抛出的异常
-     * @return ResponseResult 创建结果
+     * @return
      * @throws Exception
      */
-    public ResponseResult createExcelFallBack(Throwable exception) throws Exception {
+    public void createExcelFallBack(Throwable exception) throws Exception {
         throw (Exception) exception;
     }
 
@@ -120,10 +125,10 @@ public class FileBusiness {
      * @description 解析Excel
      * @param multipartFile 要解析的文件
      * @param exception Hystrix抛出的异常
-     * @return ResponseResult 解析后的数据
+     * @return
      * @throws Exception
      */
-    public ResponseResult resolveExcelFallBack(MultipartFile multipartFile, Throwable exception) throws Exception {
+    public void resolveExcelFallBack(MultipartFile multipartFile, Throwable exception) throws Exception {
         throw (Exception) exception;
     }
 }

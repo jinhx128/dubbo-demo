@@ -7,7 +7,6 @@ import com.jinhaoxun.dubbo.module.file.action.request.DownloadFileActionReq;
 import com.jinhaoxun.dubbo.module.file.action.request.UploadFileActionReq;
 import com.jinhaoxun.dubbo.module.file.action.response.ResolveExcelActionRes;
 import com.jinhaoxun.dubbo.module.file.business.FileBusiness;
-import com.jinhaoxun.dubbo.module.file.model.request.DownloadFileReq;
 import com.jinhaoxun.dubbo.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -53,13 +52,15 @@ public class FileController {
      * @author jinhaoxun
      * @description 下载文件
      * @param downloadFileActionReqHttpRequest 下载文件参数
-     * @return ResponseResult 下载结果
+     * @param httpServletResponse
+     * @return HttpResponse<ActionResponse> 下载结果
      * @throws Exception
      */
     @GetMapping(value = "/downloadfile", produces = "application/json; charset=UTF-8")
     @ApiOperation("下载文件")
-    public ResponseResult downloadFile(@Validated HttpRequest<DownloadFileActionReq> downloadFileActionReqHttpRequest, HttpServletResponse httpServletResponse) throws Exception {
-        return fileBusiness.downloadFile(downloadFileReq,httpServletResponse);
+    public HttpResponse<ActionResponse> downloadFile(@Validated HttpRequest<DownloadFileActionReq> downloadFileActionReqHttpRequest, HttpServletResponse httpServletResponse) throws Exception {
+        fileBusiness.downloadFile(downloadFileActionReqHttpRequest.getData(), httpServletResponse);
+        return HttpResponse.buildSuccess();
     }
 
     /**

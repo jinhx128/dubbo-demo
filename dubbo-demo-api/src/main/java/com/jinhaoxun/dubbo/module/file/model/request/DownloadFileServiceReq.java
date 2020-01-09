@@ -1,5 +1,6 @@
 package com.jinhaoxun.dubbo.module.file.model.request;
 
+import com.jinhaoxun.dubbo.model.service.ServiceRequest;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,10 +16,7 @@ import java.io.Serializable;
  */
 @Setter
 @Getter
-@ToString
-public class DownloadFileReq implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class DownloadFileServiceReq extends ServiceRequest {
 
     @NotNull(message = "文件名不能为空")
     private String fileName;

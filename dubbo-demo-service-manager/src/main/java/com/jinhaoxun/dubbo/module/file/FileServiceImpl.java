@@ -6,9 +6,7 @@ import com.jinhaoxun.dubbo.exception.ExceptionFactory;
 import com.jinhaoxun.dubbo.module.file.model.response.ExportExcelTest;
 import com.jinhaoxun.dubbo.module.file.model.request.*;
 import com.jinhaoxun.dubbo.module.file.model.response.ResolveExcelServiceRes;
-import com.jinhaoxun.dubbo.response.ResponseFactory;
 import com.jinhaoxun.dubbo.constant.ResponseMsg;
-import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.jinhaoxun.dubbo.util.datautil.ExcelUtil;
 import com.jinhaoxun.dubbo.util.idutil.IdUtil;
 import com.jinhaoxun.dubbo.module.file.service.FileService;
@@ -81,19 +79,20 @@ public class FileServiceImpl implements FileService {
     /**
      * @author jinhaoxun
      * @description 下载文件
-     * @param downloadFileReq 下载文件参数
-     * @return ResponseResult 下载结果
+     * @param downloadFileServiceReq 下载文件参数
+     * @param httpServletResponse
+     * @return
      * @throws Exception
      */
     @HystrixCommand
     @Override
-    public ResponseResult downloadFile(DownloadFileReq downloadFileReq, HttpServletResponse httpServletResponse) throws Exception {
-        File file = new File(fileDownloadPath + downloadFileReq.getFileName());
+    public void downloadFile(DownloadFileServiceReq downloadFileServiceReq, HttpServletResponse httpServletResponse) throws Exception {
+        File file = new File(fileDownloadPath + downloadFileServiceReq.getFileName());
         byte[] buff = new byte[1024];
         BufferedInputStream bis = null;
         OutputStream os;
         String fileType;
-        switch (downloadFileReq.getFileType()){
+        switch (downloadFileServiceReq.getFileType()){
             case 1:
                 fileType = AbstractConstant.DOWNLOAD_FILE_TYPE_IMAGE;
                 break;
@@ -108,9 +107,9 @@ public class FileServiceImpl implements FileService {
         httpServletResponse.setContentType(fileType);
         httpServletResponse.setHeader("Content-Disposition", "attachment;filename="
                 // 下载文件能正常显示中文
-                + URLEncoder.encode(downloadFileReq.getFileName(), "UTF-8"));
+                + URLEncoder.encode(downloadFileServiceReq.getFileName(), "UTF-8"));
         try {
-            log.info("开始下载文件，文件名称:{}",downloadFileReq.getFileName());
+            log.info("开始下载文件，文件名称:{}",downloadFileServiceReq.getFileName());
             os = httpServletResponse.getOutputStream();
             bis = new BufferedInputStream(new FileInputStream(file));
             int i = bis.read(buff);
@@ -132,7 +131,6 @@ public class FileServiceImpl implements FileService {
             }
             log.info("文件下载成功！");
         }
-        return ResponseFactory.buildSuccessResponse("下载文件成功！");
     }
 
     /**

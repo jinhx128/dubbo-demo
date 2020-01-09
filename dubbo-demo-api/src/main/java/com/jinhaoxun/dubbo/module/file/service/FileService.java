@@ -2,7 +2,6 @@ package com.jinhaoxun.dubbo.module.file.service;
 
 import com.jinhaoxun.dubbo.module.file.model.request.*;
 import com.jinhaoxun.dubbo.module.file.model.response.ResolveExcelServiceRes;
-import com.jinhaoxun.dubbo.response.ResponseResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -27,11 +26,12 @@ public interface FileService {
     /**
      * @author jinhaoxun
      * @description 下载文件
-     * @param downloadFileReq 下载文件参数
-     * @return ResponseResult 下载结果
+     * @param downloadFileServiceReq 下载文件参数
+     * @param httpServletResponse
+     * @return
      * @throws Exception
      */
-    ResponseResult downloadFile(DownloadFileReq downloadFileReq, HttpServletResponse httpServletResponse) throws Exception;
+    void downloadFile(DownloadFileServiceReq downloadFileServiceReq, HttpServletResponse httpServletResponse) throws Exception;
 
     /**
      * @author jinhaoxun
