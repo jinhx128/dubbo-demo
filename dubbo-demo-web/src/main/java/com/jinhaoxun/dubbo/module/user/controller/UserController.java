@@ -83,7 +83,7 @@ public class UserController {
      */
     @GetMapping(value="/code", produces = "application/json; charset=UTF-8")
     @ApiOperation("获取验证码")
-    public HttpResponse<ActionResponse> getCode(@Validated HttpRequest<GetCodeActionReq> getCodeActionReqHttpRequest) throws Exception {
+    public HttpResponse<ActionResponse> getCode(@Validated @RequestBody HttpRequest<GetCodeActionReq> getCodeActionReqHttpRequest) throws Exception {
         userBusiness.getCode(getCodeActionReqHttpRequest.getData());
         return HttpResponse.buildSuccess();
     }
@@ -155,7 +155,7 @@ public class UserController {
      */
     @GetMapping(value="/user", produces = "application/json; charset=UTF-8")
     @ApiOperation("获取用户信息")
-    public HttpResponse<GetUserActionRes> getUser(@Validated HttpRequest<GetUserActionReq> getUserActionReqHttpRequest) throws Exception {
+    public HttpResponse<GetUserActionRes> getUser(@Validated @RequestBody HttpRequest<GetUserActionReq> getUserActionReqHttpRequest) throws Exception {
         GetUserActionRes getUserActionRes = userBusiness.getUser(getUserActionReqHttpRequest.getData());
         return HttpResponse.buildSuccess(getUserActionRes);
     }
@@ -183,7 +183,7 @@ public class UserController {
      */
     @GetMapping(value="/userlist", produces = "application/json; charset=UTF-8")
     @ApiOperation("获取所有账号列表")
-    public HttpResponse<GetUserListActionRes> getUserList(@RequestBody HttpRequest<ActionPageableRequest> actionRequestHttpRequest) throws Exception {
+    public HttpResponse<GetUserListActionRes> getUserList(@Validated @RequestBody HttpRequest<ActionPageableRequest> actionRequestHttpRequest) throws Exception {
         GetUserListActionRes getUserListActionRes = userBusiness.getUserList(actionRequestHttpRequest.getData());
         return HttpResponse.buildSuccess(getUserListActionRes);
     }

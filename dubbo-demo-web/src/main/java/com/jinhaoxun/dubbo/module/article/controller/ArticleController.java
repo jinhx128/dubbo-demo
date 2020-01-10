@@ -39,7 +39,7 @@ public class ArticleController {
      */
     @GetMapping(value = "/articlelist", produces = "application/json; charset=UTF-8")
     @ApiOperation("获取文章列表")
-    public HttpResponse<GetArticleListActionRes> getArticleList(@Validated HttpRequest<GetArticleListActionReq> getArticleListActionReqHttpRequest) throws Exception {
+    public HttpResponse<GetArticleListActionRes> getArticleList(@Validated @RequestBody HttpRequest<GetArticleListActionReq> getArticleListActionReqHttpRequest) throws Exception {
         GetArticleListActionRes getArticleListActionRes = articleBusiness.getArticleList(getArticleListActionReqHttpRequest.getData());
         return HttpResponse.buildSuccess(getArticleListActionRes);
     }
@@ -101,7 +101,7 @@ public class ArticleController {
     @GetMapping(value = "/article", produces = "application/json; charset=UTF-8")
     @ApiOperation("获取文章")
     @Cacheable(value = AbstractConstant.ARTICLE_INFO_CACHE_KEY, key = "#getArticleReq.getArticleId()")
-    public HttpResponse<GetArticleActionRes> getArticle(@Validated HttpRequest<GetArticleActionReq> getArticleActionReqHttpRequest) throws Exception {
+    public HttpResponse<GetArticleActionRes> getArticle(@Validated @RequestBody HttpRequest<GetArticleActionReq> getArticleActionReqHttpRequest) throws Exception {
         GetArticleActionRes getArticleActionRes = articleBusiness.getArticle(getArticleActionReqHttpRequest.getData());
         return HttpResponse.buildSuccess(getArticleActionRes);
     }
