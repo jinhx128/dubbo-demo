@@ -2,8 +2,8 @@ package com.jinhaoxun.dubbo.org.shiro.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.jinhaoxun.dubbo.exception.ExceptionFactory;
-import com.jinhaoxun.dubbo.module.shiro.service.UserService;
-import com.jinhaoxun.dubbo.response.ResponseFactory;
+import com.jinhaoxun.dubbo.model.http.HttpResponse;
+import com.jinhaoxun.dubbo.module.user.service.UserService;
 import com.jinhaoxun.dubbo.constant.ResponseMsg;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
@@ -64,7 +64,7 @@ public class CustomLogoutFilter extends LogoutFilter {
         PrintWriter out = null;
         try {
             out = response.getWriter();
-            out.append(JSON.toJSONString(ResponseFactory.buildSuccessResponse("退出成功")));
+            out.append(JSON.toJSONString(HttpResponse.buildSuccess()));
         } catch (IOException e) {
             throw exceptionFactory.build(ResponseMsg.USER_LOG_OUT_FAIL.getCode(),"返回Response信息出现IOException异常:" + e.getMessage());
         } finally {

@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * @version 1.0
  * @author jinhaoxun
@@ -17,7 +15,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class UploadFileServiceReq extends ServiceRequest {
 
-    @NotNull(message = "上传文件不能为空")
     private MultipartFile[] multipartFile;
 
 }

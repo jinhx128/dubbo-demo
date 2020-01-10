@@ -1,9 +1,7 @@
 package com.jinhaoxun.dubbo.org.util;
 
 import com.jinhaoxun.dubbo.exception.ExceptionFactory;
-import com.jinhaoxun.dubbo.response.ResponseFactory;
 import com.jinhaoxun.dubbo.constant.ResponseMsg;
-import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.jinhaoxun.dubbo.org.email.EmailSingleSender;
 import com.jinhaoxun.dubbo.org.email.EmailSingleSenderResult;
 import org.springframework.scheduling.annotation.Async;
@@ -60,11 +58,11 @@ public class EmailUtil {
 	 * @author jinhaoxun
 	 * @description 发送邮件方法
 	 * @param toEmail 要发送的目标邮箱
-	 * @return ResponseResult 秒数
+	 * @return String 验证码
 	 * @throws Exception
 	 */
 	@Async(value = "taskExecutor")
-    public ResponseResult getEmail(String toEmail) throws Exception {
+    public String getEmail(String toEmail) throws Exception {
 		//请根据实际 accesskey 和 secretkey 进行开发
 		String accesskey = "5b238f330cf2af10d90aaa49";
 		String secretkey = "43c6de83a68e47abbff4e78f0b93d606";
@@ -94,6 +92,6 @@ public class EmailUtil {
 		if (singleSenderResult.result != 0){
 			throw exceptionFactory.build(ResponseMsg.GET_EMAIL_CODE_FAIL.getCode(),ResponseMsg.GET_EMAIL_CODE_FAIL.getMsg());
 		}
-		return ResponseFactory.buildSuccessResponse(code);
+		return code;
     }
 }

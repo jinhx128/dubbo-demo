@@ -1,5 +1,7 @@
 package com.jinhaoxun.dubbo.module.rabbitmq.service;
 
+import com.jinhaoxun.dubbo.module.rabbitmq.model.request.AddMessageServiceReq;
+
 /**
  * @version 1.0
  * @author jinhaoxun
@@ -11,7 +13,9 @@ public interface RabbitmqService {
     /**
      * @author jinhaoxun
      * @description 发送消息方法
-     * @param content 发送的消息
+     * @param addMessageServiceReq 发送的消息
+     * @return
+     * @throws Exception
      */
-    void sendMsg(String content);
+    void sendMsg(AddMessageServiceReq addMessageServiceReq) throws Exception;
 }

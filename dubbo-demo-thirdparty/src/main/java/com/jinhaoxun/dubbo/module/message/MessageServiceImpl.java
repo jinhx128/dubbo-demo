@@ -8,8 +8,6 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
-import com.jinhaoxun.dubbo.response.ResponseFactory;
-import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.jinhaoxun.dubbo.thirdparty.message.service.MessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
@@ -34,7 +32,7 @@ public class MessageServiceImpl implements MessageService {
      * @throws Exception
      */
     @Override
-    public ResponseResult SendSmsMessage(String phone) throws Exception {
+    public void SendSmsMessage(String phone) throws Exception {
         DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "<accessKeyId>", "<accessSecret>");
         IAcsClient client = new DefaultAcsClient(profile);
 
@@ -52,6 +50,5 @@ public class MessageServiceImpl implements MessageService {
         } catch (ClientException e) {
             e.printStackTrace();
         }
-        return ResponseFactory.buildSuccessResponse(null);
     }
 }

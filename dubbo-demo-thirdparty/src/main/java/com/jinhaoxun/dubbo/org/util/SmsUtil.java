@@ -1,9 +1,7 @@
 package com.jinhaoxun.dubbo.org.util;
 
 import com.jinhaoxun.dubbo.exception.ExceptionFactory;
-import com.jinhaoxun.dubbo.response.ResponseFactory;
 import com.jinhaoxun.dubbo.constant.ResponseMsg;
-import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.jinhaoxun.dubbo.org.sms.SmsSingleSender;
 import com.jinhaoxun.dubbo.org.sms.SmsSingleSenderResult;
 import org.springframework.scheduling.annotation.Async;
@@ -58,11 +56,11 @@ public class SmsUtil {
 	 * @author jinhaoxun
 	 * @description 发送短信方法
 	 * @param phone 要发送的目标手机
-	 * @return ResponseResult 秒数
+	 * @return String 验证码
 	 * @throws Exception
 	 */
 	@Async(value = "taskExecutor")
-    public ResponseResult getSms(String phone) throws Exception {
+    public String getSms(String phone) throws Exception {
 		//请根据实际 accesskey 和 secretkey 进行开发
 		String accesskey = "5b238f330cf2af10d90aaa49";
 		String secretkey ="43c6de83a68e47abbff4e78f0b93d606";
@@ -77,7 +75,7 @@ public class SmsUtil {
 		if(singleSenderResult.result != 0){
 			throw exceptionFactory.build(ResponseMsg.GET_PHONE_CODE_FAIL.getCode(),ResponseMsg.GET_PHONE_CODE_FAIL.getMsg());
 		}
-		return ResponseFactory.buildSuccessResponse(code);
+		return code;
 		//语音验证码发送
 		/*SmsVoiceVerifyCodeSender smsVoiceVerifyCodeSender = new SmsVoiceVerifyCodeSender(accesskey,secretkey);
 		SmsVoiceVerifyCodeSenderResult smsVoiceVerifyCodeSenderResult = smsVoiceVerifyCodeSender.send("86",phoneNumber, "444144",2,"");

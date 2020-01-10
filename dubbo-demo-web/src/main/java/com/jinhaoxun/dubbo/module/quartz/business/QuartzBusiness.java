@@ -1,12 +1,15 @@
 package com.jinhaoxun.dubbo.module.quartz.business;
 
-import com.jinhaoxun.dubbo.module.quartz.model.request.AddCronJobReq;
-import com.jinhaoxun.dubbo.module.quartz.model.request.AddSimpleJobReq;
-import com.jinhaoxun.dubbo.module.quartz.model.request.DeleteJobReq;
+import com.jinhaoxun.dubbo.module.quartz.action.request.AddCronJobActionReq;
+import com.jinhaoxun.dubbo.module.quartz.action.request.AddSimpleJobActionReq;
+import com.jinhaoxun.dubbo.module.quartz.action.request.DeleteJobActionReq;
+import com.jinhaoxun.dubbo.module.quartz.model.request.AddCronJobServiceReq;
+import com.jinhaoxun.dubbo.module.quartz.model.request.AddSimpleJobServiceReq;
+import com.jinhaoxun.dubbo.module.quartz.model.request.DeleteJobServiceReq;
 import com.jinhaoxun.dubbo.module.quartz.service.QuartzService;
-import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,112 +27,123 @@ public class QuartzBusiness {
     /**
      * @author jinhaoxun
      * @description 新增Simple任务
-     * @param addSimpleJobReq 任务参数
-     * @return ResponseResult 成功提示信息
+     * @param addSimpleJobActionReq 任务参数
+     * @return
      * @throws Exception
      */
     @HystrixCommand(fallbackMethod = "addSimpleJobFallBack")
-    public ResponseResult addSimpleJob(AddSimpleJobReq addSimpleJobReq) throws Exception {
-        return quartzService.addSimpleJob(addSimpleJobReq);
+    public void addSimpleJob(AddSimpleJobActionReq addSimpleJobActionReq) throws Exception {
+        AddSimpleJobServiceReq addSimpleJobServiceReq = new AddSimpleJobServiceReq();
+        BeanUtils.copyProperties(addSimpleJobActionReq, addSimpleJobServiceReq);
+        quartzService.addSimpleJob(addSimpleJobServiceReq);
     }
 
     /**
      * @author jinhaoxun
      * @description 新增Simple任务
-     * @param addSimpleJobReq 任务参数
-     * @return ResponseResult 成功提示信息
+     * @param addSimpleJobActionReq 任务参数
+     * @param exception Hystrix抛出的异常
+     * @return
      * @throws Exception
      */
-    public ResponseResult addSimpleJobFallBack(AddSimpleJobReq addSimpleJobReq) throws Exception {
-        return null;
+    public void addSimpleJobFallBack(AddSimpleJobActionReq addSimpleJobActionReq, Throwable exception) throws Exception {
+        throw (Exception) exception;
     }
 
     /**
      * @author jinhaoxun
      * @description 加入数据库Simple任务到任务列表
-     * @return ResponseResult 成功提示信息
+     * @return
      * @throws Exception
      */
     @HystrixCommand(fallbackMethod = "addSimpleJobListFallBack")
-    public ResponseResult addSimpleJobList() throws Exception {
-        return quartzService.addSimpleJobList();
+    public void addSimpleJobList() throws Exception {
+        quartzService.addSimpleJobList();
     }
 
     /**
      * @author jinhaoxun
      * @description 加入数据库Simple任务到任务列表
-     * @return ResponseResult 成功提示信息
+     * @param exception Hystrix抛出的异常
+     * @return
      * @throws Exception
      */
-    public ResponseResult addSimpleJobListFallBack() throws Exception {
-        return null;
+    public void addSimpleJobListFallBack(Throwable exception) throws Exception {
+        throw (Exception) exception;
     }
 
 
     /**
      * @author jinhaoxun
      * @description 新增Cron任务
-     * @param addCronJobReq 任务参数
-     * @return ResponseResult 成功提示信息
+     * @param addCronJobActionReq 任务参数
+     * @return
      * @throws Exception
      */
     @HystrixCommand(fallbackMethod = "addCronJobFallBack")
-    public ResponseResult addCronJob(AddCronJobReq addCronJobReq) throws Exception {
-        return quartzService.addCronJob(addCronJobReq);
+    public void addCronJob(AddCronJobActionReq addCronJobActionReq) throws Exception {
+        AddCronJobServiceReq addCronJobServiceReq = new AddCronJobServiceReq();
+        BeanUtils.copyProperties(addCronJobActionReq, addCronJobServiceReq);
+        quartzService.addCronJob(addCronJobServiceReq);
     }
 
     /**
      * @author jinhaoxun
      * @description 新增Cron任务
-     * @param addCronJobReq 任务参数
-     * @return ResponseResult 成功提示信息
+     * @param addCronJobActionReq 任务参数
+     * @param exception Hystrix抛出的异常
+     * @return
      * @throws Exception
      */
-    public ResponseResult addCronJobFallBack(AddCronJobReq addCronJobReq) throws Exception {
-        return null;
+    public void addCronJobFallBack(AddCronJobActionReq addCronJobActionReq, Throwable exception) throws Exception {
+        throw (Exception) exception;
     }
 
     /**
      * @author jinhaoxun
      * @description 删除任务
-     * @param deleteJobReq 删除任务参数
-     * @return ResponseResult 成功提示信息
+     * @param deleteJobActionReq 删除任务参数
+     * @return
      * @throws Exception
      */
     @HystrixCommand(fallbackMethod = "deleteJobFallBack")
-    public ResponseResult deleteJob(DeleteJobReq deleteJobReq) throws Exception {
-        return quartzService.deleteJob(deleteJobReq);
+    public void deleteJob(DeleteJobActionReq deleteJobActionReq) throws Exception {
+        DeleteJobServiceReq deleteJobServiceReq = new DeleteJobServiceReq();
+        BeanUtils.copyProperties(deleteJobActionReq, deleteJobServiceReq);
+        quartzService.deleteJob(deleteJobServiceReq);
     }
 
     /**
      * @author jinhaoxun
      * @description 删除任务
-     * @param deleteJobReq 删除任务参数
-     * @return ResponseResult 成功提示信息
+     * @param deleteJobActionReq 删除任务参数
+     * @param exception Hystrix抛出的异常
+     * @return
      * @throws Exception
      */
-    public ResponseResult deleteJobFallBack(DeleteJobReq deleteJobReq) throws Exception {
-        return null;
+    public void deleteJobFallBack(DeleteJobActionReq deleteJobActionReq, Throwable exception) throws Exception {
+        throw (Exception) exception;
     }
 
     /**
      * @author jinhaoxun
      * @description 关闭调度器
-     * @return ResponseResult 成功提示信息
+     * @return
      * @throws Exception
      */
     @HystrixCommand(fallbackMethod = "deleteSchedulerFallBack")
-    public ResponseResult deleteScheduler() throws Exception {
-        return quartzService.deleteScheduler();
+    public void deleteScheduler() throws Exception {
+        quartzService.deleteScheduler();
     }
 
     /**
      * @author jinhaoxun
      * @description 关闭调度器
-     * @return ResponseResult 成功提示信息
+     * @param exception Hystrix抛出的异常
+     * @return
      * @throws Exception
      */
-    public ResponseResult deleteSchedulerFallBack() throws Exception {
-        return null;
+    public void deleteSchedulerFallBack(Throwable exception) throws Exception {
+        throw (Exception) exception;
     }
 }

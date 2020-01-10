@@ -1,9 +1,8 @@
 package com.jinhaoxun.dubbo.module.quartz.service;
 
-import com.jinhaoxun.dubbo.module.quartz.model.request.AddCronJobReq;
-import com.jinhaoxun.dubbo.module.quartz.model.request.AddSimpleJobReq;
-import com.jinhaoxun.dubbo.module.quartz.model.request.DeleteJobReq;
-import com.jinhaoxun.dubbo.response.ResponseResult;
+import com.jinhaoxun.dubbo.module.quartz.model.request.AddCronJobServiceReq;
+import com.jinhaoxun.dubbo.module.quartz.model.request.AddSimpleJobServiceReq;
+import com.jinhaoxun.dubbo.module.quartz.model.request.DeleteJobServiceReq;
 
 /**
  * @version 1.0
@@ -15,43 +14,43 @@ public interface QuartzService {
     /**
      * @author jinhaoxun
      * @description 新增Simple任务
-     * @param addSimpleJobReq 任务参数
-     * @return ResponseResult 是否新增成功
+     * @param addSimpleJobServiceReq 任务参数
+     * @return
      * @throws Exception
      */
-    ResponseResult addSimpleJob(AddSimpleJobReq addSimpleJobReq) throws Exception;
+    void addSimpleJob(AddSimpleJobServiceReq addSimpleJobServiceReq) throws Exception;
 
     /**
      * @author jinhaoxun
      * @description 加入数据库Simple任务到任务列表
-     * @return ResponseResult 成功提示信息
+     * @return
      * @throws Exception
      */
-    ResponseResult addSimpleJobList() throws Exception;
+    void addSimpleJobList() throws Exception;
 
     /**
      * @author jinhaoxun
      * @description 新增Cron任务
-     * @param addCronJobReq 任务参数
-     * @return ResponseResult 成功提示信息
+     * @param addCronJobServiceReq 任务参数
+     * @return
      * @throws Exception
      */
-    ResponseResult addCronJob(AddCronJobReq addCronJobReq) throws Exception;
+    void addCronJob(AddCronJobServiceReq addCronJobServiceReq) throws Exception;
 
     /**
      * @author jinhaoxun
      * @description 删除任务
-     * @param deleteJobReq 删除任务参数
-     * @return ResponseResult 成功提示信息
+     * @param deleteJobServiceReq 删除任务参数
+     * @return
      * @throws Exception
      */
-    ResponseResult deleteJob(DeleteJobReq deleteJobReq) throws Exception;
+    void deleteJob(DeleteJobServiceReq deleteJobServiceReq) throws Exception;
 
     /**
      * @author jinhaoxun
      * @description 关闭调度器
-     * @return ResponseResult 成功提示信息
+     * @return
      * @throws Exception
      */
-    ResponseResult deleteScheduler() throws Exception;
+    void deleteScheduler() throws Exception;
 }

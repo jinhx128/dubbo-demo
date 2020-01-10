@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 public class JobTest implements Job {
 
     @Resource
-    private TaskService iTaskService;
+    private TaskService taskService;
 
     /**
      * @author jinhaoxun
@@ -37,7 +37,7 @@ public class JobTest implements Job {
         String name = dataMap.getString("name");
         try {
             log.info("执行任务{},{}",id,name);
-            iTaskService.updateExecutionStatus(Long.valueOf(taskId));
+            taskService.updateExecutionStatus(Long.valueOf(taskId));
         } catch (Exception e) {
             throw new CustomRuntimeException(ResponseMsg.QUARTZ_EXECUTION_FAIL.getCode(),
                     ResponseMsg.QUARTZ_EXECUTION_FAIL.getMsg() + e.getMessage());

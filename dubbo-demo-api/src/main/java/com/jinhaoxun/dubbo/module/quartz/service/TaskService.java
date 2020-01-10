@@ -2,7 +2,8 @@ package com.jinhaoxun.dubbo.module.quartz.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jinhaoxun.dubbo.pojo.quartz.Task;
-import com.jinhaoxun.dubbo.response.ResponseResult;
+
+import java.util.List;
 
 /**
  * @version 1.0
@@ -15,18 +16,18 @@ public interface TaskService extends IService<Task> {
     /**
      * @author jinhaoxun
      * @description 获取数据库Simple任务列表
-     * @return ResponseResult Simple任务列表
+     * @return List<Task> Simple任务列表
      * @throws Exception
      */
-    ResponseResult getTaskList();
+    List<Task> getTaskList() throws Exception;
 
     /**
      * @author jinhaoxun
      * @description 修改状态为已执行
      * @param taskId 任务ID
-     * @return ResponseResult 修改数据条数
+     * @return int 修改数据条数
      * @throws Exception
      */
-    ResponseResult updateExecutionStatus(Long taskId);
+    int updateExecutionStatus(Long taskId) throws Exception;
 
 }

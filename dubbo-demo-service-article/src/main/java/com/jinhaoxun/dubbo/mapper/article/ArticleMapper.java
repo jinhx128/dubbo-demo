@@ -18,6 +18,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param title 文章标题
      * @return ResponseResult 获取数据条数
      */
-    int getArticleByTitle(@Param("title") String title);
+    int getArticleByTitle(@Param("title") String title) throws Exception;
 
 }

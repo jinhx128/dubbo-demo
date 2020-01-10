@@ -5,12 +5,12 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.jinhaoxun.dubbo.constant.AbstractConstant;
 import com.jinhaoxun.dubbo.constant.ResponseMsg;
 import com.jinhaoxun.dubbo.exception.CustomException;
-import com.jinhaoxun.dubbo.module.shiro.model.LoginUser;
-import com.jinhaoxun.dubbo.module.shiro.model.UserContext;
-import com.jinhaoxun.dubbo.module.shiro.service.SyncCacheService;
-import com.jinhaoxun.dubbo.module.shiro.service.UserService;
+import com.jinhaoxun.dubbo.model.http.HttpResponse;
+import com.jinhaoxun.dubbo.module.user.model.LoginUser;
+import com.jinhaoxun.dubbo.module.user.model.UserContext;
+import com.jinhaoxun.dubbo.module.user.service.SyncCacheService;
+import com.jinhaoxun.dubbo.module.user.service.UserService;
 import com.jinhaoxun.dubbo.org.shiro.jwt.Jwt;
-import com.jinhaoxun.dubbo.response.ResponseFactory;
 import com.jinhaoxun.dubbo.util.requestutil.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
@@ -261,7 +261,7 @@ public class CustomShiroFilter extends BasicHttpAuthenticationFilter implements 
         try {
             out = httpServletResponse.getWriter();
             CustomShiroFilter.log.info(log);
-            JSONObject json = JSONObject.fromObject(ResponseFactory.buildCustomResponse(code, msg , null));
+            JSONObject json = JSONObject.fromObject(HttpResponse.build(code, msg , null));
             String data=json.toString();
             out.append(data);
         } catch (IOException e) {

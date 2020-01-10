@@ -1,12 +1,10 @@
 package com.jinhaoxun.dubbo.module.quartz;
 
-import com.jinhaoxun.dubbo.module.quartz.model.request.AddCronJobReq;
-import com.jinhaoxun.dubbo.module.quartz.model.request.AddSimpleJobReq;
-import com.jinhaoxun.dubbo.module.quartz.model.request.DeleteJobReq;
+import com.jinhaoxun.dubbo.module.quartz.model.request.AddCronJobServiceReq;
+import com.jinhaoxun.dubbo.module.quartz.model.request.AddSimpleJobServiceReq;
+import com.jinhaoxun.dubbo.module.quartz.model.request.DeleteJobServiceReq;
 import com.jinhaoxun.dubbo.org.quartz.QuartzManager;
 import com.jinhaoxun.dubbo.pojo.quartz.Task;
-import com.jinhaoxun.dubbo.response.ResponseFactory;
-import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.jinhaoxun.dubbo.util.idutil.IdUtil;
 import com.jinhaoxun.dubbo.module.quartz.service.QuartzService;
 import com.jinhaoxun.dubbo.module.quartz.service.TaskService;
@@ -46,13 +44,13 @@ public class QuartzServiceImpl implements QuartzService {
     /**
      * @author jinhaoxun
      * @description 新增Simple任务
-     * @param addSimpleJobReq 任务参数
-     * @return ResponseResult 是否新增成功
+     * @param addSimpleJobServiceReq 任务参数
+     * @return
      * @throws Exception
      */
     @HystrixCommand
     @Override
-    public ResponseResult addSimpleJob(AddSimpleJobReq addSimpleJobReq) throws Exception {
+    public void addSimpleJob(AddSimpleJobServiceReq addSimpleJobServiceReq) throws Exception {
 /*        SimpleTrigger cronTrigger = timingTasks.setTrigger(date);
         JobDetail jobDetail = timingTasks.setJobDetail(id,op);
         timingTasks.startScheduler(jobDetail,cronTrigger);*/
@@ -61,18 +59,17 @@ public class QuartzServiceImpl implements QuartzService {
         task.setCreateTime(now);
         task.setUpdateTime(now);
         task.setExecutionStatus(false);
-        task.setExecutionTime(addSimpleJobReq.getDate());
-        task.setUpdaterId(addSimpleJobReq.getOperatorId());
-        JSONObject json = JSONObject.fromObject(addSimpleJobReq.getParams());
+        task.setExecutionTime(addSimpleJobServiceReq.getDate());
+        task.setUpdaterId(addSimpleJobServiceReq.getOperatorId());
+        JSONObject json = JSONObject.fromObject(addSimpleJobServiceReq.getParams());
         task.setParams(json.toString());
-        task.setType(addSimpleJobReq.getType());
+        task.setType(addSimpleJobServiceReq.getType());
         task.setTaskId(IdUtil.getId());
-        task.setJobClass(addSimpleJobReq.getJobClass());
+        task.setJobClass(addSimpleJobServiceReq.getJobClass());
         iTaskService.save(task);
-        if(addSimpleJobReq.getDate().getTime() <= now.getTime() + ADD_QUARTZ_TIME){
-            quartzManager.addSimpleJob(addSimpleJobReq,task.getTaskId().toString());
+        if(addSimpleJobServiceReq.getDate().getTime() <= now.getTime() + ADD_QUARTZ_TIME){
+            quartzManager.addSimpleJob(addSimpleJobServiceReq, task.getTaskId().toString());
         }
-        return ResponseFactory.buildSuccessResponse("新增任务成功！");
     }
 
     /**
@@ -83,9 +80,9 @@ public class QuartzServiceImpl implements QuartzService {
      */
     @HystrixCommand
     @Override
-    public ResponseResult addSimpleJobList() throws Exception {
-        List<Task> taskList = (List<Task>)iTaskService.getTaskList().getData();
-        AddSimpleJobReq addSimpleJobReq = new AddSimpleJobReq();
+    public void addSimpleJobList() throws Exception {
+        List<Task> taskList = iTaskService.getTaskList();
+        AddSimpleJobServiceReq addSimpleJobReq = new AddSimpleJobServiceReq();
         taskList.forEach(throwingConsumerWrapper(n -> {
             addSimpleJobReq.setDate(n.getExecutionTime());
             addSimpleJobReq.setJobClass(n.getJobClass());
@@ -94,47 +91,44 @@ public class QuartzServiceImpl implements QuartzService {
             addSimpleJobReq.setOperatorId(n.getUpdaterId());
             quartzManager.addSimpleJob(addSimpleJobReq,n.getTaskId().toString());
         }));
-        return ResponseFactory.buildSuccessResponse("加入数据库Simple任务到任务列表成功！");
     }
 
     /**
      * @author jinhaoxun
      * @description 新增Cron任务
-     * @param addCronJobReq 任务参数
-     * @return ResponseResult 成功提示信息
+     * @param addCronJobServiceReq 任务参数
+     * @return
      * @throws Exception
      */
     @HystrixCommand
     @Override
-    public ResponseResult addCronJob(AddCronJobReq addCronJobReq) throws Exception {
-        quartzManager.addCronJob(addCronJobReq);
-        return ResponseFactory.buildSuccessResponse("新增任务成功！");
+    public void addCronJob(AddCronJobServiceReq addCronJobServiceReq) throws Exception {
+        quartzManager.addCronJob(addCronJobServiceReq);
     }
 
     /**
      * @author jinhaoxun
      * @description 删除任务
-     * @param deleteJobReq 删除任务参数
-     * @return ResponseResult 成功提示信息
+     * @param deleteJobServiceReq 删除任务参数
+     * @return
      * @throws Exception
      */
     @HystrixCommand
     @Override
-    public ResponseResult deleteJob(DeleteJobReq deleteJobReq) throws Exception {
-        quartzManager.removeJob(deleteJobReq.getJobName(),deleteJobReq.getJobGroupName(),deleteJobReq.getTriggerName(),deleteJobReq.getTriggerGroupName());
-        return ResponseFactory.buildSuccessResponse("删除任务成功！");
+    public void deleteJob(DeleteJobServiceReq deleteJobServiceReq) throws Exception {
+        quartzManager.removeJob(deleteJobServiceReq.getJobName(),
+                deleteJobServiceReq.getJobGroupName(),deleteJobServiceReq.getTriggerName(),deleteJobServiceReq.getTriggerGroupName());
     }
 
     /**
      * @author jinhaoxun
      * @description 关闭调度器
-     * @return ResponseResult 成功提示信息
+     * @return
      * @throws Exception
      */
     @HystrixCommand
     @Override
-    public ResponseResult deleteScheduler() throws Exception {
+    public void deleteScheduler() throws Exception {
         quartzManager.shutdown();
-        return ResponseFactory.buildSuccessResponse("关闭调度器成功！");
     }
 }

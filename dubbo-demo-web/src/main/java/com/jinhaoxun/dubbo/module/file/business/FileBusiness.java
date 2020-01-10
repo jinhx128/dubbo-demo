@@ -7,7 +7,6 @@ import com.jinhaoxun.dubbo.module.file.model.request.DownloadFileServiceReq;
 import com.jinhaoxun.dubbo.module.file.model.request.UploadFileServiceReq;
 import com.jinhaoxun.dubbo.module.file.model.response.ResolveExcelServiceRes;
 import com.jinhaoxun.dubbo.module.file.service.FileService;
-import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
@@ -45,12 +44,12 @@ public class FileBusiness {
     /**
      * @author jinhaoxun
      * @description 上传文件
-     * @param uploadFileReq 上传文件参数
+     * @param uploadFileActionReq 上传文件参数
      * @param exception Hystrix抛出的异常
      * @return
      * @throws Exception
      */
-    public void uploadFileFallBack(UploadFileServiceReq uploadFileReq, Throwable exception) throws Exception {
+    public void uploadFileFallBack(UploadFileActionReq uploadFileActionReq, Throwable exception) throws Exception {
         throw (Exception) exception;
     }
 
@@ -72,13 +71,13 @@ public class FileBusiness {
     /**
      * @author jinhaoxun
      * @description 下载文件
-     * @param downloadFileServiceReq 下载文件参数
+     * @param downloadFileActionReq 下载文件参数
      * @param httpServletResponse
      * @param exception Hystrix抛出的异常
      * @return
      * @throws Exception
      */
-    public void downloadFileFallBack(DownloadFileServiceReq downloadFileServiceReq, HttpServletResponse httpServletResponse, Throwable exception) throws Exception {
+    public void downloadFileFallBack(DownloadFileActionReq downloadFileActionReq, HttpServletResponse httpServletResponse, Throwable exception) throws Exception {
         throw (Exception) exception;
     }
 

@@ -1,7 +1,5 @@
 package com.jinhaoxun.dubbo.thirdparty.message.service;
 
-import com.jinhaoxun.dubbo.response.ResponseResult;
-
 /**
  * @version 1.0
  * @author jinhaoxun
@@ -17,7 +15,7 @@ public interface MessageService {
      * @return ResponseResult 获取的验证码
      * @throws Exception
      */
-    ResponseResult SendSmsMessage(String phone) throws Exception;
+    void SendSmsMessage(String phone) throws Exception;
 
 
 }

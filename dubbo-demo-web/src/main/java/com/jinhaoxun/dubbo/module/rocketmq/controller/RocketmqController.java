@@ -1,9 +1,10 @@
 package com.jinhaoxun.dubbo.module.rocketmq.controller;
 
+import com.jinhaoxun.dubbo.model.action.ActionResponse;
+import com.jinhaoxun.dubbo.model.http.HttpRequest;
+import com.jinhaoxun.dubbo.model.http.HttpResponse;
+import com.jinhaoxun.dubbo.module.rocketmq.action.request.AddMessageActionReq;
 import com.jinhaoxun.dubbo.module.rocketmq.business.RocketmqBusiness;
-import com.jinhaoxun.dubbo.module.rocketmq.model.request.AddConsumerReq;
-import com.jinhaoxun.dubbo.module.rocketmq.model.request.AddMessageReq;
-import com.jinhaoxun.dubbo.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -28,14 +29,15 @@ public class RocketmqController {
     /**
      * @author jinhaoxun
      * @description 发送消息
-     * @param addMessageReq 发送的消息
-     * @return ResponseResult 成功提示信息
+     * @param addMessageActionReqHttpRequest 发送的消息
+     * @return HttpResponse<ActionResponse> 成功提示信息
      * @throws Exception
      */
     @PostMapping(value="/message", produces = "application/json; charset=UTF-8")
     @ApiOperation("发送消息")
-    public ResponseResult addMessage(@Validated @RequestBody AddMessageReq addMessageReq) throws Exception {
-        return rocketmqBusiness.addMessage(addMessageReq);
+    public HttpResponse<ActionResponse> addMessage(@Validated @RequestBody HttpRequest<AddMessageActionReq> addMessageActionReqHttpRequest) throws Exception {
+        rocketmqBusiness.addMessage(addMessageActionReqHttpRequest.getData());
+        return HttpResponse.buildSuccess();
     }
 
 }

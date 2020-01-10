@@ -1,5 +1,6 @@
 package com.jinhaoxun.dubbo.module.rabbitmq;
 
+import com.jinhaoxun.dubbo.module.rabbitmq.model.request.AddMessageServiceReq;
 import com.jinhaoxun.dubbo.module.rabbitmq.service.RabbitmqService;
 import com.jinhaoxun.dubbo.org.rabbitmq.RabbitmqProducerFactory;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -26,11 +27,13 @@ public class RabbitmqServiceImpl implements RabbitmqService {
     /**
      * @author jinhaoxun
      * @description 发送消息方法
-     * @param content 发送的消息
+     * @param addMessageServiceReq 发送的消息
+     * @return
+     * @throws Exception
      */
     @HystrixCommand
     @Override
-    public void sendMsg(String content){
-        rabbitmqProducerFactory.sendMsg(content);
+    public void sendMsg(AddMessageServiceReq addMessageServiceReq) throws Exception{
+        rabbitmqProducerFactory.sendMsg(addMessageServiceReq.getContent());
     }
 }

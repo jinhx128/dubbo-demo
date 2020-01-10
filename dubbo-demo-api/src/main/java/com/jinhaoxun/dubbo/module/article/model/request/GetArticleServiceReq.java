@@ -4,8 +4,6 @@ import com.jinhaoxun.dubbo.model.service.ServiceRequest;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * @version 1.0
  * @author jinhaoxun
@@ -19,7 +17,6 @@ public class GetArticleServiceReq extends ServiceRequest {
     /**
      * 文章ID
      */
-    @NotNull(message = "文章id不能为空")
     private Long articleId;
 
 }

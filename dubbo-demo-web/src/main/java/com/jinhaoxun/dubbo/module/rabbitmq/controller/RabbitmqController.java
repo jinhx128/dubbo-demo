@@ -1,9 +1,15 @@
 package com.jinhaoxun.dubbo.module.rabbitmq.controller;
 
+import com.jinhaoxun.dubbo.model.action.ActionResponse;
+import com.jinhaoxun.dubbo.model.http.HttpRequest;
+import com.jinhaoxun.dubbo.model.http.HttpResponse;
+import com.jinhaoxun.dubbo.module.rabbitmq.action.request.AddMessageActionReq;
 import com.jinhaoxun.dubbo.module.rabbitmq.business.RabbitmqBusiness;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,12 +32,15 @@ public class RabbitmqController {
     /**
      * @author jinhaoxun
      * @description 发送消息方法
-     * @param content 发送的消息
+     * @param addMessageActionReqHttpRequest 发送的消息
+     * @return HttpResponse<ActionResponse> 成功提示信息
+     * @throws Exception
      */
-    @PostMapping(value="/consumer", produces = "application/json; charset=UTF-8")
+    @PostMapping(value="/message", produces = "application/json; charset=UTF-8")
     @ApiOperation("发送消息")
-    public void addConsumer(String content){
-        rabbitmqBusiness.addConsumer(content);
+    public HttpResponse<ActionResponse> addMessage(@Validated @RequestBody HttpRequest<AddMessageActionReq> addMessageActionReqHttpRequest) throws Exception {
+        rabbitmqBusiness.addMessage(addMessageActionReqHttpRequest.getData());
+        return HttpResponse.buildSuccess();
     }
 }
 

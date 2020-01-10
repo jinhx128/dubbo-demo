@@ -1,7 +1,6 @@
 package com.jinhaoxun.dubbo.module.rocketmq.service;
 
 import com.jinhaoxun.dubbo.module.rocketmq.model.request.*;
-import com.jinhaoxun.dubbo.response.ResponseResult;
 
 /**
  * @version 1.0
@@ -14,10 +13,10 @@ public interface RocketmqService {
     /**
      * @author jinhaoxun
      * @description 发送消息
-     * @param addMessageReq 发送的消息
-     * @return ResponseResult 成功提示信息
+     * @param addMessageServiceReq 发送的消息
+     * @return
      * @throws Exception
      */
-    ResponseResult addMessage(AddMessageReq addMessageReq) throws Exception;
+    void addMessage(AddMessageServiceReq addMessageServiceReq) throws Exception;
 
 }

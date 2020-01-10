@@ -7,7 +7,6 @@ import com.jinhaoxun.dubbo.module.article.model.request.*;
 import com.jinhaoxun.dubbo.module.article.model.response.GetArticleListServiceRes;
 import com.jinhaoxun.dubbo.module.article.model.response.GetArticleServiceRes;
 import com.jinhaoxun.dubbo.module.article.service.ArticleService;
-import com.jinhaoxun.dubbo.response.ResponseResult;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
@@ -37,18 +36,19 @@ public class ArticleBusiness {
         BeanUtils.copyProperties(getArticleListActionReq, getArticleListServiceReq);
         GetArticleListActionRes getArticleListActionRes = new GetArticleListActionRes();
         GetArticleListServiceRes getArticleListServiceRes = articleService.getArticleList(getArticleListServiceReq);
-        BeanUtils.copyProperties(getArticleListServiceRes, getArticleListActionRes);
+        getArticleListActionRes.setTotals(getArticleListServiceRes.getTotals());
+        getArticleListActionRes.setArticleList(getArticleListServiceRes.getArticleList());
         return getArticleListActionRes;
     }
 
     /**
      * @author jinhaoxun
      * @description 获取文章列表
-     * @param getArticleListReq 筛选条件参数
+     * @param getArticleListActionReq 筛选条件参数
      * @param exception Hystrix抛出的异常
      * @return
      */
-    public void getArticleListFallBack(GetArticleListServiceReq getArticleListReq, Throwable exception) throws Exception {
+    public void getArticleListFallBack(GetArticleListActionReq getArticleListActionReq, Throwable exception) throws Exception {
         throw (Exception) exception;
     }
 
@@ -69,12 +69,12 @@ public class ArticleBusiness {
     /**
      * @author jinhaoxun
      * @description 新增文章
-     * @param addArticleReq 文章信息参数
+     * @param addArticleActionReq 文章信息参数
      * @param exception Hystrix抛出的异常
      * @return
      * @throws Exception
      */
-    public void addArticleFallBack(AddArticleServiceReq addArticleReq, Throwable exception) throws Exception {
+    public void addArticleFallBack(AddArticleActionReq addArticleActionReq, Throwable exception) throws Exception {
         throw (Exception) exception;
     }
 
@@ -95,12 +95,12 @@ public class ArticleBusiness {
     /**
      * @author jinhaoxun
      * @description 删除文章
-     * @param deleteArticleReq 删除文章请求参数
+     * @param deleteArticleActionReq 删除文章请求参数
      * @param exception Hystrix抛出的异常
      * @return
      * @throws Exception
      */
-    public void deleteArticleFallBack(DeleteArticleServiceReq deleteArticleReq, Throwable exception) throws Exception {
+    public void deleteArticleFallBack(DeleteArticleActionReq deleteArticleActionReq, Throwable exception) throws Exception {
         throw (Exception) exception;
     }
 
@@ -121,12 +121,12 @@ public class ArticleBusiness {
     /**
      * @author jinhaoxun
      * @description 更新文章
-     * @param updateArticleReq 更新文章请求参数
+     * @param updateArticleActionReq 更新文章请求参数
      * @param exception Hystrix抛出的异常
      * @return
      * @throws Exception
      */
-    public void updateArticleFallBack(UpdateArticleServiceReq updateArticleReq, Throwable exception) throws Exception {
+    public void updateArticleFallBack(UpdateArticleActionReq updateArticleActionReq, Throwable exception) throws Exception {
         throw (Exception) exception;
     }
 
@@ -150,12 +150,12 @@ public class ArticleBusiness {
     /**
      * @author jinhaoxun
      * @description 获取文章信息
-     * @param getArticleReq 获取文章请求参数
+     * @param getArticleActionReq 获取文章请求参数
      * @param exception Hystrix抛出的异常
      * @return
      * @throws Exception
      */
-    public void getArticleFallBack(GetArticleServiceReq getArticleReq, Throwable exception) throws Exception {
+    public void getArticleFallBack(GetArticleActionReq getArticleActionReq, Throwable exception) throws Exception {
         throw (Exception) exception;
     }
 }

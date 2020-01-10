@@ -3,6 +3,8 @@ package com.jinhaoxun.dubbo.model.action;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @description: 分页请求模型
  * @program: session1
@@ -14,8 +16,10 @@ import lombok.Setter;
 public class ActionPageableRequest extends ActionRequest {
 
     /** 当前页号 */
-    private short page;
+    @NotNull(message = "当前页号不能为空")
+    private int page;
     /** 每页显示记录数 */
-    private short size;
+    @NotNull(message = "每页显示记录数不能为空")
+    private int size;
 
 }

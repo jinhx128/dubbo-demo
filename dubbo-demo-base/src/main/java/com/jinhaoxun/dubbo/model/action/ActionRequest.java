@@ -13,10 +13,9 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class  ActionRequest extends Model {
+public class ActionRequest extends Model {
 	/**
-	 * 用户编号
+	 * 操作用户编号
 	 */
-	private String userId;
-	
+	private String operationUserId;
 }

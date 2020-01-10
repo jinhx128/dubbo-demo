@@ -18,14 +18,14 @@ public interface TaskMapper extends BaseMapper<Task> {
      * @description 获取数据库Simple任务列表
      * @return ResponseResult Simple任务列表
      */
-    List<Task> getTaskList();
+    List<Task> getTaskList() throws Exception ;
 
     /**
      * @author jinhaoxun
      * @description 修改状态为已执行
      * @param taskId 任务ID
-     * @return ResponseResult 修改数据条数
+     * @return int 修改数据条数
      */
-    int updateExecutionStatus(Long taskId);
+    int updateExecutionStatus(Long taskId) throws Exception ;
 
 }

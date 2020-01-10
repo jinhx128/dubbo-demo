@@ -1,10 +1,13 @@
 package com.jinhaoxun.dubbo.module.quartz.controller;
 
+import com.jinhaoxun.dubbo.model.action.ActionRequest;
+import com.jinhaoxun.dubbo.model.action.ActionResponse;
+import com.jinhaoxun.dubbo.model.http.HttpRequest;
+import com.jinhaoxun.dubbo.model.http.HttpResponse;
+import com.jinhaoxun.dubbo.module.quartz.action.request.AddCronJobActionReq;
+import com.jinhaoxun.dubbo.module.quartz.action.request.AddSimpleJobActionReq;
+import com.jinhaoxun.dubbo.module.quartz.action.request.DeleteJobActionReq;
 import com.jinhaoxun.dubbo.module.quartz.business.QuartzBusiness;
-import com.jinhaoxun.dubbo.module.quartz.model.request.AddCronJobReq;
-import com.jinhaoxun.dubbo.module.quartz.model.request.AddSimpleJobReq;
-import com.jinhaoxun.dubbo.module.quartz.model.request.DeleteJobReq;
-import com.jinhaoxun.dubbo.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -29,64 +32,71 @@ public class QuartzController {
     /**
      * @author jinhaoxun
      * @description 新增Simple任务
-     * @param addSimpleJobReq 任务参数
-     * @return ResponseResult 成功提示信息
+     * @param addSimpleJobActionReqHttpRequest 任务参数
+     * @return HttpResponse<ActionResponse>
      * @throws Exception
      */
     @PostMapping(value = "/simplejob", produces = "application/json; charset=UTF-8")
     @ApiOperation("新增Simple任务")
-    public ResponseResult addSimpleJob(@Validated @RequestBody AddSimpleJobReq addSimpleJobReq) throws Exception {
-        return quartzBusiness.addSimpleJob(addSimpleJobReq);
+    public HttpResponse<ActionResponse> addSimpleJob(@Validated @RequestBody HttpRequest<AddSimpleJobActionReq> addSimpleJobActionReqHttpRequest) throws Exception {
+        quartzBusiness.addSimpleJob(addSimpleJobActionReqHttpRequest.getData());
+        return HttpResponse.buildSuccess();
     }
 
     /**
      * @author jinhaoxun
      * @description 加入数据库Simple任务到任务列表
-     * @return ResponseResult 成功提示信息
+     * @param actionRequestHttpRequest 统一请求参数
+     * @return HttpResponse<ActionResponse>
      * @throws Exception
      */
     @PostMapping(value = "/simplejoblist", produces = "application/json; charset=UTF-8")
     @ApiOperation("加入数据库Simple任务到任务列表")
-    public ResponseResult addSimpleJobList() throws Exception {
-        return quartzBusiness.addSimpleJobList();
+    public HttpResponse<ActionResponse> addSimpleJobList(@RequestBody HttpRequest<ActionRequest> actionRequestHttpRequest) throws Exception {
+        quartzBusiness.addSimpleJobList();
+        return HttpResponse.buildSuccess();
     }
 
     /**
      * @author jinhaoxun
      * @description 新增Cron任务
-     * @param addCronJobReq 任务参数
-     * @return ResponseResult 成功提示信息
+     * @param addCronJobActionReqHttpRequest 任务参数
+     * @return HttpResponse<ActionResponse>
      * @throws Exception
      */
     @PostMapping(value = "/cronjob", produces = "application/json; charset=UTF-8")
     @ApiOperation("新增Cron任务")
-    public ResponseResult addCronJob(@Validated @RequestBody AddCronJobReq addCronJobReq) throws Exception {
-        return quartzBusiness.addCronJob(addCronJobReq);
+    public HttpResponse<ActionResponse> addCronJob(@Validated @RequestBody HttpRequest<AddCronJobActionReq> addCronJobActionReqHttpRequest) throws Exception {
+        quartzBusiness.addCronJob(addCronJobActionReqHttpRequest.getData());
+        return HttpResponse.buildSuccess();
     }
 
     /**
      * @author jinhaoxun
      * @description 删除任务
-     * @param deleteJobReq 删除任务参数
-     * @return ResponseResult 成功提示信息
+     * @param deleteJobActionReqHttpRequest 删除任务参数
+     * @return HttpResponse<ActionResponse>
      * @throws Exception
      */
     @DeleteMapping(value = "/job", produces = "application/json; charset=UTF-8")
     @ApiOperation("删除任务")
-    public ResponseResult deleteJob(@Validated @RequestBody DeleteJobReq deleteJobReq) throws Exception {
-        return quartzBusiness.deleteJob(deleteJobReq);
+    public HttpResponse<ActionResponse> deleteJob(@Validated @RequestBody HttpRequest<DeleteJobActionReq> deleteJobActionReqHttpRequest) throws Exception {
+        quartzBusiness.deleteJob(deleteJobActionReqHttpRequest.getData());
+        return HttpResponse.buildSuccess();
     }
 
     /**
      * @author jinhaoxun
      * @description 关闭调度器
-     * @return ResponseResult 成功提示信息
+     * @param actionRequestHttpRequest 统一请求参数
+     * @return HttpResponse<ActionResponse> 成功提示信息
      * @throws Exception
      */
     @DeleteMapping(value = "/scheduler", produces = "application/json; charset=UTF-8")
     @ApiOperation("关闭调度器")
-    public ResponseResult deleteScheduler() throws Exception {
-        return quartzBusiness.deleteScheduler();
+    public HttpResponse<ActionResponse> deleteScheduler(@RequestBody HttpRequest<ActionRequest> actionRequestHttpRequest) throws Exception {
+        quartzBusiness.deleteScheduler();
+        return HttpResponse.buildSuccess();
     }
 }
 

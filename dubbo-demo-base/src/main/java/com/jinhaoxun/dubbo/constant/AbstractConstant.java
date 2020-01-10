@@ -62,9 +62,13 @@ public abstract class AbstractConstant {
      */
     public static final int USER_LOG_IN_CODE_EXPIRATION_TIME = 300;
     /**
-     * userLogInCode key 前缀(用户验证码登录)
+     * 前缀(用户手机验证码登录)
      */
-    public static final String USER_LOG_IN_CODE = "userLogInCode:";
+    public static final String USER_PHONE_LOG_IN_CODE = "user:phone:login:code:";
+    /**
+     * 前缀(用户邮箱验证码登录)
+     */
+    public static final String USER_EMAIL_LOG_IN_CODE = "user:email:login:code:";
 
     /**************************           权限常量             *******************************/
 

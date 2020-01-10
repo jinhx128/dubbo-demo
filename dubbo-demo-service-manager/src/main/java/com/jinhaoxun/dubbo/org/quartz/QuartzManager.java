@@ -2,8 +2,8 @@ package com.jinhaoxun.dubbo.org.quartz;
 
 import com.jinhaoxun.dubbo.constant.ResponseMsg;
 import com.jinhaoxun.dubbo.exception.ExceptionFactory;
-import com.jinhaoxun.dubbo.module.quartz.model.request.AddCronJobReq;
-import com.jinhaoxun.dubbo.module.quartz.model.request.AddSimpleJobReq;
+import com.jinhaoxun.dubbo.module.quartz.model.request.AddCronJobServiceReq;
+import com.jinhaoxun.dubbo.module.quartz.model.request.AddSimpleJobServiceReq;
 import com.jinhaoxun.dubbo.util.datautil.TimeUtil;
 import org.quartz.*;
 import org.springframework.stereotype.Service;
@@ -44,24 +44,24 @@ public class QuartzManager {
     /**
      * @author jinhaoxun
      * @description 添加一个Simple定时任务
-     * @param addSimpleJobReq 参数对象
+     * @param addSimpleJobServiceReq 参数对象
      * @param taskId 任务ID
      * @throws RuntimeException
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void addSimpleJob(AddSimpleJobReq addSimpleJobReq, String taskId) throws Exception {
-        String jobUrl = jobUri + addSimpleJobReq.getJobClass();
+    public void addSimpleJob(AddSimpleJobServiceReq addSimpleJobServiceReq, String taskId) throws Exception {
+        String jobUrl = jobUri + addSimpleJobServiceReq.getJobClass();
         try {
             Class<? extends Job> aClass = (Class<? extends Job>) Class.forName(jobUrl).newInstance().getClass();
             // 任务名，任务组，任务执行类
             JobDetail job = JobBuilder.newJob(aClass).withIdentity(taskId,
                     "JobGroup").build();
             //增加任务ID参数
-            addSimpleJobReq.getParams().put("taskId",taskId);
+            addSimpleJobServiceReq.getParams().put("taskId",taskId);
             // 添加任务参数
-            job.getJobDataMap().putAll(addSimpleJobReq.getParams());
+            job.getJobDataMap().putAll(addSimpleJobServiceReq.getParams());
             // 转换为时间差，秒单位
-            int time = TimeUtil.getTimeDifferenceSeconds(addSimpleJobReq.getDate(),new Date());
+            int time = TimeUtil.getTimeDifferenceSeconds(addSimpleJobServiceReq.getDate(),new Date());
 
             SimpleTrigger trigger = (SimpleTrigger) TriggerBuilder.newTrigger()
                     .withIdentity(taskId, taskId+"TiggerGroup")
@@ -81,25 +81,25 @@ public class QuartzManager {
     /**
      * @author jinhaoxun
      * @description 添加一个Cron定时任务
-     * @param addCronJobReq 参数对象
+     * @param addCronJobServiceReq 参数对象
      * @throws Exception
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void addCronJob(AddCronJobReq addCronJobReq) throws Exception {
-        String jobUrl = jobUri + addCronJobReq.getJobClass();
+    public void addCronJob(AddCronJobServiceReq addCronJobServiceReq) throws Exception {
+        String jobUrl = jobUri + addCronJobServiceReq.getJobClass();
         try {
             Class<? extends Job> aClass = (Class<? extends Job>) Class.forName(jobUrl).newInstance().getClass();
             // 任务名，任务组，任务执行类
-            JobDetail job = JobBuilder.newJob(aClass).withIdentity(addCronJobReq.getJobName(),
-                    addCronJobReq.getJobGroupName()).build();
+            JobDetail job = JobBuilder.newJob(aClass).withIdentity(addCronJobServiceReq.getJobName(),
+                    addCronJobServiceReq.getJobGroupName()).build();
             // 添加任务参数
-            job.getJobDataMap().putAll(addCronJobReq.getParams());
+            job.getJobDataMap().putAll(addCronJobServiceReq.getParams());
             // 创建触发器
             CronTrigger trigger = (CronTrigger) TriggerBuilder.newTrigger()
                     // 触发器名,触发器组
-                    .withIdentity(addCronJobReq.getTriggerName(), addCronJobReq.getTriggerGroupName())
+                    .withIdentity(addCronJobServiceReq.getTriggerName(), addCronJobServiceReq.getTriggerGroupName())
                     // 触发器时间设定
-                    .withSchedule(CronScheduleBuilder.cronSchedule(addCronJobReq.getDate()))
+                    .withSchedule(CronScheduleBuilder.cronSchedule(addCronJobServiceReq.getDate()))
                     .build();
             // 调度容器设置JobDetail和Trigger
             scheduler.scheduleJob(job, trigger);
