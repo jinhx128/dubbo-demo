@@ -1,6 +1,11 @@
-package com.jinhaoxun.dubbo.aop;
+package com.jinhaoxun.dubbo.common.aop;
 
 import com.alibaba.fastjson.JSON;
+import com.jinhaoxun.dubbo.common.login.UserServerLogin;
+import com.jinhaoxun.dubbo.model.action.ActionRequest;
+import com.jinhaoxun.dubbo.model.action.ActionResponse;
+import com.jinhaoxun.dubbo.model.http.HttpRequest;
+import com.jinhaoxun.dubbo.model.http.HttpResponse;
 import com.unicom.smartterminal.common.constant.LogConstant;
 import com.unicom.smartterminal.common.constant.LoginConstant;
 import com.unicom.smartterminal.common.decrypt.DES;
@@ -21,7 +26,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -37,7 +41,6 @@ import java.lang.reflect.Method;
  * @Description:
  */
 @Aspect
-@Order(1)
 public class HttpCheckAspact {
     /**
      * 输出到系统日志
@@ -46,18 +49,18 @@ public class HttpCheckAspact {
     /**
      * redis
      */
-    private RedisTemplate<String, String> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
     /**
      * 用户操作对象
      */
     private UserServerLogin userServerLogin;
 
-    public HttpCheckAspact(RedisTemplate<String, String> redisTemplate, UserServerLogin userServerLogin) {
+    public HttpCheckAspact(RedisTemplate<String, Object> redisTemplate, UserServerLogin userServerLogin) {
         this.redisTemplate = redisTemplate;
         this.userServerLogin = userServerLogin;
     }
 
-    @Pointcut("@annotation(com.unicom.smartterminal.common.aop.HttpCheck)")
+    @Pointcut("@annotation(com.jinhaoxun.dubbo.common.aop.HttpCheck)")
     public void pointcut() {
     }
     /**

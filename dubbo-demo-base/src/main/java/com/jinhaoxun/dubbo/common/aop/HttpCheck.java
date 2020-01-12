@@ -1,6 +1,6 @@
-package com.jinhaoxun.dubbo.aop;
+package com.jinhaoxun.dubbo.common.aop;
 
-import com.unicom.smartterminal.model.base.action.ActionRequest;
+import com.jinhaoxun.dubbo.model.action.ActionRequest;
 
 import java.lang.annotation.*;
 
@@ -18,7 +18,7 @@ public @interface HttpCheck {
     /**
      * 目前不用修改，系统不需要改字段
      */
-    String value() default "smart-terminal";
+    String value() default "dubbo-demo";
 
     /**
      * 是否需要校验登陆（默认校验登陆）
@@ -35,7 +35,7 @@ public @interface HttpCheck {
      * 才会检测该字段，并且传入为空时，
      * 用系统预先设置的key进行解密。
      */
-    String decryptKey() default "";
+    String decryptKey() default "key";
 
     /**
      * 解密，系统统一加密反序列化的类
