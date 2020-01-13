@@ -35,7 +35,7 @@ public class StringUtil {
      * @param str 要进行判断的数据
      * @return boolean 是否为空
      */
-    public static boolean isBlank(String str) {
+    public static boolean isEmpty(String str) {
         return str == null || "".equals(str.trim());
     }
 
@@ -45,8 +45,8 @@ public class StringUtil {
      * @param str 要进行判断的数据
      * @return boolean 是否为空
      */
-    public static boolean isNotBlank(String str) {
-        return !isBlank(str);
+    public static boolean isNotEmpty(String str) {
+        return !isEmpty(str);
     }
 
     /**
@@ -77,7 +77,7 @@ public class StringUtil {
      * @return String 转换后的数据
      */
     public static String camelToUnderline(String param) {
-        if (isNotBlank(param)) {
+        if (isNotEmpty(param)) {
             int len = param.length();
             StringBuilder sb = new StringBuilder(len);
             for (int i = 0; i < len; ++i) {
@@ -102,7 +102,7 @@ public class StringUtil {
      * @return String 转换后的数据
      */
     public static String underlineToCamel(String param) {
-        if (isNotBlank(param)) {
+        if (isNotEmpty(param)) {
             int len = param.length();
             StringBuilder sb = new StringBuilder(len);
             for (int i = 0; i < len; ++i) {

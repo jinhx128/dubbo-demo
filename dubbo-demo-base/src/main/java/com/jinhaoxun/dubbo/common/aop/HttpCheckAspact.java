@@ -6,6 +6,7 @@ import com.jinhaoxun.dubbo.model.action.ActionRequest;
 import com.jinhaoxun.dubbo.model.action.ActionResponse;
 import com.jinhaoxun.dubbo.model.http.HttpRequest;
 import com.jinhaoxun.dubbo.model.http.HttpResponse;
+import com.jinhaoxun.dubbo.util.datautil.StringUtil;
 import com.unicom.smartterminal.common.constant.LogConstant;
 import com.unicom.smartterminal.common.constant.LoginConstant;
 import com.unicom.smartterminal.common.decrypt.DES;
@@ -88,9 +89,12 @@ public class HttpCheckAspact {
                 }
             }
         }
-        boolean login = annotation.login(); // 是否需要验证登陆
-        boolean isDecrypt = annotation.isDecrypt(); // 是否需要进行解密
-        String dectyptKey = annotation.decryptKey(); // 解密的key
+        // 是否需要验证登陆
+        boolean login = annotation.login();
+        // 是否需要进行解密
+        boolean isDecrypt = annotation.isDecrypt();
+        // 解密的key
+        String dectyptKey = annotation.decryptKey();
         Class<? extends ActionRequest> dataType = annotation.dataType();
         // 获取需要解密的key
         String key = StringUtil.isEmpty(dectyptKey) ? LoginConstant.REQUEST_KEY: dectyptKey;
@@ -107,6 +111,7 @@ public class HttpCheckAspact {
         }
 
     }
+
     @AfterReturning(value = "pointcut()", returning = "response")
     public void doAfterReturning(JoinPoint joinPoint, Object response) throws Exception {
 
