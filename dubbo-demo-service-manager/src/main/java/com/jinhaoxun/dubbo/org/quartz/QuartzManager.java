@@ -186,7 +186,7 @@ public class QuartzManager {
      */
     public Boolean notExists(String triggerName, String triggerGroupName) throws Exception {
         try {
-            return scheduler.getTriggerState(TriggerKey.triggerKey(triggerName, triggerGroupName)) == Trigger.TriggerState.NONE;
+            return scheduler.getTriggerState(TriggerKey.triggerKey(triggerName, triggerGroupName)) == Trigger.TriggerState.NORMAL;
         } catch (Exception e) {
             throw exceptionFactory.build(ResponseMsg.QUARTZ_EXISTS_JOB_FAIL.getCode(),e.getMessage());
         }

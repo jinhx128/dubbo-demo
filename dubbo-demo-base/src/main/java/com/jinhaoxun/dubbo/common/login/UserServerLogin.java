@@ -1,9 +1,6 @@
 package com.jinhaoxun.dubbo.common.login;
 
 import com.alibaba.druid.util.StringUtils;
-import com.alibaba.fastjson.JSON;
-import com.jinhaoxun.dubbo.util.datautil.StringUtil;
-import com.unicom.smartterminal.util.StringUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.concurrent.TimeUnit;
@@ -49,16 +46,17 @@ public class UserServerLogin {
     /**
      *  设置用户信息
      * @param cookie
-     * @param user
+     * @param userServer
      * @throws Exception
      */
-    public void setUserToRedis(String cookie, UserServer user) throws Exception {
-        if (cookie == null || StringUtils.equals("",cookie)) {
+    public void setUserToRedis(String cookie, UserServer userServer) throws Exception {
+        if (cookie == null || StringUtils.equals("", cookie)) {
             throw new Exception("cookie为空");
         }
-        String userKey = keepUserKey(cookie);
+//        String userKey = keepUserKey(cookie);
         // 设置缓存对象
-        redisTemplate.opsForValue().set(userKey, user.toString(), LOGIN_TIMEOUT, TimeUnit.DAYS);
+        redisTemplate.opsForHash().put(LOGIN_USER, userServer.getUserId(), userServer);
+        redisTemplate.expire(LOGIN_USER + userServer.getUserId(), LOGIN_TIMEOUT, TimeUnit.DAYS);
     }
 
     /**
@@ -70,12 +68,12 @@ public class UserServerLogin {
         if(cookie == null || StringUtils.equals("",cookie)){
             return null;
         }
-        String userKey = keepUserKey(cookie);
-        String userCache = redisTemplate.opsForValue().get(userKey);
-        if(StringUtil.isEmpty(userCache)){
+//        String userKey = keepUserKey(cookie);
+        UserServer userServer = (UserServer) redisTemplate.opsForHash().get(LOGIN_USER, cookie);
+        if(userServer == null){
             return null;
         }
-        return  JSON.parseObject(userCache, UserServer.class);
+        return userServer;
     }
 
 
