@@ -175,7 +175,7 @@ public class FileServiceImpl implements FileService {
         log.info("开始创建Excel...");
         //数据
         List<ExportExcelTest> exportExcelTestList = createExcelData();
-        List<Map<String, Object>> list=createExcelRecord(exportExcelTestList);
+        List<Map<String, Object>> list = createExcelRecord(exportExcelTestList);
         //列名
         String[] columnNames = {"编号","名称","年龄","性别"};
         //map中的key
