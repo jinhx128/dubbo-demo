@@ -1,0 +1,26 @@
+# docker构建镜像
+# docker pull jenkins/jenkins
+# mkdir /usr/local/jenkins          创建文件夹
+# ls -nd /usr/local/jenkins/                  查看文件权限
+# chown -R 1000:1000 /usr/local/jenkins/    给uid为1000的权限
+# docker run -itd -p 10000:8080 -p 50000:50000 --name jenkins --privileged=true -v /usr/local/jenkins:/var/jenkins_home jenkins/jenkins:latest
+# 启动关闭
+# systemctl start jenkins
+# systemctl stop jenkins
+# systemctl restart jenkins
+# 常规安装
+# wget https://pkg.jenkins.io/redhat/jenkins-2.156-1.1.noarch.rpm
+# rpm -ivh jenkins-2.156-1.1.noarch.rpm
+version: '3.7'
+services:
+  jenkins:
+    image: jenkins/jenkins
+    restart: always
+    container_name: jenkins
+    environment:
+      TZ: 'Asia/Shanghai'
+    ports:
+      - 10000:8080
+      - 50000:50000
+    volumes:
+      - /usr/local/docker/jenkins:/var/jenkins_home

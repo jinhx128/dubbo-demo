@@ -1,5 +1,0 @@
-docker pull jenkins
-mkdir /usr/local/jenkins          创建文件夹
-ls -nd /usr/local/jenkins/                  查看文件权限
-chown -R 1000:1000 /usr/local/jenkins/    给uid为1000的权限
-docker run -itd -p 10000:8080 -p 50000:50000 --name jenkins --privileged=true -v /usr/local/jenkins:/var/jenkins_home jenkins:latest
