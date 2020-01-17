@@ -1,0 +1,25 @@
+version: '3.7'
+services:
+  gitlab:
+    image: gitlab/gitlab-ce
+    restart: always
+    hostname: 172.16.31.130
+    environment:
+      TZ: 'Asia/BeiJing'
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://172.16.31.130'
+        gitlab_rails['gitlab_shell_ssh_port'] = 222
+        unicorn['port'] = 8888
+        nginx['listen_port'] = 8080
+    ports:
+      - 80:80
+      - 443:443
+      - 222:22
+    volumes:
+      - /usr/local/docker/gitlab/logs:/home/rocketmq/logs
+      - /usr/local/docker/gitlab/logs:/home/rocketmq/logs
+      - /usr/local/docker/gitlab/logs:/home/rocketmq/logs
+      - /usr/local/docker/rocketmq/store:/home/rocketmq/store
+      - /usr/local/docker/rocketmq/bin/runserver.sh:/opt/rocketmq-4.4.0/bin/runserver.sh
+      - /etc/localtime:/etc/localtime:ro # 修改容器内的时区和宿主机一样
+    command: sh mqnamesrv
