@@ -116,11 +116,17 @@
             <artifactId>shiro-spring</artifactId>
             <version>1.3.2</version>
         </dependency>
-        <!-- 密码加密 https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
+        <!-- Bcrypt加密 -->
         <dependency>
             <groupId>org.mindrot</groupId>
             <artifactId>jbcrypt</artifactId>
             <version>0.4</version>
+        </dependency>
+        <!-- Apache加密 -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.13</version>
         </dependency>
         <!-- MySQL-数据库驱动 -->
         <dependency>

@@ -17,7 +17,7 @@ import com.jinhaoxun.dubbo.thirdparty.notify.model.request.GetEmailCodeServiceRe
 import com.jinhaoxun.dubbo.thirdparty.notify.model.request.GetPhoneCodeServiceReq;
 import com.jinhaoxun.dubbo.thirdparty.notify.model.response.GetEmailCodeServiceRes;
 import com.jinhaoxun.dubbo.thirdparty.notify.model.response.GetPhoneCodeServiceRes;
-import com.jinhaoxun.dubbo.util.encodeutil.BcryptUtil;
+import com.jinhaoxun.dubbo.util.EncodeUtil;
 import com.jinhaoxun.dubbo.util.idutil.IdUtil;
 import com.jinhaoxun.dubbo.mapper.user.UserMapper;
 import com.jinhaoxun.dubbo.thirdparty.notify.service.NotifyService;
@@ -81,7 +81,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw exceptionFactory.build(ResponseMsg.USER_NOT_EXIST.getCode(),"账号或者密码错误");
         }
         String realPassword = userMapper.selectPassword(userId);
-        if (!BcryptUtil.checkPasswordByBcrypt(password, realPassword)) {
+        if (!EncodeUtil.checkByBcrypt(password, realPassword)) {
             throw exceptionFactory.build(ResponseMsg.PASSWORD_WRONG.getCode(),"账号或者密码错误");
         }
         Boolean ban = userMapper.selectBan(userId);
@@ -145,7 +145,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         Long userId = IdUtil.getId();
         user.setUserId(userId);
-        String password = BcryptUtil.encoderByBcrypt(userRegisterServiceReq.getPassword());
+        String password = EncodeUtil.encoderByBcrypt(userRegisterServiceReq.getPassword());
         user.setPassword(password);
         user.setName(userRegisterServiceReq.getName());
         Date now = new Date();
@@ -288,7 +288,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @HystrixCommand
     @Override
     public void updatePassword(UpdatePasswordServiceReq updatePasswordServiceReq) throws Exception {
-        String password = BcryptUtil.encoderByBcrypt(updatePasswordServiceReq.getPassword());
+        String password = EncodeUtil.encoderByBcrypt(updatePasswordServiceReq.getPassword());
         int count = userMapper.updatePassword(updatePasswordServiceReq.getUserId(),password);
         if(count != 1){
             throw exceptionFactory.build(ResponseMsg.PASSWORD_CHANGE_FAIL.getCode(),ResponseMsg.PASSWORD_CHANGE_FAIL.getMsg());

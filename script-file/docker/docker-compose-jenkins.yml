@@ -24,3 +24,5 @@ services:
       - 50000:50000
     volumes:
       - /usr/local/docker/jenkins:/var/jenkins_home
+      - /usr/local/maven/apache-maven-3.6.3:/usr/local/maven/apache-maven-3.6.3
+      - /usr/local/java/jdk1.8.0_221:/usr/local/java/jdk1.8.0_221
