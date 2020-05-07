@@ -17,7 +17,7 @@ import com.jinhaoxun.dubbo.thirdparty.notify.model.request.GetEmailCodeServiceRe
 import com.jinhaoxun.dubbo.thirdparty.notify.model.request.GetPhoneCodeServiceReq;
 import com.jinhaoxun.dubbo.thirdparty.notify.model.response.GetEmailCodeServiceRes;
 import com.jinhaoxun.dubbo.thirdparty.notify.model.response.GetPhoneCodeServiceRes;
-import com.jinhaoxun.dubbo.util.EncodeUtil;
+import com.jinhaoxun.dubbo.util.encodeutil.EncodeUtil;
 import com.jinhaoxun.dubbo.util.idutil.IdUtil;
 import com.jinhaoxun.dubbo.mapper.user.UserMapper;
 import com.jinhaoxun.dubbo.thirdparty.notify.service.NotifyService;

@@ -2,23 +2,18 @@ package com.jinhaoxun.dubbo.common.aop;
 
 import com.alibaba.fastjson.JSON;
 import com.jinhaoxun.dubbo.common.login.UserServerLogin;
+import com.jinhaoxun.dubbo.constant.LoginConstant;
+import com.jinhaoxun.dubbo.constant.ResponseMsg;
+import com.jinhaoxun.dubbo.exception.CustomException;
+import com.jinhaoxun.dubbo.exception.CustomRuntimeException;
 import com.jinhaoxun.dubbo.model.action.ActionRequest;
 import com.jinhaoxun.dubbo.model.action.ActionResponse;
 import com.jinhaoxun.dubbo.model.http.HttpRequest;
 import com.jinhaoxun.dubbo.model.http.HttpResponse;
+import com.jinhaoxun.dubbo.util.datautil.BinaryUtil;
 import com.jinhaoxun.dubbo.util.datautil.StringUtil;
-import com.unicom.smartterminal.common.constant.LogConstant;
-import com.unicom.smartterminal.common.constant.LoginConstant;
-import com.unicom.smartterminal.common.decrypt.DES;
-import com.unicom.smartterminal.common.exception.SmartTerminalEexception;
-import com.unicom.smartterminal.common.exception.SmartTerminalExceptionMsg;
-import com.unicom.smartterminal.common.login.UserServerLogin;
-import com.unicom.smartterminal.model.base.HttpRequest;
-import com.unicom.smartterminal.model.base.HttpResponse;
-import com.unicom.smartterminal.model.base.action.ActionRequest;
-import com.unicom.smartterminal.model.base.action.ActionResponse;
-import com.unicom.smartterminal.util.HttpUtil;
-import com.unicom.smartterminal.util.StringUtil;
+import com.jinhaoxun.dubbo.util.encodeutil.EncodeUtil;
+import com.jinhaoxun.dubbo.util.requestutil.HttpUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -44,14 +39,17 @@ import java.lang.reflect.Method;
  */
 @Aspect
 public class HttpCheckAspact {
+
     /**
      * 输出到系统日志
      */
     private Logger sysLog = LoggerFactory.getLogger("sysLog");
+
     /**
      * redis
      */
     private RedisTemplate<String, Object> redisTemplate;
+
     /**
      * 用户操作对象
      */
@@ -65,6 +63,7 @@ public class HttpCheckAspact {
     @Pointcut("@annotation(com.jinhaoxun.dubbo.common.aop.HttpCheck)")
     public void pointcut() {
     }
+
     /**
      *  前置处理
      * @param joinPoint
@@ -99,12 +98,13 @@ public class HttpCheckAspact {
         Class<? extends ActionRequest> dataType = annotation.dataType();
         // 获取需要解密的key
         String key = StringUtil.isEmpty(dectyptKey) ? LoginConstant.REQUEST_KEY: dectyptKey;
+
         if(login){
             String cookie = HttpUtil.getLoginCookie(request);
             boolean isLogin = userServerLogin.isLogin(cookie);
             if(StringUtil.isEmpty(cookie) || isLogin == false){
-                log.error("AOP-用户未登陆" + method.getName() + "-" +cookie );
-                throw new SmartTerminalEexception(SmartTerminalExceptionMsg.SYS_USER_NOT_LOGIN,"用户未登录","AOP-用户未登陆"+method.getName()+ "-" +cookie);
+                sysLog.error("AOP-用户未登陆" + method.getName() + "-" +cookie );
+                throw new CustomException(ResponseMsg.USER_NOT_LOG_IN.getCode(), "AOP-用户未登陆"+method.getName()+ "-" +cookie, ResponseMsg.IDENTITY_INFORMATION_IS_EXPIRED.getMsg());
             }
         }
         if(isDecrypt){
@@ -115,7 +115,6 @@ public class HttpCheckAspact {
 
     @AfterReturning(value = "pointcut()", returning = "response")
     public void doAfterReturning(JoinPoint joinPoint, Object response) throws Exception {
-
         if(response instanceof HttpResponse){
             HttpResponse httpResponse = (HttpResponse) response;
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -127,7 +126,7 @@ public class HttpCheckAspact {
             if(isEncrypt){
                 ActionResponse body =  httpResponse.getData();
                 if (body != null) {
-                      httpResponse.setSrs(DES.DesEncrypt(body.toString(), key));
+                      httpResponse.setSrs(EncodeUtil.encryptByAES(body.toString(), key));
                       httpResponse.setData(null);
                 }
             }
@@ -146,7 +145,7 @@ public class HttpCheckAspact {
         if(StringUtil.isEmpty(sdt)){
             return;
         }
-        String context = DES.DesDecrypt(sdt, key);
+        String context = EncodeUtil.decryptByAES(sdt, key);
         if(StringUtil.isEmpty(context)){
             return;
         }

@@ -76,7 +76,4 @@ public class UserServerLogin {
         return userServer;
     }
 
-
-
-
 }

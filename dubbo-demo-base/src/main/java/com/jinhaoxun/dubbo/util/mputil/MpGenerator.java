@@ -18,7 +18,36 @@ import java.util.*;
  * @Date 2018-05-09
  * @description MybtaisPlus逆向工程
  */
-public class MpGenerator extends Generator {
+public class MpGenerator {
+
+    /**
+     * 自定义UTF_8
+     */
+    private static final String GENERATOR_TYPE_1 = "1";
+
+    /**
+     * @author jinhaoxun
+     * @description 读取控制台的内容
+     * @return int 读取到的数据
+     */
+    public static int scanner() {
+        Scanner scanner = new Scanner(System.in);
+        String help = " ！！代码生成, 输入 0 表示使用 Velocity 引擎 ！！" +
+                "\n对照表：" +
+                "\n0 = Velocity 引擎" +
+                "\n1 = Freemarker 引擎" +
+                "\n请输入：";
+        System.out.println(help);
+        int slt = 0;
+        // 现在有输入数据
+        if (scanner.hasNext()) {
+            String ipt = scanner.next();
+            if (GENERATOR_TYPE_1.equals(ipt)) {
+                slt = 1;
+            }
+        }
+        return slt;
+    }
 
     public static void main(String[] args) {
         int result = scanner();
@@ -70,7 +99,7 @@ public class MpGenerator extends Generator {
                         .setDriverName("com.mysql.cj.jdbc.Driver")
                         .setUsername("root")
                         .setPassword("root")
-                        .setUrl("jdbc:mysql://localhost:3306/apecome?serverTimezone=GMT%2B8")
+                        .setUrl("jdbc:mysql://47.101.135.160:3306/apecome?serverTimezone=GMT%2B8")
         ).setStrategy(
                 // 策略配置
                 new StrategyConfig()
@@ -83,7 +112,7 @@ public class MpGenerator extends Generator {
                         // 表名生成策略
                         .setNaming(NamingStrategy.underline_to_camel)
                         // 需要生成的表
-                        .setInclude(new String[] { "task" })
+                        .setInclude(new String[] { "TASK" })
                         // 排除生成的表
                         // .setExclude(new String[]{"testcontroller"})
                         // 自定义实体父类

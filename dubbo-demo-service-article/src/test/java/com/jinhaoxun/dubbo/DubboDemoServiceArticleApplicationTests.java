@@ -1,9 +1,9 @@
 package com.jinhaoxun.dubbo;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -15,30 +15,23 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Slf4j
+// 获取启动类，加载配置，确定装载 Spring 程序的装载方法，它回去寻找 主配置启动类（被 @SpringBootApplication 注解的）
 @SpringBootTest
 class DubboDemoServiceArticleApplicationTests {
 
-    @Autowired
-    private TestRestTemplate restTemplate;
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
-    @org.junit.Test
-    public void testEnumUtil() {
-        log.info("测试中!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    }
-
-    @org.junit.Test
-    public void contextLoads() {
-        log.info("测试中!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!{}");
+    @Test
+    void test() {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("ss mm HH dd MM ? yyyy");
         String dateString = formatter.format(date);
         log.info(dateString);
     }
 
-    @org.junit.Test
-    public void test1() {
+    @Test
+    void test1() {
         // 10位的秒级别的时间戳
         long time1 = 1527767665;
         String result1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(time1 * 1000));
@@ -52,18 +45,18 @@ class DubboDemoServiceArticleApplicationTests {
 
     @Test
     @Async("taskExecutor")
-    public void test2() {
+    void test2() {
         redisTemplate.opsForValue().set("测试1","哈哈");
         System.out.println(redisTemplate.opsForValue().get("测试1"));
     }
 
-    @Before
-    public void testBefore(){
+    @BeforeEach
+    void testBefore(){
         log.info("测试开始!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
 
-    @After
-    public void testAfter(){
+    @AfterEach
+    void testAfter(){
         log.info("测试结束!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
 

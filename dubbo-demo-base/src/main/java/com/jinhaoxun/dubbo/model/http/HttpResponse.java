@@ -7,6 +7,7 @@ import com.jinhaoxun.dubbo.model.base.Model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -24,7 +25,7 @@ public class HttpResponse<T extends ActionResponse> extends Model {
 	/**
 	 * 响应时间
 	 */
-	private Date time;
+	private LocalDateTime time;
 	/**
 	 * 响应的信息（一般为错误信息）
 	 */
@@ -50,12 +51,12 @@ public class HttpResponse<T extends ActionResponse> extends Model {
 		this.code = code;
 		this.msg = msg;
 		this.data = data;
-		this.time = new Date();
+		this.time = LocalDateTime.now();
 	}
 
 	/**
 	* @Description: 构建一个响应
-	* @author humeng  
+	* @author jinhaoxun
 	* @date 2019年1月2日 下午2:09:24 
 	* @param code
 	* @param msg
@@ -68,7 +69,7 @@ public class HttpResponse<T extends ActionResponse> extends Model {
 
 	/**
 	* @Description: 构建一个成功带数据和msg的响应
-	* @author humeng  
+	* @author jinhaoxun
 	* @date 2019年1月2日 下午2:08:52 
 	* @param msg
 	* @param data
@@ -80,7 +81,7 @@ public class HttpResponse<T extends ActionResponse> extends Model {
 
 	/**
 	 * @Description: 构建一个成功带数据和msg的响应
-	 * @author humeng
+	 * @author jinhaoxun
 	 * @date 2019年1月2日 下午2:08:52
 	 * @param data
 	 * @return
@@ -91,7 +92,7 @@ public class HttpResponse<T extends ActionResponse> extends Model {
 
 	/**
 	* @Description: 构建一个空的默认的成功响应
-	* @author humeng  
+	* @author jinhaoxun
 	* @date 2019年1月2日 下午2:07:11 
 	* @return
 	 */
