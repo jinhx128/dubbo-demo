@@ -3,28 +3,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.5.RELEASE</version>
+        <groupId>com.jinhaoxun</groupId>
+        <artifactId>dubbo-demo</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath/> <!-- 父工程的pom文件相对当前pom文件的路径 -->
     </parent>
-    <groupId>com.jinhaoxun</groupId>
-    <artifactId>dubbo-demo</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <name>dubbo-demo</name>
-    <description>Dubbo Demo 父工程</description>
-    <!-- 注意：修改jar为pom -->
-    <packaging>pom</packaging>
 
-    <!-- 注意：加入子模块，聚合工程 -->
-    <modules>
-        <module>dubbo-base</module>
-        <module>dubbo-api</module>
-        <module>dubbo-thirdparty</module>
-        <module>dubbo-service-article</module>
-        <module>dubbo-service-manager</module>
-        <module>dubbo-web</module>
-    </modules>
+    <artifactId>dubbo-api</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>dubbo-api</name>
+    <description>Dubbo API 工程</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,20 +21,17 @@
         <java.version>1.8</java.version>
     </properties>
 
-    <!-- 注意：统一管理依赖版本号，子工程需要依赖 -->
-<!--    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <version>2.2.2.RELEASE</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>-->
+    <dependencies>
+        <dependency>
+            <groupId>com.jinhaoxun</groupId>
+            <artifactId>dubbo-base</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
-            <!-- 注意: 因为我们不需要父工程是一个可运行的项目，所以修改原来的打包方式为maven打包方式 -->
+            <!-- 注意: 因为我们不需要demo-parent是一个可运行的项目，所以修改原来的打包方式为maven打包方式 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
