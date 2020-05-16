@@ -1,7 +1,7 @@
 package com.jinhaoxun.dubbo.util.requestutil;
 
+import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.jinhaoxun.dubbo.constant.LoginConstant;
-import org.thymeleaf.util.ArrayUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

@@ -1,34 +1,34 @@
 package com.jinhaoxun.dubbo.common.aop;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.jinhaoxun.dubbo.common.login.UserServerLogin;
 import com.jinhaoxun.dubbo.constant.LoginConstant;
 import com.jinhaoxun.dubbo.constant.ResponseMsg;
 import com.jinhaoxun.dubbo.exception.CustomException;
-import com.jinhaoxun.dubbo.exception.CustomRuntimeException;
-import com.jinhaoxun.dubbo.model.action.ActionRequest;
-import com.jinhaoxun.dubbo.model.action.ActionResponse;
-import com.jinhaoxun.dubbo.model.http.HttpRequest;
-import com.jinhaoxun.dubbo.model.http.HttpResponse;
-import com.jinhaoxun.dubbo.util.datautil.BinaryUtil;
+import com.jinhaoxun.dubbo.vo.action.ActionResponse;
+import com.jinhaoxun.dubbo.vo.http.HttpRequest;
+import com.jinhaoxun.dubbo.vo.http.HttpResponse;
 import com.jinhaoxun.dubbo.util.datautil.StringUtil;
 import com.jinhaoxun.dubbo.util.encodeutil.EncodeUtil;
 import com.jinhaoxun.dubbo.util.requestutil.HttpUtil;
+import com.jinhaoxun.dubbo.vo.action.ActionRequest;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.bouncycastle.jcajce.provider.symmetric.DES;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.thymeleaf.util.ArrayUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
@@ -38,6 +38,7 @@ import java.lang.reflect.Method;
  * @Description:
  */
 @Aspect
+@Component
 public class HttpCheckAspact {
 
     /**
@@ -48,17 +49,18 @@ public class HttpCheckAspact {
     /**
      * redis
      */
-    private RedisTemplate<String, Object> redisTemplate;
+//    @Resource
+//    private RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 用户操作对象
      */
     private UserServerLogin userServerLogin;
 
-    public HttpCheckAspact(RedisTemplate<String, Object> redisTemplate, UserServerLogin userServerLogin) {
-        this.redisTemplate = redisTemplate;
-        this.userServerLogin = userServerLogin;
-    }
+//    public HttpCheckAspact(RedisTemplate<String, Object> redisTemplate, UserServerLogin userServerLogin) {
+//        this.redisTemplate = redisTemplate;
+//        this.userServerLogin = userServerLogin;
+//    }
 
     @Pointcut("@annotation(com.jinhaoxun.dubbo.common.aop.HttpCheck)")
     public void pointcut() {

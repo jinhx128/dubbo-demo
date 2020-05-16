@@ -44,7 +44,6 @@ class DubboServiceArticleApplicationTests {
     }
 
     @Test
-    @Async("taskExecutor")
     void test2() {
         redisTemplate.opsForValue().set("测试1","哈哈");
         System.out.println(redisTemplate.opsForValue().get("测试1"));

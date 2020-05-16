@@ -3,8 +3,11 @@ package com.jinhaoxun.dubbo.pojo.user;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -13,6 +16,8 @@ import java.util.Date;
  * @date 2018-05-09
  * @description 用户角色表实体类
  */
+@Setter
+@Getter
 public class UserRole extends Model<UserRole> {
 
     private static final long serialVersionUID = 1L;
@@ -39,7 +44,7 @@ public class UserRole extends Model<UserRole> {
      * 创建时间
      */
     @TableField("CREATE_TIME")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 创建人ID
@@ -47,60 +52,8 @@ public class UserRole extends Model<UserRole> {
     @TableField("CREATER_ID")
     private Long createrId;
 
-
-    public Long getUserRoleId() {
-        return userRoleId;
-    }
-
-    public void setUserRoleId(Long userRoleId) {
-        this.userRoleId = userRoleId;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Long getCreaterId() {
-        return createrId;
-    }
-
-    public void setCreaterId(Long createrId) {
-        this.createrId = createrId;
-    }
-
     @Override
     protected Serializable pkVal() {
-        return this.userRoleId;
-    }
-
-    @Override
-    public String toString() {
-        return "UserRole{" +
-        "userRoleId=" + userRoleId +
-        ", code=" + code +
-        ", userId=" + userId +
-        ", createTime=" + createTime +
-        ", createrId=" + createrId +
-        "}";
+        return null;
     }
 }

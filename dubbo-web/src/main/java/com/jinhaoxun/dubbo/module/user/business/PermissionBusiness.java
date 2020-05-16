@@ -1,6 +1,6 @@
 package com.jinhaoxun.dubbo.module.user.business;
 
-import com.jinhaoxun.dubbo.module.user.service.PermissionService;
+import com.jinhaoxun.dubbo.user.service.PermissionService;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Service;
 

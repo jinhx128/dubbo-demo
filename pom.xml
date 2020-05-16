@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.jinhaoxun</groupId>
     <artifactId>dubbo-demo</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>dubbo-demo</name>
     <description>Dubbo Demo 父工程</description>
     <!-- 注意：修改jar为pom -->
@@ -20,7 +20,7 @@
     <modules>
         <module>dubbo-base</module>
         <module>dubbo-api</module>
-        <module>dubbo-thirdparty</module>
+        <module>dubbo-service-resources</module>
         <module>dubbo-service-article</module>
         <module>dubbo-service-manager</module>
         <module>dubbo-web</module>

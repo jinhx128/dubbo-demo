@@ -1,6 +1,6 @@
 package com.jinhaoxun.dubbo.module.article.model.request;
 
-import com.jinhaoxun.dubbo.model.service.ServicePageableRequest;
+import com.jinhaoxun.dubbo.vo.service.ServicePageableRequest;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,12 +17,7 @@ public class GetArticleListServiceReq extends ServicePageableRequest {
     /**
      * 一级标签
      */
-    private Integer primaryLabelCode;
-
-    /**
-     * 二级标签
-     */
-    private Integer secondaryLabelCode;
+    private String label;
 
     /**
      * 关键字

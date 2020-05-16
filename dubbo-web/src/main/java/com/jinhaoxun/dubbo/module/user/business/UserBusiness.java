@@ -1,18 +1,17 @@
 package com.jinhaoxun.dubbo.module.user.business;
 
 import com.jinhaoxun.dubbo.constant.AbstractConstant;
-import com.jinhaoxun.dubbo.model.action.ActionPageableRequest;
-import com.jinhaoxun.dubbo.model.service.ServicePageableRequest;
-import com.jinhaoxun.dubbo.module.user.action.request.*;
-import com.jinhaoxun.dubbo.module.user.action.response.GetUserActionRes;
-import com.jinhaoxun.dubbo.module.user.action.response.GetUserListActionRes;
-import com.jinhaoxun.dubbo.module.user.model.request.*;
-import com.jinhaoxun.dubbo.module.user.model.response.AddSessionServiceRes;
-import com.jinhaoxun.dubbo.module.user.model.response.GetUserListServiceRes;
-import com.jinhaoxun.dubbo.module.user.model.response.GetUserServiceRes;
-import com.jinhaoxun.dubbo.module.user.service.UserService;
+import com.jinhaoxun.dubbo.vo.action.ActionPageableRequest;
+import com.jinhaoxun.dubbo.vo.service.ServicePageableRequest;
+import com.jinhaoxun.dubbo.module.user.vo.request.*;
+import com.jinhaoxun.dubbo.module.user.vo.response.GetUserActionRes;
+import com.jinhaoxun.dubbo.module.user.vo.response.GetUserListActionRes;
+import com.jinhaoxun.dubbo.user.dto.request.*;
+import com.jinhaoxun.dubbo.user.dto.response.AddSessionServiceRes;
+import com.jinhaoxun.dubbo.user.dto.response.GetUserListServiceRes;
+import com.jinhaoxun.dubbo.user.dto.response.GetUserServiceRes;
+import com.jinhaoxun.dubbo.user.service.UserService;
 import com.jinhaoxun.dubbo.util.requestutil.JwtUtil;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import net.sf.json.JSONObject;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
@@ -46,7 +45,6 @@ public class UserBusiness {
      * @return
      * @throws Exception
      */
-    @HystrixCommand(fallbackMethod = "addSessionFallBack")
     public void addSession(UserLoginActionReq userLoginActionReq, HttpServletResponse httpServletResponse) throws Exception {
         UserLoginServiceReq userLoginServiceReq = new UserLoginServiceReq();
         BeanUtils.copyProperties(userLoginActionReq, userLoginServiceReq);
@@ -85,25 +83,11 @@ public class UserBusiness {
 
     /**
      * @author jinhaoxun
-     * @description 进行登录
-     * @param userLoginActionReq 登录信息参数
-     * @param response 请求响应体
-     * @param exception Hystrix抛出的异常
-     * @return
-     * @throws Exception
-     */
-    public void addSessionFallBack(UserLoginActionReq userLoginActionReq, HttpServletResponse response, Throwable exception) throws Exception {
-        throw (Exception) exception;
-    }
-
-    /**
-     * @author jinhaoxun
      * @description 用户注册
      * @param userRegisterActionReq 注册信息参数
      * @return
      * @throws Exception
      */
-    @HystrixCommand(fallbackMethod = "addUserFallBack")
     public void addUser(UserRegisterActionReq userRegisterActionReq) throws Exception {
         UserRegisterServiceReq userRegisterServiceReq = new UserRegisterServiceReq();
         BeanUtils.copyProperties(userRegisterActionReq, userRegisterServiceReq);
@@ -112,24 +96,11 @@ public class UserBusiness {
 
     /**
      * @author jinhaoxun
-     * @description 用户注册
-     * @param userRegisterActionReq 注册信息参数
-     * @param exception Hystrix抛出的异常
-     * @return
-     * @throws Exception
-     */
-    public void addUserFallBack(UserRegisterActionReq userRegisterActionReq, Throwable exception) throws Exception {
-        throw (Exception) exception;
-    }
-
-    /**
-     * @author jinhaoxun
      * @description 用户注销
      * @param deleteUserActionReq 用户id
      * @return
      * @throws Exception
      */
-    @HystrixCommand(fallbackMethod = "deleteUserFallBack")
     public void deleteUser(DeleteUserActionReq deleteUserActionReq) throws Exception {
         DeleteUserServiceReq deleteUserServiceReq = new DeleteUserServiceReq();
         BeanUtils.copyProperties(deleteUserActionReq, deleteUserServiceReq);
@@ -138,40 +109,15 @@ public class UserBusiness {
 
     /**
      * @author jinhaoxun
-     * @description 用户注销
-     * @param deleteUserActionReq 用户id
-     * @param exception Hystrix抛出的异常
-     * @return
-     * @throws Exception
-     */
-    public void deleteUserFallBack(DeleteUserActionReq deleteUserActionReq, Throwable exception) throws Exception {
-        throw (Exception) exception;
-    }
-
-    /**
-     * @author jinhaoxun
      * @description 获取验证码
      * @param getCodeActionReq 获取验证码类型参数
      * @return
      * @throws Exception
      */
-    @HystrixCommand(fallbackMethod = "getCodeFallBack")
     public void getCode(GetCodeActionReq getCodeActionReq) throws Exception {
         GetCodeServiceReq getCodeServiceReq = new GetCodeServiceReq();
         BeanUtils.copyProperties(getCodeActionReq, getCodeServiceReq);
         userService.getCode(getCodeServiceReq);
-    }
-
-    /**
-     * @author jinhaoxun
-     * @description 获取验证码
-     * @param getCodeActionReq 获取验证码类型参数
-     * @param exception Hystrix抛出的异常
-     * @return
-     * @throws Exception
-     */
-    public void getCodeFallBack(GetCodeActionReq getCodeActionReq, Throwable exception) throws Exception {
-        throw (Exception) exception;
     }
 
     /**
@@ -182,7 +128,6 @@ public class UserBusiness {
      * @return
      * @throws Exception
      */
-    @HystrixCommand(fallbackMethod = "addCodeSessionFallBack")
     public void addCodeSession(CodeUserLoginActionReq codeUserLoginActionReq, HttpServletResponse httpServletResponse) throws Exception {
         CodeUserLoginServiceReq codeUserLoginServiceReq = new CodeUserLoginServiceReq();
         BeanUtils.copyProperties(codeUserLoginActionReq, codeUserLoginServiceReq);
@@ -192,41 +137,15 @@ public class UserBusiness {
 
     /**
      * @author jinhaoxun
-     * @description 验证码登录
-     * @param codeUserLoginActionReq 登录信息参数
-     * @param httpServletResponse 请求响应体
-     * @param exception Hystrix抛出的异常
-     * @return
-     * @throws Exception
-     */
-    public void addCodeSessionFallBack(CodeUserLoginActionReq codeUserLoginActionReq, HttpServletResponse httpServletResponse, Throwable exception) throws Exception {
-        throw (Exception) exception;
-    }
-
-    /**
-     * @author jinhaoxun
      * @description 修改密码
      * @param updatePasswordActionReq 修改密码信息参数
      * @return
      * @throws Exception
      */
-    @HystrixCommand(fallbackMethod = "updatePasswordFallBack")
     public void updatePassword(UpdatePasswordActionReq updatePasswordActionReq) throws Exception {
         UpdatePasswordServiceReq updatePasswordServiceReq = new UpdatePasswordServiceReq();
         BeanUtils.copyProperties(updatePasswordActionReq, updatePasswordServiceReq);
         userService.updatePassword(updatePasswordServiceReq);
-    }
-
-    /**
-     * @author jinhaoxun
-     * @description 修改密码
-     * @param updatePasswordActionReq 修改密码信息参数
-     * @param exception Hystrix抛出的异常
-     * @return
-     * @throws Exception
-     */
-    public void updatePasswordFallBack(UpdatePasswordActionReq updatePasswordActionReq, Throwable exception) throws Exception {
-        throw (Exception) exception;
     }
 
     /**
@@ -236,7 +155,6 @@ public class UserBusiness {
      * @return ResponseResult 是否封禁成功
      * @throws Exception
      */
-    @HystrixCommand(fallbackMethod = "addBanFallBack")
     public void addBan(AddBanActionReq addBanActionReq) throws Exception {
         AddBanServiceReq addBanServiceReq = new AddBanServiceReq();
         BeanUtils.copyProperties(addBanActionReq, addBanServiceReq);
@@ -245,40 +163,15 @@ public class UserBusiness {
 
     /**
      * @author jinhaoxun
-     * @description 账号封禁
-     * @param addBanActionReq 用户id
-     * @param exception Hystrix抛出的异常
-     * @return
-     * @throws Exception
-     */
-    public void addBanFallBack(AddBanActionReq addBanActionReq, Throwable exception) throws Exception {
-        throw (Exception) exception;
-    }
-
-    /**
-     * @author jinhaoxun
      * @description 账号解封
      * @param deleteBanActionReq 用户id
      * @return
      * @throws Exception
      */
-    @HystrixCommand(fallbackMethod = "deleteBanFallBack")
     public void deleteBan(DeleteBanActionReq deleteBanActionReq) throws Exception {
         DeleteBanServiceReq deleteBanServiceReq = new DeleteBanServiceReq();
         BeanUtils.copyProperties(deleteBanActionReq, deleteBanServiceReq);
         userService.deleteBan(deleteBanServiceReq);
-    }
-
-    /**
-     * @author jinhaoxun
-     * @description 账号解封
-     * @param deleteBanActionReq 用户id
-     * @param exception Hystrix抛出的异常
-     * @return
-     * @throws Exception
-     */
-    public void deleteBanFallBack(DeleteBanActionReq deleteBanActionReq, Throwable exception) throws Exception {
-        throw (Exception) exception;
     }
 
     /**
@@ -288,7 +181,6 @@ public class UserBusiness {
      * @return GetUserActionRes 获取到的用户信息
      * @throws Exception
      */
-    @HystrixCommand(fallbackMethod = "getUserFallBack")
     public GetUserActionRes getUser(GetUserActionReq getUserActionReq) throws Exception {
         GetUserServiceReq getUserServiceReq = new GetUserServiceReq();
         BeanUtils.copyProperties(getUserActionReq, getUserServiceReq);
@@ -300,40 +192,15 @@ public class UserBusiness {
 
     /**
      * @author jinhaoxun
-     * @description 获取用户信息
-     * @param getUserActionReq 用户id
-     * @param exception Hystrix抛出的异常
-     * @return
-     * @throws Exception
-     */
-    public void getUserFallBack(GetUserActionReq getUserActionReq, Throwable exception) throws Exception {
-        throw (Exception) exception;
-    }
-
-    /**
-     * @author jinhaoxun
      * @description 更新用户信息
      * @param updateUserActionReq 用户信息
      * @return
      * @throws Exception
      */
-    @HystrixCommand(fallbackMethod = "updateUserFallBack")
     public void updateUser(UpdateUserActionReq updateUserActionReq) throws Exception {
         UpdateUserServiceReq updateUserServiceReq = new UpdateUserServiceReq();
         BeanUtils.copyProperties(updateUserActionReq, updateUserServiceReq);
         userService.updateUser(updateUserServiceReq);
-    }
-
-    /**
-     * @author jinhaoxun
-     * @description 更新用户信息
-     * @param updateUserActionReq 用户信息
-     * @param exception Hystrix抛出的异常
-     * @return
-     * @throws Exception
-     */
-    public void updateUserFallBack(UpdateUserActionReq updateUserActionReq, Throwable exception) throws Exception {
-        throw (Exception) exception;
     }
 
     /**
@@ -343,26 +210,13 @@ public class UserBusiness {
      * @return List<User> 获取到的账号列表
      * @throws Exception
      */
-    @HystrixCommand(fallbackMethod = "getUserListFallBack")
     public GetUserListActionRes getUserList(ActionPageableRequest actionPageableRequest) throws Exception {
         ServicePageableRequest servicePageableRequest = new ServicePageableRequest();
         BeanUtils.copyProperties(actionPageableRequest, servicePageableRequest);
         GetUserListServiceRes getUserListServiceRes = userService.getUserList(servicePageableRequest);
         GetUserListActionRes getUserListActionRes = new GetUserListActionRes();
         getUserListActionRes.setTotals(getUserListServiceRes.getTotals());
-        getUserListActionRes.setArticleList(getUserListServiceRes.getArticleList());
+        getUserListActionRes.setUserList(getUserListServiceRes.getUserList());
         return getUserListActionRes;
-    }
-
-    /**
-     * @author jinhaoxun
-     * @description 获取所有账号列表
-     * @param actionPageableRequest 获取所有账号列表入参
-     * @param exception Hystrix抛出的异常
-     * @return
-     * @throws Exception
-     */
-    public void getUserListFallBack(ActionPageableRequest actionPageableRequest, Throwable exception) throws Exception {
-        throw (Exception) exception;
     }
 }

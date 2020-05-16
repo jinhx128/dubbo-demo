@@ -1,12 +1,11 @@
 package com.jinhaoxun.dubbo.module.quartz;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jinhaoxun.dubbo.pojo.quartz.Task;
 import com.jinhaoxun.dubbo.mapper.quartz.TaskMapper;
-import com.jinhaoxun.dubbo.module.quartz.service.TaskService;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import org.springframework.stereotype.Component;
+import com.jinhaoxun.dubbo.quartz.service.TaskService;
+import com.jinhaoxun.dubbo.pojo.quartz.Task;
 import org.apache.dubbo.config.annotation.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -30,7 +29,6 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
      * @return List<Task> Simple任务列表
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public List<Task> getTaskList() throws Exception {
         return taskMapper.getTaskList();
@@ -43,7 +41,6 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
      * @return int 修改数据条数
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public int updateExecutionStatus(Long taskId) throws Exception {
         return taskMapper.updateExecutionStatus(taskId);

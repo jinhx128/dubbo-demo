@@ -2,8 +2,8 @@ package com.jinhaoxun.dubbo.module.user;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jinhaoxun.dubbo.pojo.user.Permission;
+import com.jinhaoxun.dubbo.user.service.PermissionService;
 import com.jinhaoxun.dubbo.mapper.user.PermissionMapper;
-import com.jinhaoxun.dubbo.module.user.service.PermissionService;
 import org.springframework.stereotype.Component;
 import org.apache.dubbo.config.annotation.Service;
 

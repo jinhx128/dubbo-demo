@@ -7,11 +7,9 @@
         <id column="ARTICLE_ID" property="articleId" />
         <result column="AUTHOR_ID" property="authorId" />
         <result column="TITLE" property="title" />
+        <result column="LABEL" property="label" />
         <result column="CONTENT" property="content" />
-        <result column="PRAISE_AMOUNT" property="praiseAmount" />
-        <result column="COMMENT_AMOUNT" property="commentAmount" />
         <result column="STATUS" property="status" />
-        <result column="READ_AMOUNT" property="readAmount" />
         <result column="CREATE_TIME" property="createTime" />
         <result column="UPDATE_TIME" property="updateTime" />
         <result column="UPDATER_ID" property="updaterId" />
@@ -19,7 +17,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        ARTICLE_ID, AUTHOR_ID, TITLE, CONTENT, PRAISE_AMOUNT, COMMENT_AMOUNT, STATUS, READ_AMOUNT, CREATE_TIME, UPDATE_TIME, UPDATER_ID
+        ARTICLE_ID, AUTHOR_ID, TITLE, LABEL, CONTENT, STATUS, CREATE_TIME, UPDATE_TIME, UPDATER_ID
     </sql>
 
     <select id="getArticleByTitle" parameterType="string" resultType="int">

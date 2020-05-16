@@ -5,15 +5,15 @@
     <parent>
         <groupId>com.jinhaoxun</groupId>
         <artifactId>dubbo-demo</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath/> <!-- 父工程的pom文件相对当前pom文件的路径 -->
     </parent>
 
     <artifactId>dubbo-api</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>dubbo-api</name>
-    <description>Dubbo API 工程</description>
+    <description>Dubbo API</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,11 +22,13 @@
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>com.jinhaoxun</groupId>
             <artifactId>dubbo-base</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
+
     </dependencies>
 
     <build>

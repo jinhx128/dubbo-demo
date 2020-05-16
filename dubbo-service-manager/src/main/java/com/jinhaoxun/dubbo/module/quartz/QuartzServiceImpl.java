@@ -1,20 +1,21 @@
 package com.jinhaoxun.dubbo.module.quartz;
 
-import com.jinhaoxun.dubbo.module.quartz.model.request.AddCronJobServiceReq;
-import com.jinhaoxun.dubbo.module.quartz.model.request.AddSimpleJobServiceReq;
-import com.jinhaoxun.dubbo.module.quartz.model.request.DeleteJobServiceReq;
-import com.jinhaoxun.dubbo.org.quartz.QuartzManager;
+import com.jinhaoxun.dubbo.framework.quartz.QuartzManager;
+import com.jinhaoxun.dubbo.quartz.dto.request.AddCronJobServiceReq;
+import com.jinhaoxun.dubbo.quartz.dto.request.AddSimpleJobServiceReq;
+import com.jinhaoxun.dubbo.quartz.dto.request.DeleteJobServiceReq;
+import com.jinhaoxun.dubbo.quartz.service.QuartzService;
+import com.jinhaoxun.dubbo.quartz.service.TaskService;
 import com.jinhaoxun.dubbo.pojo.quartz.Task;
 import com.jinhaoxun.dubbo.util.idutil.IdUtil;
-import com.jinhaoxun.dubbo.module.quartz.service.QuartzService;
-import com.jinhaoxun.dubbo.module.quartz.service.TaskService;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
-import org.springframework.stereotype.Component;
 import org.apache.dubbo.config.annotation.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 
@@ -48,14 +49,13 @@ public class QuartzServiceImpl implements QuartzService {
      * @return
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public void addSimpleJob(AddSimpleJobServiceReq addSimpleJobServiceReq) throws Exception {
 /*        SimpleTrigger cronTrigger = timingTasks.setTrigger(date);
         JobDetail jobDetail = timingTasks.setJobDetail(id,op);
         timingTasks.startScheduler(jobDetail,cronTrigger);*/
         Task task = new Task();
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         task.setCreateTime(now);
         task.setUpdateTime(now);
         task.setExecutionStatus(false);
@@ -67,7 +67,7 @@ public class QuartzServiceImpl implements QuartzService {
         task.setTaskId(IdUtil.getId());
         task.setJobClass(addSimpleJobServiceReq.getJobClass());
         iTaskService.save(task);
-        if(addSimpleJobServiceReq.getDate().getTime() <= now.getTime() + ADD_QUARTZ_TIME){
+        if(addSimpleJobServiceReq.getDate().toInstant(ZoneOffset.of("+8")).toEpochMilli() <= now.toInstant(ZoneOffset.of("+8")).toEpochMilli() + ADD_QUARTZ_TIME){
             quartzManager.addSimpleJob(addSimpleJobServiceReq, task.getTaskId().toString());
         }
     }
@@ -78,7 +78,6 @@ public class QuartzServiceImpl implements QuartzService {
      * @return ResponseResult 成功提示信息
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public void addSimpleJobList() throws Exception {
         List<Task> taskList = iTaskService.getTaskList();
@@ -100,7 +99,6 @@ public class QuartzServiceImpl implements QuartzService {
      * @return
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public void addCronJob(AddCronJobServiceReq addCronJobServiceReq) throws Exception {
         quartzManager.addCronJob(addCronJobServiceReq);
@@ -113,7 +111,6 @@ public class QuartzServiceImpl implements QuartzService {
      * @return
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public void deleteJob(DeleteJobServiceReq deleteJobServiceReq) throws Exception {
         quartzManager.removeJob(deleteJobServiceReq.getJobName(),
@@ -126,7 +123,6 @@ public class QuartzServiceImpl implements QuartzService {
      * @return
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public void deleteScheduler() throws Exception {
         quartzManager.shutdown();

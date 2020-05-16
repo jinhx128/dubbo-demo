@@ -1,11 +1,10 @@
 package com.jinhaoxun.dubbo.module.websocket.controller;
 
 import com.jinhaoxun.dubbo.module.websocket.business.WebSocketBusiness;
-import com.jinhaoxun.dubbo.module.websocket.model.request.*;
-import com.jinhaoxun.dubbo.module.websocket.service.WebSocketService;
+import com.jinhaoxun.dubbo.websocket.dto.request.AllRequestMessage;
+import com.jinhaoxun.dubbo.websocket.dto.request.ChatRequestMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +21,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/websocket")
-@Api("WebSocket接口")
+@Api(value = "/websocket", tags = "WebSocket接口")
 public class WebSocketController {
 
     @Resource
@@ -40,7 +39,7 @@ public class WebSocketController {
      * @throws Exception
      */
     @MessageMapping("/chat")
-    @ApiOperation("单发消息")
+    @ApiOperation(value = "单发消息", notes = "单发消息接口描述")
     public void messageHandling(@Validated @RequestBody ChatRequestMessage chatRequestMessage) throws Exception {
         webSocketBusiness.messageHandling(chatRequestMessage);
     }
@@ -57,7 +56,7 @@ public class WebSocketController {
      * @throws Exception
      */
     @MessageMapping("/all")
-    @ApiOperation("群发消息")
+    @ApiOperation(value = "群发消息", notes = "群发消息接口描述")
     public void messageHandlingAll(@Validated @RequestBody AllRequestMessage allRequestMessage) throws Exception {
         webSocketBusiness.messageHandlingAll(allRequestMessage);
     }

@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/permission")
-@Api("权限接口")
+@Api(value = "/permission", tags = "权限接口")
 public class PermissionController {
 
     @Resource

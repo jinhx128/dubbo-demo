@@ -5,14 +5,14 @@
     <parent>
         <groupId>com.jinhaoxun</groupId>
         <artifactId>dubbo-demo</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath/> <!-- 父工程的pom文件相对当前pom文件的路径 -->
     </parent>
 
     <artifactId>dubbo-service-manager</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>dubbo-service-manager</name>
-    <description>Dubbo Service Manager 工程</description>
+    <description>Dubbo Service Manager</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,11 +21,13 @@
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>com.jinhaoxun</groupId>
             <artifactId>dubbo-api</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
+
         <!-- WebSocket -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,6 +47,7 @@
             <artifactId>stomp-websocket</artifactId>
             <version>2.3.3</version>
         </dependency>
+
         <!--使用websocket作为数据推送-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -55,6 +58,7 @@
             <artifactId>netty-all</artifactId>
             <version>4.1.42.Final</version>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/io.projectreactor.netty/reactor-netty -->
         <dependency>
             <groupId>io.projectreactor.netty</groupId>
@@ -66,6 +70,7 @@
             <artifactId>reactor-net</artifactId>
             <version>2.0.8.RELEASE</version>
         </dependency>
+
     </dependencies>
 
     <build>

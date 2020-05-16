@@ -1,14 +1,13 @@
 package com.jinhaoxun.dubbo.module.user;
 
 import com.jinhaoxun.dubbo.constant.AbstractConstant;
-import com.jinhaoxun.dubbo.exception.ExceptionFactory;
 import com.jinhaoxun.dubbo.constant.ResponseMsg;
-import com.jinhaoxun.dubbo.module.user.service.SyncCacheService;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.jinhaoxun.dubbo.exception.ExceptionFactory;
+import com.jinhaoxun.dubbo.user.service.SyncCacheService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-import org.apache.dubbo.config.annotation.Service;
 
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
@@ -38,7 +37,6 @@ public class SyncCacheServiceImpl implements SyncCacheService {
      * @return Boolean 是否获取成功
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public boolean getLock(String lockName, int expireTime) throws Exception {
         boolean result = false;
@@ -69,7 +67,6 @@ public class SyncCacheServiceImpl implements SyncCacheService {
      * @return Boolean 是否释放成功
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public boolean releaseLock(String lockName) throws Exception {
         try {
@@ -89,7 +86,6 @@ public class SyncCacheServiceImpl implements SyncCacheService {
      * @return Boolean 是否释放成功
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public boolean releaseLock(String lockName, int releaseLockTime) throws Exception {
         try {

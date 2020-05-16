@@ -3,7 +3,7 @@
 <mapper namespace="com.jinhaoxun.dubbo.mapper.user.UserPermissionMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.jinhaoxun.dubbo.pojo.user.UserPermission">
+    <resultMap id="BaseResultMap" type="com.jinhaoxun.dubbo.pojo.user.RolePermission">
         <id column="USER_PERMISSION_ID" property="userPermissionId" />
         <result column="TYPE" property="type" />
         <result column="CODE" property="code" />
@@ -18,9 +18,11 @@
     </sql>
 
     <select id="selectPermissionSet" parameterType="Long" resultType="string">
-        SELECT CONCAT(TYPE,CODE)
-        FROM USER_PERMISSION
-        WHERE USER_ID = #{userId}
+        select a.URL
+        from permission a
+        left join role_permission b on b.PERMISSION_CODE = a.CODE
+        left join user_role c on c.CODE = b.ROLE_CODE
+        where c.USER_ID = #{userId}
     </select>
 
 </mapper>

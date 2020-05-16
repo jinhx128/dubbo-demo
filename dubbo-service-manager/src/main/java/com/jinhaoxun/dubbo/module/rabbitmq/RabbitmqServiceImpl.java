@@ -1,12 +1,11 @@
 package com.jinhaoxun.dubbo.module.rabbitmq;
 
-import com.jinhaoxun.dubbo.module.rabbitmq.model.request.AddMessageServiceReq;
-import com.jinhaoxun.dubbo.module.rabbitmq.service.RabbitmqService;
-import com.jinhaoxun.dubbo.org.rabbitmq.RabbitmqProducerFactory;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.jinhaoxun.dubbo.framework.rabbitmq.RabbitmqProducerFactory;
+import com.jinhaoxun.dubbo.rabbitmq.dto.request.AddMessageServiceReq;
+import com.jinhaoxun.dubbo.rabbitmq.service.RabbitmqService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.apache.dubbo.config.annotation.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -31,7 +30,6 @@ public class RabbitmqServiceImpl implements RabbitmqService {
      * @return
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public void sendMsg(AddMessageServiceReq addMessageServiceReq) throws Exception{
         rabbitmqProducerFactory.sendMsg(addMessageServiceReq.getContent());

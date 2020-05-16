@@ -1,37 +1,35 @@
 package com.jinhaoxun.dubbo.module.user;
 
-import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jinhaoxun.dubbo.constant.AbstractConstant;
-import com.jinhaoxun.dubbo.exception.ExceptionFactory;
-import com.jinhaoxun.dubbo.model.service.ServicePageableRequest;
-import com.jinhaoxun.dubbo.module.user.model.response.AddSessionServiceRes;
-import com.jinhaoxun.dubbo.module.user.model.response.GetUserListServiceRes;
-import com.jinhaoxun.dubbo.module.user.model.response.GetUserServiceRes;
-import com.jinhaoxun.dubbo.pojo.user.User;
-import com.jinhaoxun.dubbo.module.user.model.request.*;
 import com.jinhaoxun.dubbo.constant.ResponseMsg;
-import com.jinhaoxun.dubbo.thirdparty.notify.model.request.GetEmailCodeServiceReq;
-import com.jinhaoxun.dubbo.thirdparty.notify.model.request.GetPhoneCodeServiceReq;
-import com.jinhaoxun.dubbo.thirdparty.notify.model.response.GetEmailCodeServiceRes;
-import com.jinhaoxun.dubbo.thirdparty.notify.model.response.GetPhoneCodeServiceRes;
+import com.jinhaoxun.dubbo.exception.ExceptionFactory;
+import com.jinhaoxun.dubbo.mapper.user.UserMapper;
+import com.jinhaoxun.dubbo.notify.dto.request.GetEmailCodeServiceReq;
+import com.jinhaoxun.dubbo.notify.dto.request.GetPhoneCodeServiceReq;
+import com.jinhaoxun.dubbo.notify.dto.response.GetEmailCodeServiceRes;
+import com.jinhaoxun.dubbo.notify.dto.response.GetPhoneCodeServiceRes;
+import com.jinhaoxun.dubbo.notify.service.NotifyService;
+import com.jinhaoxun.dubbo.pojo.user.User;
+import com.jinhaoxun.dubbo.user.dto.request.*;
+import com.jinhaoxun.dubbo.user.dto.response.AddSessionServiceRes;
+import com.jinhaoxun.dubbo.user.dto.response.GetUserListServiceRes;
+import com.jinhaoxun.dubbo.user.dto.response.GetUserServiceRes;
+import com.jinhaoxun.dubbo.user.service.UserService;
 import com.jinhaoxun.dubbo.util.encodeutil.EncodeUtil;
 import com.jinhaoxun.dubbo.util.idutil.IdUtil;
-import com.jinhaoxun.dubbo.mapper.user.UserMapper;
-import com.jinhaoxun.dubbo.thirdparty.notify.service.NotifyService;
-import com.jinhaoxun.dubbo.module.user.service.UserService;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.jinhaoxun.dubbo.vo.service.ServicePageableRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-import org.apache.dubbo.config.annotation.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -63,7 +61,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return AddSessionResponse 登录操作结果
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public AddSessionServiceRes addSession(UserLoginServiceReq userLoginServiceReq) throws Exception {
         Long userId;
@@ -116,7 +113,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @param userId 用户id
      * @return Boolean 是否退出成功
      */
-    @HystrixCommand
     @Override
     public void deleteSession(Long userId) {
         // 清除可能存在的Shiro权限信息缓存
@@ -134,11 +130,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public void addUser(UserRegisterServiceReq userRegisterServiceReq) throws Exception {
         User user = new User();
-        if(StringUtils.equals(AbstractConstant.USER_REGISTER_TYPE_PHONE,userRegisterServiceReq.getType())){
+        if(AbstractConstant.USER_REGISTER_TYPE_PHONE.equals(userRegisterServiceReq.getType())){
             user.setPhone(userRegisterServiceReq.getPhone());
         }else{
             user.setEmail(userRegisterServiceReq.getEmail());
@@ -148,14 +143,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String password = EncodeUtil.encoderByBcrypt(userRegisterServiceReq.getPassword());
         user.setPassword(password);
         user.setName(userRegisterServiceReq.getName());
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         user.setCreateTime(now);
         user.setUpdaterId(userId);
         user.setUpdateTime(now);
         user.setBan(false);
         user.setStatus(true);
-        user.setArticleComment(0);
-        user.setArticlePraise(0);
         user.setArticle(0);
         int count = userMapper.insert(user);
         if(count != 1){
@@ -170,7 +163,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public void deleteUser(DeleteUserServiceReq deleteUserServiceReq) throws Exception {
         int count = userMapper.updateStatus(deleteUserServiceReq.getUserId());
@@ -186,7 +178,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public void getCode(GetCodeServiceReq getCodeServiceReq) throws Exception {
         switch (getCodeServiceReq.getType()){
@@ -227,7 +218,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return AddSessionServiceRes
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public AddSessionServiceRes addCodeSession(CodeUserLoginServiceReq codeUserLoginServiceReq) throws Exception {
 
@@ -249,7 +239,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             exceptionFactory.build(ResponseMsg.USER_LOG_IN_CODE_EXPIRATIONED.getCode(),ResponseMsg.USER_LOG_IN_CODE_EXPIRATIONED.getMsg());
         }
         String code = redisTemplate.opsForValue().get(userLogInCodeKey).toString();
-        if(!StringUtils.equals(code, codeUserLoginServiceReq.getCode())){
+        if(!code.equals(codeUserLoginServiceReq.getCode())){
             exceptionFactory.build(ResponseMsg.USER_LOG_IN_CODE_WRONG.getCode(),ResponseMsg.USER_LOG_IN_CODE_WRONG.getMsg());
         }
 
@@ -285,7 +275,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public void updatePassword(UpdatePasswordServiceReq updatePasswordServiceReq) throws Exception {
         String password = EncodeUtil.encoderByBcrypt(updatePasswordServiceReq.getPassword());
@@ -302,7 +291,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public void addBan(AddBanServiceReq addBanServiceReq) throws Exception {
         int count = userMapper.updateBan(addBanServiceReq.getUserId(),true);
@@ -318,7 +306,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public void deleteBan(DeleteBanServiceReq deleteBanServiceReq) throws Exception {
         int count = userMapper.updateBan(deleteBanServiceReq.getUserId(),false);
@@ -334,7 +321,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return GetUserServiceRes 获取到的用户信息
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public GetUserServiceRes getUser(GetUserServiceReq getUserServiceReq) throws Exception {
         User user = userMapper.selectById(getUserServiceReq.getUserId());
@@ -353,7 +339,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public void updateUser(UpdateUserServiceReq updateUserServiceReq) throws Exception {
         User user = new User();
@@ -371,7 +356,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return getUserListServiceRes 获取到的账号列表
      * @throws Exception
      */
-    @HystrixCommand
     @Override
     public GetUserListServiceRes getUserList(ServicePageableRequest servicePageableRequest) throws Exception{
         QueryWrapper<User> qw = new QueryWrapper<>();
@@ -380,7 +364,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         List<User> userList = userMapper.selectPage(page,qw).getRecords();
         int totals = userMapper.selectCount(qw);
         GetUserListServiceRes getUserListServiceRes = new GetUserListServiceRes();
-        getUserListServiceRes.setArticleList(userList);
+
+        getUserListServiceRes.setUserList(userList);
         getUserListServiceRes.setTotals(totals);
         return getUserListServiceRes;
     }
@@ -390,7 +375,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @description 获取所有账号列表
      * @return ResponseResult 获取到的账号列表
      */
-    @HystrixCommand
     @Override
     public String selectName(Long userId) throws Exception {
         return userMapper.selectName(userId);
@@ -401,7 +385,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @description 获取所有账号列表
      * @return ResponseResult 获取到的账号列表
      */
-    @HystrixCommand
     @Override
     public String selectPassword(Long userId) throws Exception {
         return userMapper.selectPassword(userId);

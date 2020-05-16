@@ -106,13 +106,9 @@ public abstract class AbstractConstant {
 
     /**************************           article实体常量             *******************************/
     /**
-     * articlePrimaryCode 文章一级标签码
+     * articleSecondaryCode 文章标签
      */
-    public static final String ARTICLE_PRIMARY_CODE = "PRIMARY_CODE";
-    /**
-     * articleSecondaryCode 文章二级标签码
-     */
-    public static final String ARTICLE_SECONDARY_CODE = "SECONDARY_CODE";
+    public static final String ARTICLE_LABEL = "LABEL";
     /**
      * articleTitle 文章标题
      */

@@ -17,9 +17,10 @@
     </sql>
 
     <select id="selectRoleSet" parameterType="Long" resultType="string">
-        SELECT CAST(CODE AS char) AS CODE
-        FROM USER_ROLE
-        WHERE USER_ID = #{userId}
+        select a.CODE
+        from role a
+        left join user_role b on b.CODE = a.CODE
+        where b.USER_ID = = #{userId}
     </select>
 
 </mapper>

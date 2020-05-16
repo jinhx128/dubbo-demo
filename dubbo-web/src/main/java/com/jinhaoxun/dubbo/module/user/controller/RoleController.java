@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/role")
-@Api("角色接口")
+@Api(value = "/role", tags = "角色接口")
 public class RoleController {
 
     @Resource

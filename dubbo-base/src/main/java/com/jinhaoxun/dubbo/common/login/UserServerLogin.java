@@ -1,6 +1,6 @@
 package com.jinhaoxun.dubbo.common.login;
 
-import com.alibaba.druid.util.StringUtils;
+import com.jinhaoxun.dubbo.util.datautil.StringUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.concurrent.TimeUnit;
@@ -50,7 +50,7 @@ public class UserServerLogin {
      * @throws Exception
      */
     public void setUserToRedis(String cookie, UserServer userServer) throws Exception {
-        if (cookie == null || StringUtils.equals("", cookie)) {
+        if (StringUtil.isEmpty(cookie)) {
             throw new Exception("cookie为空");
         }
 //        String userKey = keepUserKey(cookie);
@@ -65,7 +65,7 @@ public class UserServerLogin {
      * @return
      */
     public UserServer getUserByCookie(String cookie){
-        if(cookie == null || StringUtils.equals("",cookie)){
+        if(StringUtil.isEmpty(cookie)){
             return null;
         }
 //        String userKey = keepUserKey(cookie);

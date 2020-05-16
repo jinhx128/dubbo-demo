@@ -1,10 +1,7 @@
 package com.jinhaoxun.dubbo.util.encodeutil;
 
-import io.lettuce.core.codec.StringCodec;
 import org.apache.commons.codec.binary.Hex;
 import org.mindrot.jbcrypt.BCrypt;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.Base64Utils;
 
 import javax.crypto.Cipher;
@@ -15,7 +12,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
-import java.util.logging.Level;
 
 /**
  * @version 1.0

@@ -1,6 +1,6 @@
 package com.jinhaoxun.dubbo.common.aop;
 
-import com.jinhaoxun.dubbo.model.action.ActionRequest;
+import com.jinhaoxun.dubbo.vo.action.ActionRequest;
 
 import java.lang.annotation.*;
 
@@ -52,6 +52,6 @@ public @interface HttpCheck {
      * 才会检测该字段，并且传入为空时，
      * 用系统预先设置的key进行加密返回
      */
-    String encryptKey() default "";
+    String encryptKey() default "key";
 
 }

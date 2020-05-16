@@ -1,7 +1,7 @@
 package com.jinhaoxun.dubbo.exception;
 
-import com.jinhaoxun.dubbo.constant.ResponseMsg;
 import com.jinhaoxun.dubbo.util.enumutil.EnumUtil;
+import com.jinhaoxun.dubbo.constant.ResponseMsg;
 import org.springframework.stereotype.Component;
 
 /**

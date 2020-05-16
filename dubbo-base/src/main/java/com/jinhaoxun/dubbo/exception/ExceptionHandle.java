@@ -1,11 +1,10 @@
 package com.jinhaoxun.dubbo.exception;
 
-import com.jinhaoxun.dubbo.model.action.ActionResponse;
-import com.jinhaoxun.dubbo.model.http.HttpResponse;
 import com.jinhaoxun.dubbo.constant.ResponseMsg;
-import com.netflix.hystrix.exception.HystrixRuntimeException;
+import com.jinhaoxun.dubbo.vo.action.ActionResponse;
+import com.jinhaoxun.dubbo.vo.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.BindException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -35,17 +34,12 @@ public class ExceptionHandle {
 			CustomRuntimeException ex = (CustomRuntimeException)e;
 			log.error("自定义运行时异常：msg：" + ex.getMessage() + ",log：" + ex.getLog(), e);
 			return HttpResponse.build(ex.getCode(),ex.getMessage(), null);
-		}else if(e instanceof BindException) {
-			BindException ex = (BindException)e;
+		}else if(e instanceof MethodArgumentNotValidException) {
+			MethodArgumentNotValidException ex = (MethodArgumentNotValidException)e;
 			log.error("参数校验异常：msg：" + ex.getBindingResult().getFieldError().getDefaultMessage());
 			return HttpResponse.build(ResponseMsg.WRONG_PARAM.getCode(),
 					ResponseMsg.WRONG_PARAM.getMsg() + "："
 							+ ex.getBindingResult().getFieldError().getDefaultMessage(), null);
-		}else if(e instanceof HystrixRuntimeException) {
-			HystrixRuntimeException ex = (HystrixRuntimeException)e;
-			log.error("Hystrix降级异常：msg：" + ex.getMessage());
-			return HttpResponse.build(ResponseMsg.HYSTRIX_THROW_EXCEPTION.getCode(),
-					ResponseMsg.HYSTRIX_THROW_EXCEPTION.getMsg(), null);
 		}else{
 			log.error("统一系统异常：msg：" + e.getMessage(), e);
 			return HttpResponse.build(ResponseMsg.EXCEPTION.getCode(), ResponseMsg.EXCEPTION.getMsg(), null);

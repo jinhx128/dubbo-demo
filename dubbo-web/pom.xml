@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>com.jinhaoxun</groupId>
 		<artifactId>dubbo-demo</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 		<relativePath/> <!-- 父工程的pom文件相对当前pom文件的路径 -->
 	</parent>
 
 	<artifactId>dubbo-web</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>dubbo-web</name>
-	<description>Dubbo Web 工程</description>
+	<description>Dubbo Web</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,74 +21,26 @@
 	</properties>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>com.jinhaoxun</groupId>
 			<artifactId>dubbo-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
-		<!-- Swagger2 -->
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>2.9.2</version>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.9.2</version>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-spring-web</artifactId>
-			<version>2.9.2</version>
-		</dependency>
-		<!-- Apollo -->
-		<!--        <dependency>
-                    <groupId>com.ctrip.framework.apollo</groupId>
-                    <artifactId>apollo-client</artifactId>
-                    <version>1.1.1</version>
-                </dependency>-->
-		<!-- 排除 Tomcat 依赖 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<!-- 排除 Tomcat 依赖 -->
+			<version>1.0.0</version>
 			<exclusions>
 				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-tomcat</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-validator</artifactId>
+					<artifactId>guava</artifactId>
+					<groupId>com.google.guava</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- Undertow -->
+
+		<!-- knife4j -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-undertow</artifactId>
+			<groupId>com.github.xiaoymin</groupId>
+			<artifactId>knife4j-spring-boot-starter</artifactId>
+			<version>2.0.2</version>
 		</dependency>
-		<!-- Undertow 相关依赖 -->
-		<dependency>
-			<groupId>io.undertow</groupId>
-			<artifactId>undertow-servlet</artifactId>
-			<version>2.0.20.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>io.undertow</groupId>
-			<artifactId>undertow-core</artifactId>
-			<version>2.0.23.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>io.undertow</groupId>
-			<artifactId>undertow-websockets-jsr</artifactId>
-			<version>2.0.20.Final</version>
-		</dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-messaging</artifactId>
-        </dependency>
+
 	</dependencies>
 
 	<build>

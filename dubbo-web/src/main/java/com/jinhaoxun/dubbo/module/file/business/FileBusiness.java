@@ -1,13 +1,12 @@
 package com.jinhaoxun.dubbo.module.file.business;
 
-import com.jinhaoxun.dubbo.module.file.action.request.DownloadFileActionReq;
-import com.jinhaoxun.dubbo.module.file.action.request.UploadFileActionReq;
-import com.jinhaoxun.dubbo.module.file.action.response.ResolveExcelActionRes;
-import com.jinhaoxun.dubbo.module.file.model.request.DownloadFileServiceReq;
-import com.jinhaoxun.dubbo.module.file.model.request.UploadFileServiceReq;
-import com.jinhaoxun.dubbo.module.file.model.response.ResolveExcelServiceRes;
-import com.jinhaoxun.dubbo.module.file.service.FileService;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.jinhaoxun.dubbo.module.file.vo.response.ResolveExcelActionRes;
+import com.jinhaoxun.dubbo.module.file.vo.request.DownloadFileActionReq;
+import com.jinhaoxun.dubbo.module.file.vo.request.UploadFileActionReq;
+import com.jinhaoxun.dubbo.file.dto.request.DownloadFileServiceReq;
+import com.jinhaoxun.dubbo.file.dto.request.UploadFileServiceReq;
+import com.jinhaoxun.dubbo.file.dto.response.ResolveExcelServiceRes;
+import com.jinhaoxun.dubbo.file.service.FileService;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -34,7 +33,6 @@ public class FileBusiness {
      * @return
      * @throws Exception
      */
-    @HystrixCommand(fallbackMethod = "uploadFileFallBack")
     public void uploadFile(UploadFileActionReq uploadFileActionReq) throws Exception {
         UploadFileServiceReq uploadFileServiceReq = new UploadFileServiceReq();
         BeanUtils.copyProperties(uploadFileActionReq, uploadFileServiceReq);
@@ -43,25 +41,12 @@ public class FileBusiness {
 
     /**
      * @author jinhaoxun
-     * @description 上传文件
-     * @param uploadFileActionReq 上传文件参数
-     * @param exception Hystrix抛出的异常
-     * @return
-     * @throws Exception
-     */
-    public void uploadFileFallBack(UploadFileActionReq uploadFileActionReq, Throwable exception) throws Exception {
-        throw (Exception) exception;
-    }
-
-    /**
-     * @author jinhaoxun
      * @description 下载文件
      * @param downloadFileActionReq 下载文件参数
      * @param httpServletResponse
      * @return
      * @throws Exception
      */
-    @HystrixCommand(fallbackMethod = "downloadFileFallBack")
     public void downloadFile(DownloadFileActionReq downloadFileActionReq, HttpServletResponse httpServletResponse) throws Exception {
         DownloadFileServiceReq downloadFileServiceReq = new DownloadFileServiceReq();
         BeanUtils.copyProperties(downloadFileActionReq, downloadFileServiceReq);
@@ -70,39 +55,13 @@ public class FileBusiness {
 
     /**
      * @author jinhaoxun
-     * @description 下载文件
-     * @param downloadFileActionReq 下载文件参数
-     * @param httpServletResponse
-     * @param exception Hystrix抛出的异常
-     * @return
-     * @throws Exception
-     */
-    public void downloadFileFallBack(DownloadFileActionReq downloadFileActionReq, HttpServletResponse httpServletResponse, Throwable exception) throws Exception {
-        throw (Exception) exception;
-    }
-
-    /**
-     * @author jinhaoxun
      * @description 创建Excel
      * @return
      * @throws Exception
      */
-    @HystrixCommand(fallbackMethod = "createExcelFallBack")
     public void createExcel() throws Exception {
         fileService.createExcel();
     }
-
-    /**
-     * @author jinhaoxun
-     * @description 创建Excel
-     * @param exception Hystrix抛出的异常
-     * @return
-     * @throws Exception
-     */
-    public void createExcelFallBack(Throwable exception) throws Exception {
-        throw (Exception) exception;
-    }
-
 
     /**
      * @author jinhaoxun
@@ -111,23 +70,10 @@ public class FileBusiness {
      * @return ResponseResult 解析后的数据
      * @throws Exception
      */
-    @HystrixCommand(fallbackMethod = "resolveExcelFallBack")
     public ResolveExcelActionRes resolveExcel(MultipartFile multipartFile) throws Exception {
         ResolveExcelActionRes resolveExcelActionRes = new ResolveExcelActionRes();
         ResolveExcelServiceRes resolveExcelServiceRes = fileService.resolveExcel(multipartFile);
         BeanUtils.copyProperties(resolveExcelServiceRes, resolveExcelActionRes);
         return resolveExcelActionRes;
-    }
-
-    /**
-     * @author jinhaoxun
-     * @description 解析Excel
-     * @param multipartFile 要解析的文件
-     * @param exception Hystrix抛出的异常
-     * @return
-     * @throws Exception
-     */
-    public void resolveExcelFallBack(MultipartFile multipartFile, Throwable exception) throws Exception {
-        throw (Exception) exception;
     }
 }

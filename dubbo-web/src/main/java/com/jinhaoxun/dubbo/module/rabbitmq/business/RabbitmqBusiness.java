@@ -1,9 +1,8 @@
 package com.jinhaoxun.dubbo.module.rabbitmq.business;
 
-import com.jinhaoxun.dubbo.module.rabbitmq.action.request.AddMessageActionReq;
-import com.jinhaoxun.dubbo.module.rabbitmq.model.request.AddMessageServiceReq;
-import com.jinhaoxun.dubbo.module.rabbitmq.service.RabbitmqService;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.jinhaoxun.dubbo.module.rabbitmq.vo.request.AddMessageActionReq;
+import com.jinhaoxun.dubbo.rabbitmq.dto.request.AddMessageServiceReq;
+import com.jinhaoxun.dubbo.rabbitmq.service.RabbitmqService;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -27,22 +26,9 @@ public class RabbitmqBusiness {
      * @return
      * @throws Exception
      */
-    @HystrixCommand(fallbackMethod = "addMessageFallBack")
     public void addMessage(AddMessageActionReq addMessageActionReq) throws Exception{
         AddMessageServiceReq addMessageServiceReq = new AddMessageServiceReq();
         BeanUtils.copyProperties(addMessageActionReq, addMessageServiceReq);
         rabbitmqService.sendMsg(addMessageServiceReq);
-    }
-
-    /**
-     * @author jinhaoxun
-     * @description 发送消息方法
-     * @param addMessageActionReq 发送的消息
-     * @param exception Hystrix抛出的异常
-     * @return
-     * @throws Exception
-     */
-    public void addMessageFallBack(AddMessageActionReq addMessageActionReq, Throwable exception) throws Exception{
-        throw (Exception) exception;
     }
 }

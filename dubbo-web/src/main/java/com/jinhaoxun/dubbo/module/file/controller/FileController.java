@@ -1,13 +1,13 @@
 package com.jinhaoxun.dubbo.module.file.controller;
 
-import com.jinhaoxun.dubbo.model.action.ActionRequest;
-import com.jinhaoxun.dubbo.model.action.ActionResponse;
-import com.jinhaoxun.dubbo.model.http.HttpRequest;
-import com.jinhaoxun.dubbo.model.http.HttpResponse;
-import com.jinhaoxun.dubbo.module.file.action.request.DownloadFileActionReq;
-import com.jinhaoxun.dubbo.module.file.action.request.UploadFileActionReq;
-import com.jinhaoxun.dubbo.module.file.action.response.ResolveExcelActionRes;
+import com.jinhaoxun.dubbo.module.file.vo.response.ResolveExcelActionRes;
 import com.jinhaoxun.dubbo.module.file.business.FileBusiness;
+import com.jinhaoxun.dubbo.vo.action.ActionRequest;
+import com.jinhaoxun.dubbo.vo.action.ActionResponse;
+import com.jinhaoxun.dubbo.vo.http.HttpRequest;
+import com.jinhaoxun.dubbo.vo.http.HttpResponse;
+import com.jinhaoxun.dubbo.module.file.vo.request.DownloadFileActionReq;
+import com.jinhaoxun.dubbo.module.file.vo.request.UploadFileActionReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RequestMapping("/file")
 @RestController
-@Api("上传下载文件接口")
+@Api(value = "/file", tags = "上传下载文件接口")
 public class FileController {
 
     @Resource
@@ -39,7 +39,7 @@ public class FileController {
      * @throws Exception
      */
     @PostMapping(value = "/uploadfile", produces = "application/json; charset=UTF-8")
-    @ApiOperation("上传文件")
+    @ApiOperation(value = "上传文件", notes = "上传文件接口描述")
     public HttpResponse<ActionResponse> uploadFile(@Validated @RequestBody HttpRequest<UploadFileActionReq> uploadFileActionReqHttpRequest) throws Exception {
         fileBusiness.uploadFile(uploadFileActionReqHttpRequest.getData());
         return HttpResponse.buildSuccess();
@@ -53,8 +53,8 @@ public class FileController {
      * @return HttpResponse<ActionResponse> 下载结果
      * @throws Exception
      */
-    @GetMapping(value = "/downloadfile", produces = "application/json; charset=UTF-8")
-    @ApiOperation("下载文件")
+    @PostMapping(value = "/downloadfile", produces = "application/json; charset=UTF-8")
+    @ApiOperation(value = "下载文件", notes = "下载文件接口描述")
     public HttpResponse<ActionResponse> downloadFile(@Validated HttpRequest<DownloadFileActionReq> downloadFileActionReqHttpRequest, HttpServletResponse httpServletResponse) throws Exception {
         fileBusiness.downloadFile(downloadFileActionReqHttpRequest.getData(), httpServletResponse);
         return HttpResponse.buildSuccess();
@@ -67,8 +67,8 @@ public class FileController {
      * @return HttpResponse<ActionResponse> 创建结果
      * @throws Exception
      */
-    @GetMapping(value = "/createexcel", produces = "application/json; charset=UTF-8")
-    @ApiOperation("创建Excel")
+    @PostMapping(value = "/createexcel", produces = "application/json; charset=UTF-8")
+    @ApiOperation(value = "创建Excel", notes = "创建Excel接口描述")
     public HttpResponse<ActionResponse> createExcel(@RequestBody HttpRequest<ActionRequest> actionRequestHttpResponse) throws Exception {
         fileBusiness.createExcel();
         return HttpResponse.buildSuccess();

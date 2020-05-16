@@ -1,6 +1,6 @@
 package com.jinhaoxun.dubbo.common.login;
 
-import com.jinhaoxun.dubbo.model.base.Model;
+import com.jinhaoxun.dubbo.vo.base.Model;
 import lombok.Getter;
 import lombok.Setter;
 

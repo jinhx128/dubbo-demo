@@ -1,9 +1,9 @@
 package com.jinhaoxun.dubbo.module.rabbitmq.controller;
 
-import com.jinhaoxun.dubbo.model.action.ActionResponse;
-import com.jinhaoxun.dubbo.model.http.HttpRequest;
-import com.jinhaoxun.dubbo.model.http.HttpResponse;
-import com.jinhaoxun.dubbo.module.rabbitmq.action.request.AddMessageActionReq;
+import com.jinhaoxun.dubbo.vo.action.ActionResponse;
+import com.jinhaoxun.dubbo.vo.http.HttpRequest;
+import com.jinhaoxun.dubbo.vo.http.HttpResponse;
+import com.jinhaoxun.dubbo.module.rabbitmq.vo.request.AddMessageActionReq;
 import com.jinhaoxun.dubbo.module.rabbitmq.business.RabbitmqBusiness;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +23,7 @@ import javax.annotation.Resource;
  */
 @RequestMapping("/rabbitmq")
 @RestController
-@Api("RabbitMQ接口")
+@Api(value = "/rabbitmq", tags = "RabbitMQ接口")
 public class RabbitmqController {
 
     @Resource
@@ -36,8 +36,8 @@ public class RabbitmqController {
      * @return HttpResponse<ActionResponse> 成功提示信息
      * @throws Exception
      */
-    @PostMapping(value="/message", produces = "application/json; charset=UTF-8")
-    @ApiOperation("发送消息")
+    @PostMapping(value="/addmessage", produces = "application/json; charset=UTF-8")
+    @ApiOperation(value = "发送消息", notes = "发送消息接口描述")
     public HttpResponse<ActionResponse> addMessage(@Validated @RequestBody HttpRequest<AddMessageActionReq> addMessageActionReqHttpRequest) throws Exception {
         rabbitmqBusiness.addMessage(addMessageActionReqHttpRequest.getData());
         return HttpResponse.buildSuccess();
