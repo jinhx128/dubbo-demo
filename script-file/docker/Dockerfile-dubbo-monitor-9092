@@ -1,8 +1,0 @@
-# FROM java:8
-# MAINTAINER jinhaoxun
-# VOLUME /tmp
-# ADD dubbo-monitor-simple-2.0.0-assembly.tar.gz /
-# EXPOSE 9092
-# ENTRYPOINT ["./dubbo-monitor-simple-2.0.0/assembly.bin/start.sh"]
-# docker build -t dubbo-monitor-9092 .
-# docker run -dit --name dubbo-monitor-9092 -p 9092:9092 dubbo-monitor-9092 -v /usr/local/docker/dubbo/monitor-9092/dubbo.properties:dubbo-monitor-simple-2.0.0/conf/dubbo.properties

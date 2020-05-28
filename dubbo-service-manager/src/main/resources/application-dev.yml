@@ -32,7 +32,8 @@ dubbo:
 mybatis-plus:
   # xml映射文件位置，衔接pom文件里面的resources配置扫描
   mapper-locations: classpath*:com/jinhaoxun/dubbo/mapper/**/xml/*.xml
-  # type-aliases-package: com.jinhaoxun.accommon.pojo # 别名包扫描路径，通过该属性可以给包中的类注册别名
+  # 别名包扫描路径，通过该属性可以给包中的类注册别名
+  type-aliases-package: com.jinhaoxun.dubbo.pojo.**
   # configuration:
   cache-enabled: true # 开启MybatisPlus 二级缓存，主要用来跟redis注解缓存使用
   log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 开启MybatisPlus SQL日志打印
