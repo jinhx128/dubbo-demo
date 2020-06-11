@@ -1,5 +1,0 @@
-git clone https://github.com/naver/pinpoint-docker.git
-cd pinpoint-docker
-docker-compose pull && docker-compose up -d
-
-java -javaagent:/usr/local/pinpoint/pinpoint-bootstrap-1.8.5.jar -Dpinpoint.agentId=dubbo-demo-thirdparty-1 -Dpinpoint.applicationName=dubbo-demo-thirdparty -jar ac-web-0.0.1-SNAPSHOT.jar

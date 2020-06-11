@@ -6,7 +6,7 @@
 		<groupId>com.jinhaoxun</groupId>
 		<artifactId>dubbo-demo</artifactId>
 		<version>1.0.0</version>
-		<relativePath/> <!-- 父工程的pom文件相对当前pom文件的路径 -->
+<!--		<relativePath/> &lt;!&ndash; 父工程的pom文件相对当前pom文件的路径 &ndash;&gt;-->
 	</parent>
 
 	<artifactId>dubbo-web</artifactId>
