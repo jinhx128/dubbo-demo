@@ -1,7 +1,6 @@
 package com.jinhaoxun.dubbo;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,8 +21,6 @@ class DubboServiceManagerApplicationTests {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
-    @Resource
-    private RocketMQTemplate rocketMQTemplate;
 
     @Test
     void test() {
@@ -50,7 +47,6 @@ class DubboServiceManagerApplicationTests {
     void test2() {
 //        redisTemplate.opsForValue().set("测试1","哈哈");
 //        System.out.println(redisTemplate.opsForValue().get("测试1"));
-        rocketMQTemplate.convertAndSend("111","222");
     }
 
     @BeforeEach
