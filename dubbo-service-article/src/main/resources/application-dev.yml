@@ -91,4 +91,4 @@ stomprabbitmq:
 
 # 打印日志统一根路径
 log:
-  file: /Users/ao/Documents/log/dubbo-demo/service-article
+  file: /Users/luoyu/Documents/log/dubbo-demo/service-article
