@@ -2,6 +2,19 @@
 server:
   port: 6070
 
+# 安全停机配置
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: /monitor
+  server:
+    port: 6070
+
 # dubbo相关
 dubbo:
   application:
@@ -91,4 +104,4 @@ stomprabbitmq:
 
 # 打印日志统一根路径
 log:
-  file: /Users/ao/Documents/log/dubbo-demo/service-manager
+  file: /Users/luoyu/Documents/log/dubbo-demo/service-manager

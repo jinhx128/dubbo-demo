@@ -93,4 +93,4 @@ spring:
 
 # 打印日志统一根路径
 log:
-  file: /Users/ao/Documents/log/dubbo-demo/web
+  file: /root/project/log/dubbo-web/prod

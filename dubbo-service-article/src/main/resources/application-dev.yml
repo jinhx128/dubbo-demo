@@ -2,6 +2,19 @@
 server:
   port: 6050
 
+# 安全停机配置
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: /monitor
+  server:
+    port: 6050
+
 # dubbo相关
 dubbo:
   application:
