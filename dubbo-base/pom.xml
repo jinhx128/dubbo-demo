@@ -180,13 +180,6 @@
             <artifactId>spring-boot-starter-quartz</artifactId>
         </dependency>
 
-        <!--RabbitMQ -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-            <version>1.5.2.RELEASE</version>
-        </dependency>
-
         <!-- Dubbo Spring Boot Starter -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>

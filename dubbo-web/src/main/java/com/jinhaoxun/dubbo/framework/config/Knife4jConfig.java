@@ -60,11 +60,8 @@ public class Knife4jConfig {
                 //此处添加需要扫描接口的包路径
                 .apis(basePackage("com.jinhaoxun.dubbo.module.article.controller" + SPLITOR
                         + "com.jinhaoxun.dubbo.module.quartz.controller" + SPLITOR
-                        + "com.jinhaoxun.dubbo.module.rocketmq.controller" + SPLITOR
-                        + "com.jinhaoxun.dubbo.module.rabbitmq.controller" + SPLITOR
                         + "com.jinhaoxun.dubbo.module.user.controller" + SPLITOR
-                        + "com.jinhaoxun.dubbo.module.file.controller" + SPLITOR
-                        + "com.jinhaoxun.dubbo.module.websocket.controller" + SPLITOR ))
+                        + "com.jinhaoxun.dubbo.module.file.controller" + SPLITOR ))
                 .paths(PathSelectors.any())
                 .build();
     }

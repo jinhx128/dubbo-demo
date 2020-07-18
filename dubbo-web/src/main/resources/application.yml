@@ -3,5 +3,6 @@ spring:
     active: dev
   application:
     name: dubbo-demo-web
+
 logging:
   config: classpath:logback-custom.xml
